@@ -165,7 +165,7 @@ h1,h2{overflow-wrap:anywhere}
 </sc-for>
 </ol>
 <h2 style="margin: 36px 0 6px; font-family: 'Space Grotesk', sans-serif; font-size: 26px">Tase 2: esimesest ostust kogenud investoriks</h2>
-<p style="margin: 0 0 16px; color: #4B5A53; max-width: 680px">Uued teemad neile, kes on põhitõed selgeks saanud või juba investeerivad. {{ progress2 }}</p>
+<p style="margin: 0 0 16px; color: #4B5A53; max-width: 680px">Iga teema juures on ülesanne „Tee ise“: sisestad oma päris numbrid, saad tulemuse ja lisad selle oma plaani või kalendrisse. {{ progress2 }}</p>
 <ol style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; max-width: 760px">
 <sc-for list="{{ steps2 }}" as="s" hint-placeholder-count="10">
 <li>
@@ -232,6 +232,57 @@ h1,h2{overflow-wrap:anywhere}
 <span style="font-size: 15px; font-weight: 600">Järgmine praktiline samm: {{ tx.tryText }}</span>
 <button onClick="{{ tx.tryOpen }}" style="min-height: 44px; padding: 0 16px; border: 0; border-radius: 10px; background: {{ accent }}; color: #FFFFFF; font-size: 15px; font-weight: 600">{{ tx.tryLabel }}</button>
 </div>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ tk.on }}" hint-placeholder-val="{{ false }}">
+<div style="margin-top: 28px; padding: 22px; border-radius: 14px; background: #EEF3FB; border: 1.5px solid #2F5DA8; display: flex; flex-direction: column; gap: 14px">
+<p style="margin: 0; font-size: 13px; font-weight: 700; color: #1F3F75; text-transform: uppercase; letter-spacing: 0.04em">Tee ise</p>
+<p style="margin: 0; font-size: 18px; font-weight: 700; color: #14201B">{{ tk.title }}</p>
+<p style="margin: 0; font-size: 15px; color: #22302A">{{ tk.intro }}</p>
+
+<sc-for list="{{ tk.sliders }}" as="sl" hint-placeholder-count="3">
+<div>
+<label for="{{ sl.id }}" style="display: flex; justify-content: space-between; font-size: 15px; font-weight: 600"><span>{{ sl.label }}</span><span>{{ sl.show }}</span></label>
+<input id="{{ sl.id }}" type="range" min="{{ sl.min }}" max="{{ sl.max }}" step="{{ sl.step }}" value="{{ sl.value }}" onChange="{{ sl.set }}" style="width: 100%; accent-color: #2F5DA8; min-height: 32px">
+</div>
+</sc-for>
+
+<sc-for list="{{ tk.choices }}" as="ch" hint-placeholder-count="1">
+<div>
+<p style="margin: 0 0 6px; font-size: 15px; font-weight: 600">{{ ch.label }}</p>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{ ch.opts }}" as="o" hint-placeholder-count="3"><button onClick="{{ o.pick }}" style="{{ o.style }}">{{ o.label }}</button></sc-for>
+</div>
+</div>
+</sc-for>
+
+<sc-for list="{{ tk.checks }}" as="c" hint-placeholder-count="0">
+<button onClick="{{ c.toggle }}" style="{{ c.style }}"><span style="{{ c.boxStyle }}">{{ c.mark }}</span><span>{{ c.label }}</span></button>
+</sc-for>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px">
+<sc-for list="{{ tk.results }}" as="r" hint-placeholder-count="3">
+<div style="{{ r.style }}">
+<p style="margin: 0; font-size: 13px; color: {{ r.sub }}">{{ r.k }}</p>
+<p style="margin: 4px 0 0; font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700">{{ r.v }}</p>
+</div>
+</sc-for>
+</div>
+<p style="margin: 0; font-size: 15px; color: #14201B; white-space: pre-line">{{ tk.verdict }}</p>
+
+<div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center">
+<sc-if value="{{ tk.hasSave }}" hint-placeholder-val="{{ false }}">
+<button onClick="{{ tk.save }}" style="min-height: 44px; padding: 0 16px; border: 0; border-radius: 10px; background: #2F5DA8; color: #FFFFFF; font-size: 15px; font-weight: 600">{{ tk.saveLabel }}</button>
+</sc-if>
+<sc-if value="{{ tk.hasIcs }}" hint-placeholder-val="{{ false }}">
+<button onClick="{{ tk.ics }}" style="min-height: 44px; padding: 0 16px; border: 1.5px solid #2F5DA8; border-radius: 10px; background: #FFFFFF; color: #1F3F75; font-size: 15px; font-weight: 600">Lisa meeldetuletused kalendrisse</button>
+</sc-if>
+<button onClick="{{ tk.done }}" style="{{ tk.doneStyle }}">{{ tk.doneLabel }}</button>
+</div>
+<sc-if value="{{ tk.hasMsg }}" hint-placeholder-val="{{ false }}">
+<p style="margin: 0; font-size: 14px; font-weight: 600; color: #0B4D39">{{ tk.msg }}</p>
 </sc-if>
 </div>
 </sc-if>
@@ -1502,7 +1553,7 @@ class Component extends DCLogic {
           kesk: { heading: 'Mida teha', body: '1. Ära müü paanikas. Loe oma plaan läbi.\n2. Jätka püsiostuga. Madalama hinnaga saad sama raha eest rohkem osakuid.\n3. Tasakaalusta. Kui aktsiate osa on langenud sihist allapoole, suuna uued sissemaksed aktsiatesse.\n4. Kontrolli puhvrit. Kui töökoht on ohus, on puhver olulisem kui investeerimine.' },
           edasi: { heading: 'Taastumise matemaatika', body: '30 % languse järel on vaja algtasemele jõudmiseks umbes 43 % tõusu, 50 % languse järel 100 %. Taastumine võib võtta kuid või aastaid.\n\nKui investeerid regulaarselt, ostad languse ajal odavamalt ja jõuad tagasi algtasemele kiiremini kui ühekordse investeeringu korral.' }
         },
-        example: 'Portfell oli 10 000 € ja langes 7000 euroni. Kui müüd, on kahjum lukus. Kui jätkad 200-eurose püsiostuga, ostad iga kuu odavamalt. Kui turg taastub, on sinu portfell rohkem kui algne 10 000 € pluss sissemaksed.',
+        example: 'Portfell oli 10 000 € ja langes 7000 euroni. Kui müüd, on kahjum lukus. Kui jätkad 200-eurose püsiostuga, ostad iga kuu odavamalt. Kui turg hiljem taastub, on languse ajal odavalt ostetud osakud kasvanud kõige rohkem.',
         mistakes: ['Müüa langusel ja oodata „selgemat pilti“. Taastumine algab sageli ootamatult.', 'Lõpetada püsiost hirmu tõttu.', 'Võtta laenu, et langusel „odavalt“ osta.'],
         quiz: { q: 'Portfell langeb 30 %. Mitu protsenti peab see tõusma, et jõuda algtasemele?', opts: ['30 %', 'Umbes 43 %', '60 %'], correct: 1, why: '70 eurolt 100 euroni jõudmiseks on vaja 30 / 70 ehk umbes 43 % tõusu.' },
         sources: []
@@ -1962,7 +2013,7 @@ class Component extends DCLogic {
           titleStyle: 'font-size: 16px; font-weight: 600; ' + (on ? 'color: #0B4D39' : 'color: #14201B') };
       })
     };
-    var isDone2 = function (id) { return topics[id].quiz && quizMap[id] === topics[id].quiz.correct; };
+    var isDone2 = function (id) { return !!(s.t2done || {})[id]; };
     var done2 = topicOrder2.filter(isDone2).length;
     var pathSteps2 = topicOrder2.map(function (id, i) {
       var d = isDone2(id);
@@ -2001,7 +2052,7 @@ class Component extends DCLogic {
     var topicExtra = {
       hasExample: !!topic.example, example: topic.example || '',
       mistakes: topic.mistakes || [], hasMistakes: !!(topic.mistakes && topic.mistakes.length),
-      hasQuiz: !!qz, quizQ: qz ? qz.q : '', quizOpts: quizOpts, quizDone: quizResult !== '', quizResult: quizResult,
+      hasQuiz: !!qz && !isL2, quizQ: qz ? qz.q : '', quizOpts: quizOpts, quizDone: quizResult !== '', quizResult: quizResult,
       sources: topic.sources || [], hasSources: !!(topic.sources && topic.sources.length),
       hasPrev: !!prevId, hasNext: true,
       prevLabel: prevId ? '← Eelmine samm' : '', nextLabel: nextId ? 'Järgmine: ' + topics[nextId].title + ' →' : (isL2 ? 'Tase 2 läbitud. Vaata oma plaani →' : 'Õpitee lõpp. Mis edasi? →'),
@@ -2491,7 +2542,7 @@ class Component extends DCLogic {
         'Investeerin platvormil ' + pPlat + ', ' + (pAcc === 'ik' ? 'investeerimiskontol.' : 'tavalisel väärtpaberikontol.'),
         'Püsiost iga kuu ' + pDay + '. kuupäeval.',
         pBuf === 'jah' ? 'Puhver ootamatuteks kuludeks on olemas.' : (pBuf === 'osaliselt' ? 'Puhver on osaliselt olemas ja täiendan seda.' : 'Kogun enne alustamist puhvri.'),
-        'Vaatan portfelli üle kord aastas ja taastan vajadusel jaotuse.'
+        'Taastan vajadusel jaotuse.'
       ],
       nums: [
         { k: 'Sissemaksed kokku', v: eur(pAmt * nP) },
@@ -2499,8 +2550,168 @@ class Component extends DCLogic {
         { k: 'Suures kriisis võib langeda', v: '−' + crash + ' %' },
         { k: 'Ostutasud aastas', v: eur(Math.round(yearFee * 100) / 100, 2) }
       ],
-      rules: [reactRule, 'Ma ei muuda jaotust ainult uudiste või teiste soovituste pärast.', 'Kui elus midagi oluliselt muutub, vaatan plaani uuesti üle.', 'Detsembris kontrollin III samba sissemakset ja tasakaalustan portfelli.']
+      rules: [pa.crashRule || reactRule, pa.review || 'Vaatan portfelli üle kord aastas.', 'Ma ei muuda jaotust ainult uudiste või teiste soovituste pärast.'].concat(pa.satRule ? [pa.satRule] : []).concat(['Kui elus midagi oluliselt muutub, vaatan plaani uuesti üle.', 'Detsembris kontrollin III samba sissemakset ja tasakaalustan portfelli.'])
     };
+    var tkv = s.tk || {};
+    var tkGet = function (k, d) { return tkv[k] === undefined ? d : tkv[k]; };
+    var tkSet = function (k, v) { var x = Object.assign({}, tkv); x[k] = v; self.setState({ tk: x, tkMsg: '' }); };
+    var num = function (x, d) { return Number(x).toLocaleString('et-EE', { minimumFractionDigits: d || 0, maximumFractionDigits: d || 0 }); };
+    var SL = function (key, label, min, max, step, def, fmt) {
+      var v = tkGet(key, def);
+      return { id: 'tk-' + key, label: label, min: min, max: max, step: step, value: v, show: fmt(v), set: function (e) { tkSet(key, Number(e.target.value)); } };
+    };
+    var CH = function (key, label, opts, def) {
+      var v = tkGet(key, def);
+      return { label: label, opts: opts.map(function (o) { return { label: o[1], pick: function () { tkSet(key, o[0]); }, style: chip(o[0] === v) }; }), value: v };
+    };
+    var RES = function (k, v, dark) { return { k: k, v: v, style: dark ? 'padding: 14px 16px; border-radius: 12px; background: #14201B; color: #FFFFFF' : 'padding: 14px 16px; border-radius: 12px; background: #FFFFFF', sub: dark ? '#C9D8D0' : '#4B5A53' }; };
+    var fE = function (x) { return eur(Math.round(x)); };
+    var fP = function (x, d) { return num(x, d === undefined ? 1 : d) + ' %'; };
+    var savePlan = function (k, v, msg) { var x = Object.assign({}, pa); x[k] = v; self.setState({ plan: x, tkMsg: msg }); };
+    var downloadIcs = function (fname, evs) {
+      var L = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Borsitark//ET'];
+      evs.forEach(function (e, i) {
+        L.push('BEGIN:VEVENT', 'UID:borsitark-' + fname + '-' + i + '@borsitark', 'DTSTAMP:20260101T000000Z', 'DTSTART;VALUE=DATE:' + e.d, 'SUMMARY:' + e.t);
+        if (e.r) L.push('RRULE:' + e.r);
+        L.push('DESCRIPTION:' + (e.desc || 'Börsitarga meeldetuletus'), 'END:VEVENT');
+      });
+      L.push('END:VCALENDAR');
+      try {
+        var blob = new Blob([L.join('\r\n')], { type: 'text/calendar' });
+        var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = fname + '.ics';
+        document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+        self.setState({ tkMsg: 'Kalendrifail laaditi alla. Ava see ja lisa sündmused oma kalendrisse.' });
+      } catch (err) { self.setState({ tkMsg: 'Kalendrifaili ei õnnestunud luua selles brauseris.' }); }
+    };
+    var ymd = function (dt) { return dt.getFullYear() + String(dt.getMonth() + 1).padStart(2, '0') + String(dt.getDate()).padStart(2, '0'); };
+    var t2d = s.t2done || {};
+    var tk = { on: false };
+    var tid = s.topicId;
+    if (isL2) {
+      var T = { sliders: [], choices: [], checks: [], results: [], verdict: '', hasSave: false, hasIcs: false };
+      if (tid === 't2kid') {
+        var A = tkGet('kidA', 0.2), B = tkGet('kidB', 0.6), S0 = tkGet('kidS', 10000), Y = tkGet('kidY', 20);
+        var fvR = function (ter) { return S0 * Math.pow(1 + 0.06 - ter / 100, Y); };
+        T.title = 'Võrdle oma fondi kulusid teise fondiga';
+        T.intro = 'Ava oma fondi põhiteabedokument, leia „jooksvad kulud“ ja sisesta see fondi A juurde. Fondi B juurde pane mõne teise sarnase fondi kulud.';
+        T.sliders = [SL('kidS', 'Investeeritud summa', 1000, 100000, 1000, 10000, fE), SL('kidY', 'Aastaid', 1, 40, 1, 20, function (v) { return v + ' a'; }),
+          SL('kidA', 'Fondi A jooksvad kulud', 0.05, 1.5, 0.05, 0.2, function (v) { return fP(v, 2); }), SL('kidB', 'Fondi B jooksvad kulud', 0.05, 1.5, 0.05, 0.6, function (v) { return fP(v, 2); })];
+        var diff = fvR(Math.min(A, B)) - fvR(Math.max(A, B));
+        T.results = [RES('Fond A lõpuks', fE(fvR(A))), RES('Fond B lõpuks', fE(fvR(B))), RES('Vahe sinu kasuks', fE(diff), true)];
+        T.verdict = A === B ? 'Kulud on võrdsed, võrdle fondi suurust ja tegelikku erinevust indeksist.' : 'Kui mõlemad fondid jälgivad sama indeksit, jääb odavama fondiga ' + Y + ' aasta pärast kätte umbes ' + fE(diff) + ' rohkem. Eeldatud 6 % aastast tootlust enne kulusid.';
+      } else if (tid === 't2order') {
+        var typ = tkGet('ordT', 'limit'), lim = tkGet('ordL', 100.1), amt = tkGet('ordA', 500), jump = tkGet('ordJ', 'ei'), frac = tkGet('ordF', 'ei');
+        var ask = jump === 'jah' ? 101.5 : 100.05, bid = 99.95;
+        var fills = typ === 'market' || lim >= ask;
+        var units = fills ? (frac === 'jah' ? amt / ask : Math.floor(amt / ask)) : 0;
+        var spent = units * ask;
+        T.title = 'Harjuta ostuorderit enne päris ostu';
+        T.intro = 'ETF-i viimane hind on 100,00 €. Müüjad küsivad 100,05 € ja ostjad pakuvad 99,95 €. Vali orderi tüüp ja vaata, mis juhtub. Proovi ka olukorda, kus hind enne täitmist hüppab.';
+        T.choices = [CH('ordT', 'Orderi tüüp', [['market', 'Turuhinnaga'], ['limit', 'Limiithinnaga']], 'limit'), CH('ordJ', 'Hind hüppab enne täitmist 101,50 euroni?', [['ei', 'Ei'], ['jah', 'Jah']], 'ei'), CH('ordF', 'Kas platvorm lubab osta osakuosi?', [['ei', 'Ei'], ['jah', 'Jah']], 'ei')];
+        T.sliders = [SL('ordA', 'Summa', 50, 2000, 50, 500, fE)];
+        if (typ === 'limit') T.sliders.push(SL('ordL', 'Sinu limiithind', 99, 103, 0.05, 100.1, function (v) { return num(v, 2) + ' €'; }));
+        T.results = [RES('Order täitus?', fills ? 'Jah' : 'Ei'), RES('Täitumishind', fills ? num(ask, 2) + ' €' : '–'), RES('Osakuid', fills ? num(units, frac === 'jah' ? 3 : 0) : '0'), RES('Raha jääb kontole', fE(amt - spent), true)];
+        T.verdict = !fills ? 'Limiit kaitses sind: hind läks su piirist kõrgemale ja ostu ei toimunud. Raha jäi kontole.' : (typ === 'market' && jump === 'jah' ? 'Turuhinnaga order täitus kõrgema hinnaga, kui ootasid. Iga osaku eest maksid 1,45 € rohkem.' : 'Order täitus. Hinnavahe ehk ' + num(ask - bid, 2) + ' € osaku kohta on peidetud kulu, mis tuleb lisaks tehingutasule.');
+      } else if (tid === 't2watch') {
+        var fr = tkGet('wFreq', 3), dd = tkGet('wDay', 1);
+        var frName = { 1: 'kord kuus', 3: 'kord kvartalis', 6: 'kord poolaastas', 12: 'kord aastas' }[fr];
+        var now = new Date(), dates = [];
+        var d0 = new Date(now.getFullYear(), now.getMonth() + 1, dd);
+        for (var di = 0; di < 4; di++) dates.push(new Date(d0.getFullYear(), d0.getMonth() + di * fr, dd));
+        T.title = 'Pane paika oma ülevaatuse rütm';
+        T.intro = 'Vali, kui tihti portfelli vaatad. Lisa meeldetuletused kalendrisse ja lülita rakenduses igapäevased hinnateated välja.';
+        T.choices = [CH('wFreq', 'Kui tihti vaatad portfelli üle?', [[1, 'Kord kuus'], [3, 'Kord kvartalis'], [6, 'Kord poolaastas'], [12, 'Kord aastas']], 3)];
+        T.sliders = [SL('wDay', 'Mis kuupäeval?', 1, 28, 1, 1, function (v) { return v + '. kuupäev'; })];
+        T.results = dates.map(function (x, i) { return RES(i === 0 ? 'Järgmine ülevaatus' : (i + 1) + '. ülevaatus', x.toLocaleDateString('et-EE'), i === 0); });
+        T.verdict = 'Ülevaatusel kontrolli kolme asja: kas püsiost toimus, kas jaotus on sihist üle 5 protsendipunkti eemal ja kas tasud on muutunud. Muul ajal ei pea portfelli vaatama.';
+        T.hasSave = true; T.saveLabel = 'Lisa minu plaani';
+        T.save = function () { savePlan('review', 'Vaatan portfelli üle ' + frName + ', ' + dd + '. kuupäeval.', 'Lisatud sinu plaani reeglitesse.'); };
+        T.hasIcs = true;
+        T.ics = function () { downloadIcs('borsitark-ulevaatus', [{ d: ymd(dates[0]), t: 'Börsitark: portfelli ülevaatus', r: 'FREQ=MONTHLY;INTERVAL=' + fr, desc: 'Kontrolli püsiostu, jaotust ja tasusid.' }]); };
+      } else if (tid === 't2crash') {
+        var V = tkGet('crV', 20000), al = tkGet('crA', pAlloc), drop = tkGet('crD', 30), mm = tkGet('crM', 200), rule = tkGet('crR', 'jatkan');
+        var pd = al / 100 * drop / 100;
+        var after = V * (1 - pd);
+        T.title = 'Mängi läbi oma portfelli kriis ja kirjuta reegel';
+        T.intro = 'Sisesta oma päris portfelli väärtus ja jaotus. Vaata, mida langus sinu jaoks eurodes tähendaks, ja otsusta juba praegu, mida siis teed.';
+        T.sliders = [SL('crV', 'Portfelli väärtus', 1000, 200000, 1000, 20000, fE), SL('crA', 'Aktsiate osa', 0, 100, 10, pAlloc, function (v) { return v + ' %'; }), SL('crD', 'Aktsiaturu langus', 10, 50, 5, 30, function (v) { return '−' + v + ' %'; }), SL('crM', 'Igakuine sissemakse', 0, 2000, 50, 200, fE)];
+        T.choices = [CH('crR', 'Minu kriisireegel', [['jatkan', 'Jätkan püsiostuga'], ['tasakaal', 'Suunan raha aktsiatesse, kuni jaotus taastub'], ['ootan', 'Ootan kuu enne mis tahes otsust']], 'jatkan')];
+        T.results = [RES('Kaotus eurodes', '−' + fE(V * pd)), RES('Portfell pärast langust', fE(after)), RES('Vajalik tõus tagasi', fP(pd / (1 - pd) * 100, 0)), RES('Languse ajal ostad kuus', fE(mm), true)];
+        var ruleText = { jatkan: 'Kui turg langeb, jätkan püsiostuga ja ei müü.', tasakaal: 'Kui turg langeb, suunan uued sissemaksed aktsiatesse, kuni jaotus taastub.', ootan: 'Kui turg langeb, ootan vähemalt kuu enne mis tahes otsust ja loen oma plaani läbi.' }[rule];
+        T.verdict = 'Kas suudaksid ' + fE(V * pd) + ' kaotust näha ilma müümata? Kui see number tundub talumatu, on sinu aktsiaosa ilmselt liiga suur.';
+        T.hasSave = true; T.saveLabel = 'Lisa reegel minu plaani';
+        T.save = function () { savePlan('crashRule', ruleText, 'Kriisireegel lisatud sinu plaani.'); };
+      } else if (tid === 't2div') {
+        var pr = tkGet('dvP', 20), dv = tkGet('dvD', 1.2), ch = tkGet('dvC', -10), n = tkGet('dvN', 100);
+        var yld = pr > 0 ? dv / pr * 100 : 0, tot = yld + ch;
+        T.title = 'Kontrolli dividendiaktsiat, mida kaalud';
+        T.intro = 'Vali aktsia, mis sind huvitab. Sisesta selle hind, viimase aasta dividend aktsia kohta ja hinnamuutus aasta jooksul. Need leiad börsi või panga lehelt.';
+        T.sliders = [SL('dvP', 'Aktsia hind', 1, 200, 0.5, 20, function (v) { return num(v, 2) + ' €'; }), SL('dvD', 'Dividend aktsia kohta aastas', 0, 20, 0.05, 1.2, function (v) { return num(v, 2) + ' €'; }), SL('dvC', 'Hinnamuutus aastaga', -50, 50, 1, -10, function (v) { return (v > 0 ? '+' : '') + v + ' %'; }), SL('dvN', 'Aktsiate arv', 1, 2000, 1, 100, function (v) { return v + ' tk'; })];
+        T.results = [RES('Dividenditootlus', fP(yld)), RES('Dividend kokku', eur(Math.round(dv * n * 100) / 100, 2)), RES('Kogutootlus', (tot > 0 ? '+' : '') + fP(tot), true)];
+        T.verdict = (yld > 7 && ch < 0) ? 'Hoiatus: kõrge dividenditootlus koos langeva hinnaga võib olla dividendilõks. Kontrolli, kas dividend on kaetud kasumiga ja kas ettevõttel on laenukoormus kontrolli all.' : (tot < 0 ? 'Dividendist hoolimata oli kogutootlus negatiivne. Vaata alati hinnamuutust ja dividendi koos.' : 'Kogutootlus on positiivne. Võrdle seda sama perioodi indeksi tootlusega.');
+      } else if (tid === 't2bond') {
+        var cp = tkGet('bdC', 9), rf = tkGet('bdR', 3), am = tkGet('bdS', 2000), yr = tkGet('bdY', 3);
+        var chk = tkGet('bdChk', {});
+        var items = [['prosp', 'Olen lugenud prospekti riskide peatükki'], ['tagatis', 'Tean, kas võlakiri on tagatud'], ['allut', 'Tean, kas võlakiri on allutatud'], ['borsil', 'Tean, kas seda saab börsil müüa'], ['osa', 'See on alla 10 % minu portfellist'], ['lunast', 'Tean, kas ettevõte võib selle ennetähtaegselt tagasi osta']];
+        var okN = items.filter(function (it) { return chk[it[0]]; }).length;
+        T.title = 'Kontrolli võlakirjapakkumist, mida kaalud';
+        T.intro = 'Võta lahti mõne praeguse pakkumise prospekt. Sisesta kupong ja märgi, mida oled kontrollinud.';
+        T.sliders = [SL('bdC', 'Kupong', 2, 15, 0.25, 9, function (v) { return fP(v, 2); }), SL('bdR', 'Riigivõlakirja intress võrdluseks', 0, 6, 0.1, 3, function (v) { return fP(v); }), SL('bdS', 'Märgitav summa', 100, 20000, 100, 2000, fE), SL('bdY', 'Tähtaeg', 1, 10, 1, 3, function (v) { return v + ' a'; })];
+        T.checks = items.map(function (it) { var on = !!chk[it[0]]; return { label: it[1], mark: on ? '✓' : '', toggle: function () { var c = Object.assign({}, chk); c[it[0]] = !on; tkSet('bdChk', c); },
+          style: 'display: flex; align-items: center; gap: 10px; text-align: left; min-height: 44px; padding: 6px 12px; border-radius: 10px; border: 1px solid #C9D1CB; background: ' + (on ? '#E9F3EE' : '#FFFFFF') + '; font-size: 15px; color: #14201B',
+          boxStyle: 'width: 26px; height: 26px; flex: none; border-radius: 6px; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; ' + (on ? 'background: #0E6B4F; color: #FFFFFF' : 'border: 2px solid #8A9A92') }; });
+        T.results = [RES('Intress aastas', fE(am * cp / 100)), RES('Intress kokku tähtajaks', fE(am * cp / 100 * yr)), RES('Lisarisk riigivõlakirjaga võrreldes', num(cp - rf, 2) + ' p.p.', true)];
+        T.verdict = 'Kontrollitud ' + okN + ' / ' + items.length + '. ' + (okN < items.length ? 'Enne märkimist vaata üle ka ülejäänud punktid.' : 'Oled kontrollinud kõik põhiasjad.') + (cp - rf > 4 ? '\nKupongi ja riigivõlakirja vahe on suur. Turg näeb siin olulist lisariski.' : '');
+      } else if (tid === 't2year') {
+        var inc = tkGet('yrI', 30000), paid = tkGet('yrP', 0);
+        var lim3 = Math.min(inc * 0.15, 6000), more = Math.max(0, lim3 - paid);
+        T.title = 'Tee oma aasta lõpu kontroll';
+        T.intro = 'Sisesta oma selle aasta brutotulu ja see, palju oled III sambasse juba maksnud. Lisa olulised tähtajad oma kalendrisse.';
+        T.sliders = [SL('yrI', 'Aasta brutotulu', 5000, 150000, 500, 30000, fE), SL('yrP', 'III sambasse sel aastal juba makstud', 0, 6000, 50, 0, fE)];
+        T.results = [RES('Sinu III samba piir', fE(lim3)), RES('Võid veel maksta', fE(more)), RES('Maksutagastus kuni', fE(Math.min(paid + more, lim3) * 0.22), true)];
+        T.verdict = more > 0 ? 'Kui maksad III sambasse veel ' + fE(more) + ' enne aasta lõppu, saad kevadel tagasi kokku kuni ' + fE(lim3 * 0.22) + '. Tee makse varakult, et see jõuaks selle aasta sisse.' : 'Oled oma III samba maksusoodustuse piiri juba täis maksnud.';
+        T.hasIcs = true;
+        var yy = new Date().getFullYear();
+        T.ics = function () { downloadIcs('borsitark-aasta-kontroll', [
+          { d: yy + '1120', t: 'Börsitark: II samba makse määr (tähtaeg 30.11)', r: 'FREQ=YEARLY' },
+          { d: yy + '1210', t: 'Börsitark: III samba sissemakse enne aasta lõppu', r: 'FREQ=YEARLY' },
+          { d: yy + '1215', t: 'Börsitark: portfelli tasakaalustamine', r: 'FREQ=YEARLY' },
+          { d: (yy + 1) + '0415', t: 'Börsitark: tuludeklaratsioon (tähtaeg 30.04)', r: 'FREQ=YEARLY' }]); };
+      } else if (tid === 't2fx') {
+        var ix = tkGet('fxI2', 10), fc = tkGet('fxF2', 8), hc = tkGet('fxH2', 0.3);
+        var unh = ((1 + ix / 100) / (1 + fc / 100) - 1) * 100, hed = ix - hc;
+        T.title = 'Võrdle maandatud ja maandamata fondi';
+        T.intro = 'Muuda USA turu tõusu ja euro kursi muutust. Maandamise kulu leiad fondi põhiteabedokumendist.';
+        T.sliders = [SL('fxI2', 'USA aktsiad dollarites', -20, 30, 1, 10, function (v) { return (v > 0 ? '+' : '') + v + ' %'; }), SL('fxF2', 'Euro muutus dollari suhtes', -15, 15, 1, 8, function (v) { return (v > 0 ? '+' : '') + v + ' %'; }), SL('fxH2', 'Maandamise kulu aastas', 0, 1.5, 0.05, 0.3, function (v) { return fP(v, 2); })];
+        T.results = [RES('Maandamata fond eurodes', (unh > 0 ? '+' : '') + fP(unh)), RES('Maandatud fond eurodes', (hed > 0 ? '+' : '') + fP(hed), true)];
+        T.verdict = Math.abs(unh - hed) < 0.5 ? 'Sel juhul pole vahet. Pikal perioodil kipuvad kursimõjud osaliselt tasa tulema.' : (hed > unh ? 'Sel aastal oleks maandamine aidanud, sest euro tugevnes.' : 'Sel aastal oleks maandamata fond olnud parem, sest euro nõrgenes.');
+      } else if (tid === 't2stock') {
+        var pv = tkGet('stV', 20000), sp = tkGet('stS', 10), sn = tkGet('stN', 5);
+        var satE = pv * sp / 100;
+        T.title = 'Sea oma üksikaktsiatele piirid';
+        T.intro = 'Otsusta enne ostmist, kui suure osa portfellist võid üksikaktsiatele anda ja mitme ettevõtte vahel selle jagad.';
+        T.sliders = [SL('stV', 'Portfelli väärtus', 1000, 200000, 1000, 20000, fE), SL('stS', 'Üksikaktsiatele kokku', 0, 30, 5, 10, function (v) { return v + ' %'; }), SL('stN', 'Mitu ettevõtet', 1, 20, 1, 5, function (v) { return v + ' tk'; })];
+        T.results = [RES('Tuum (lai fond)', fE(pv - satE)), RES('Üksikaktsiad kokku', fE(satE)), RES('Ühe aktsia piir', fE(sn > 0 ? satE / sn : 0), true)];
+        T.verdict = sp > 20 ? 'Üle 20 % üksikaktsiates tähendab, et üksikute ettevõtete mõju sinu tulemusele on suur. Kaalu väiksemat osa.' : 'Kui mõni aktsia kasvab piirist suuremaks, võid kasumi osaliselt tuuma tagasi suunata.';
+        T.hasSave = true; T.saveLabel = 'Lisa minu plaani';
+        T.save = function () { savePlan('satRule', 'Üksikaktsiad kokku kuni ' + sp + ' % portfellist, ühe aktsia kohta kuni ' + fE(sn > 0 ? satE / sn : 0) + '.', 'Piirid lisatud sinu plaani reeglitesse.'); };
+      } else if (tid === 't2life') {
+        var lr = tkGet('lfR', 18), la = tkGet('lfA', 2000), er = tkGet('lfE', 6), ly = tkGet('lfY', 3);
+        var saved = la * (Math.pow(1 + lr / 100, ly) - 1), gain = la * (Math.pow(1 + er / 100, ly) - 1);
+        T.title = 'Maksa laen tagasi või investeeri? Arvuta oma laenuga';
+        T.intro = 'Vaata oma laenulepingust intressi. Oodatav tootlus ei ole kindel, aga laenu intress on.';
+        T.sliders = [SL('lfR', 'Laenu intress aastas', 0, 25, 0.5, 18, function (v) { return fP(v); }), SL('lfA', 'Vaba raha', 100, 20000, 100, 2000, fE), SL('lfE', 'Oodatav tootlus investeerides', 0, 10, 0.5, 6, function (v) { return fP(v); }), SL('lfY', 'Aastaid', 1, 10, 1, 3, function (v) { return v + ' a'; })];
+        T.results = [RES('Säästad intressilt (kindel)', fE(saved)), RES('Võiksid teenida (ei ole kindel)', fE(gain)), RES('Vahe', (saved >= gain ? 'Laen +' : 'Invest. +') + fE(Math.abs(saved - gain)), true)];
+        T.verdict = lr >= er ? 'Laenu intress on oodatavast tootlusest kõrgem. Laenu tagasimaksmine annab kindla ja parema tulemuse.' : 'Oodatav tootlus on laenu intressist kõrgem, aga see ei ole kindel. Kodulaenu puhul teevad paljud mõlemat: maksavad graafiku järgi ja investeerivad regulaarselt.';
+      }
+      var isD = !!t2d[tid];
+      T.on = !!T.title;
+      T.hasMsg = !!s.tkMsg; T.msg = s.tkMsg || '';
+      T.done = function () { var x = Object.assign({}, t2d); x[tid] = !isD; self.setState({ t2done: x }); };
+      T.doneLabel = isD ? 'Tehtud ✓' : 'Märgi tehtuks';
+      T.doneStyle = 'min-height: 44px; padding: 0 16px; border-radius: 10px; font-size: 15px; font-weight: 600; ' + (isD ? 'background: #0E6B4F; color: #FFFFFF; border: 0' : 'background: #FFFFFF; color: #14201B; border: 1px solid #C9D1CB');
+      tk = T;
+    }
     var assets = this.pfAssets();
     var pfTotal = this.pfTotal(s);
     var invested = pfTotal - s.pfCash;
@@ -2698,6 +2909,7 @@ class Component extends DCLogic {
       planSetAlloc: function (e) { var x = Object.assign({}, pa); x.alloc = Number(e.target.value); self.setState({ plan: x }); },
       planSetDay: function (e) { var x = Object.assign({}, pa); x.day = Number(e.target.value); self.setState({ plan: x }); },
       planPrint: function () { try { window.print(); } catch (e) {} },
+      tk: tk,
       isNext: s.screen === 'next', nx: nx, goNext2: function () { self.go('next'); }, allDone: allDone,
       tools: toolCards, isTools: s.screen === 'tools',
       goTools: function () { self.go('tools'); },
@@ -2727,7 +2939,7 @@ class Component extends DCLogic {
 
 (function () {
   var KEY = 'borsitark-v1';
-  var KEEP = ["pf2Alloc", "pf2Ev", "pf2Shown", "userQs", "replies", "votes", "best", "quiz", "myName", "fqAmt", "fqPlat", "plGross", "plYears", "plRate", "nextDone", "plan"];
+  var KEEP = ["pf2Alloc", "pf2Ev", "pf2Shown", "userQs", "replies", "votes", "best", "quiz", "myName", "fqAmt", "fqPlat", "plGross", "plYears", "plRate", "nextDone", "plan", "tk", "t2done"];
   window.addEventListener('DOMContentLoaded', function () {
     var TV = {
       ticker: { src: 'embed-widget-ticker-tape.js', cfg: { symbols: [
