@@ -355,8 +355,8 @@ h1,h2{overflow-wrap:anywhere}
 
 <div style="display: flex; flex-wrap: wrap; gap: 24px; margin-top: 28px">
 <section style="flex: 999 1 520px; min-width: 0">
-<h2 style="margin: 0 0 12px; font-family: 'Space Grotesk', sans-serif; font-size: 22px">Süvateemad</h2>
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 10px">
+<h2 style="margin: 0 0 12px; font-family: 'Space Grotesk', sans-serif; font-size: 22px">Süvateemad kogenumale investorile</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px">
 <sc-for list="{{ deepTopics }}" as="d" hint-placeholder-count="6">
 <button onClick="{{ d.pick }}" style="text-align: left; padding: 16px 18px; border: 1px solid #E2E6E1; border-radius: 12px; background: #FFFFFF; color: #14201B; display: flex; flex-direction: column; gap: 4px">
 <span style="font-size: 16px; font-weight: 600">{{ d.title }}</span>
@@ -518,6 +518,143 @@ h1,h2{overflow-wrap:anywhere}
 <button onClick="{{ mq.openTopic }}" style="min-height: 44px; padding: 0 16px; border: 1px solid #0E6B4F; border-radius: 10px; background: #FFFFFF; color: #0B5C43; font-size: 15px; font-weight: 600">{{ mq.topicLabel }}</button>
 <button onClick="{{ goQa }}" style="min-height: 44px; padding: 0 16px; border: 1px solid #C9D1CB; border-radius: 10px; background: #FFFFFF; color: #14201B; font-size: 15px">Arutle kogukonnas</button>
 </div>
+</section>
+</div>
+</sc-if>
+
+<sc-if value="{{ isGuide }}" hint-placeholder-val="{{ false }}">
+<div style="max-width: 900px; margin: 0 auto">
+<button onClick="{{ goInvest }}" style="background: none; border: 0; padding: 0; min-height: 44px; color: {{ accent }}; font-size: 15px; font-weight: 500">← Turud ja süvateemad</button>
+<p style="margin: 8px 0 6px; font-size: 13px; font-weight: 700; color: #7A3E9D; text-transform: uppercase; letter-spacing: 0.04em">Süvateema</p>
+<h1 style="margin: 0 0 16px; font-family: 'Space Grotesk', sans-serif; font-size: 34px; line-height: 1.15">{{ guide.title }}</h1>
+<div style="padding: 18px 22px; border-radius: 12px; background: #F2F4F1; margin-bottom: 20px">
+<p style="margin: 0 0 8px; font-size: 13px; font-weight: 700; color: #0B4D39; text-transform: uppercase; letter-spacing: 0.04em">Kokkuvõte</p>
+<ul style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; font-size: 16px">
+<sc-for list="{{ guide.summary }}" as="b" hint-placeholder-count="4">
+<li>{{ b }}</li>
+</sc-for>
+</ul>
+</div>
+
+<sc-if value="{{ guide.isIk }}" hint-placeholder-val="{{ false }}">
+<section style="background: #FFFFFF; border: 1px solid #E2E6E1; border-radius: 16px; padding: 24px">
+<h2 style="margin: 0 0 8px; font-family: 'Space Grotesk', sans-serif; font-size: 22px">Näidisaasta: Mari 2026</h2>
+<p style="margin: 0 0 16px; font-size: 15px; color: #22302A">Maril on kaks investeerimiskontot: üks Eesti pangas ja teine välismaise maakleri juures, mille tegevusluba on EL-is. Kõik summad on eurodes ja lihtsustatud.</p>
+<div style="overflow-x: auto">
+<div role="table" aria-label="Mari näidisaasta tehingud" style="min-width: 760px; font-size: 14px">
+<div role="row" style="display: grid; grid-template-columns: 52px 118px minmax(150px, 2fr) minmax(140px, 1.6fr) 78px 78px 86px; gap: 8px; padding: 8px 6px; border-bottom: 2px solid #14201B; font-weight: 700"><span role="columnheader">Kuupäev</span><span role="columnheader">Konto</span><span role="columnheader">Mis juhtus</span><span role="columnheader">Deklaratsioonis</span><span role="columnheader" style="text-align: right">Sisse</span><span role="columnheader" style="text-align: right">Välja</span><span role="columnheader" style="text-align: right">Jääk</span></div>
+<sc-for list="{{ ik.rows }}" as="r" hint-placeholder-count="9">
+<div role="row" style="display: grid; grid-template-columns: 52px 118px minmax(150px, 2fr) minmax(140px, 1.6fr) 78px 78px 86px; gap: 8px; padding: 10px 6px; border-bottom: 1px solid #E2E6E1; align-items: start"><span role="cell">{{ r.date }}</span><span role="cell">{{ r.acc }}</span><span role="cell">{{ r.what }}</span><span role="cell" style="color: #4B5A53">{{ r.decl }}</span><span role="cell" style="text-align: right; color: #0B5C43; font-weight: 600">{{ r.inn }}</span><span role="cell" style="text-align: right; color: #A3302A; font-weight: 600">{{ r.out }}</span><span role="cell" style="text-align: right; font-weight: 600">{{ r.bal }}</span></div>
+</sc-for>
+</div>
+</div>
+<p style="margin: 14px 0 0; font-size: 15px; color: #22302A">„Jääk“ on kõigi investeerimiskontode sissemaksete ja väljamaksete vahe. Kuni väljamaksed jäävad sellest väiksemaks, maksu ei teki. Aasta lõpu jääk kantakse järgmisse aastasse.</p>
+</section>
+
+<section style="margin-top: 16px; background: #FFFFFF; border: 1px solid #E2E6E1; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 12px">
+<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 22px">Mis siis, kui Mari võtab 2027. aastal raha välja?</h2>
+<label for="ikw" style="display: flex; justify-content: space-between; font-size: 15px; font-weight: 600"><span>Väljamakse 2027</span><span>{{ ik.wLabel }}</span></label>
+<input id="ikw" type="range" min="0" max="10000" step="250" value="{{ ik.w }}" onChange="{{ ikSetW }}" style="width: 100%; accent-color: #0E6B4F; min-height: 32px">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px">
+<div style="padding: 14px 16px; border-radius: 12px; background: #F2F5F1"><p style="margin: 0; font-size: 14px; color: #4B5A53">Jääk 2026. aastast</p><p style="margin: 4px 0 0; font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700">{{ ik.carry }}</p></div>
+<div style="padding: 14px 16px; border-radius: 12px; background: #F2F5F1"><p style="margin: 0; font-size: 14px; color: #4B5A53">Maksustatav osa</p><p style="margin: 4px 0 0; font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700">{{ ik.taxable }}</p></div>
+<div style="padding: 14px 16px; border-radius: 12px; background: #14201B; color: #FFFFFF"><p style="margin: 0; font-size: 14px; color: #C9D8D0">Tulumaks 22 %</p><p style="margin: 4px 0 0; font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700">{{ ik.tax }}</p></div>
+</div>
+<p style="margin: 0; font-size: 15px; color: #22302A">{{ ik.explain }}</p>
+</section>
+
+<section style="margin-top: 16px; background: #FFFFFF; border: 1px solid #E2E6E1; border-radius: 16px; padding: 24px">
+<h2 style="margin: 0 0 10px; font-family: 'Space Grotesk', sans-serif; font-size: 22px">Deklaratsiooni täites samm-sammult</h2>
+<ol style="margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 8px; font-size: 16px">
+<li><strong>Kontrolli eeltäidetud andmeid.</strong> Kui sinu pank või platvorm saadab investeerimiskonto aruande, on tabel 6.5 juba täidetud. Võrdle seda oma väljavõttega.</li>
+<li><strong>Lisa välismaise maakleri konto.</strong> Tabeli 6.5 I osas märgi konto number ja ettevõtte nimi. Välismaa andmeid automaatselt ei tule.</li>
+<li><strong>Lisa sisse- ja väljamaksed.</strong> Tabeli 6.5 II osas ainult rahaliikumised, mitte ostud ja müügid.</li>
+<li><strong>Lisa välismaised dividendid.</strong> Kui välisriigis peeti maks kinni, märgi bruto ja kinnipeetud maks tabelisse 8.8 ning kätte saadud netosumma tabelisse 6.5 II sissemaksena.</li>
+<li><strong>Kontrolli edasikantavat summat.</strong> See on järgmise aasta alguse jääk. Vea korral paranda alates kõige varasemast aastast.</li>
+</ol>
+<p style="margin: 14px 0 0; font-size: 15px; color: #22302A">Tähtajad: deklaratsioon 30. aprilliks, juurdemakstav tulumaks 1. oktoobriks.</p>
+</section>
+</sc-if>
+
+<sc-if value="{{ guide.isRb }}" hint-placeholder-val="{{ false }}">
+<section style="background: #FFFFFF; border: 1px solid #E2E6E1; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 14px">
+<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 22px">Sinu portfell</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px 24px">
+<div><label for="rbv" style="display: flex; justify-content: space-between; font-size: 15px; font-weight: 600"><span>Portfelli väärtus</span><span>{{ rb.vLabel }}</span></label><input id="rbv" type="range" min="2000" max="200000" step="1000" value="{{ rb.v }}" onChange="{{ rbSetV }}" style="width: 100%; accent-color: #0E6B4F; min-height: 32px"></div>
+<div><label for="rbc" style="display: flex; justify-content: space-between; font-size: 15px; font-weight: 600"><span>Aktsiaid praegu</span><span>{{ rb.cur }} %</span></label><input id="rbc" type="range" min="50" max="100" step="1" value="{{ rb.cur }}" onChange="{{ rbSetCur }}" style="width: 100%; accent-color: #0E6B4F; min-height: 32px"></div>
+<div><label for="rbt" style="display: flex; justify-content: space-between; font-size: 15px; font-weight: 600"><span>Sihtjaotus aktsiates</span><span>{{ rb.tgt }} %</span></label><input id="rbt" type="range" min="30" max="95" step="5" value="{{ rb.tgt }}" onChange="{{ rbSetTgt }}" style="width: 100%; accent-color: #0E6B4F; min-height: 32px"></div>
+<div><label for="rbm" style="display: flex; justify-content: space-between; font-size: 15px; font-weight: 600"><span>Igakuine sissemakse</span><span>{{ rb.mLabel }}</span></label><input id="rbm" type="range" min="50" max="3000" step="50" value="{{ rb.m }}" onChange="{{ rbSetM }}" style="width: 100%; accent-color: #0E6B4F; min-height: 32px"></div>
+<div><label for="rbg" style="display: flex; justify-content: space-between; font-size: 15px; font-weight: 600"><span>Aktsiate kasum ostuhinnast</span><span>+{{ rb.g }} %</span></label><input id="rbg" type="range" min="0" max="200" step="5" value="{{ rb.g }}" onChange="{{ rbSetG }}" style="width: 100%; accent-color: #0E6B4F; min-height: 32px"></div>
+<div>
+<p style="margin: 0 0 6px; font-size: 15px; font-weight: 600">Konto liik</p>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{ rb.accOpts }}" as="o" hint-placeholder-count="2">
+<button onClick="{{ o.pick }}" style="{{ o.style }}">{{ o.label }}</button>
+</sc-for>
+</div>
+</div>
+</div>
+<p style="margin: 0; font-size: 14px; color: #4B5A53">Tehingutasu: 0,14 %, vähemalt 3,90 € tehingu kohta, nagu välismaiste ETF-ide puhul Eesti pangas.</p>
+</section>
+<div style="margin-top: 16px; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px">
+<sc-for list="{{ rb.options }}" as="o" hint-placeholder-count="3">
+<div style="{{ o.style }}">
+<p style="margin: 0; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: #4B5A53">{{ o.tag }}</p>
+<p style="margin: 4px 0 8px; font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 700">{{ o.title }}</p>
+<sc-for list="{{ o.lines }}" as="l" hint-placeholder-count="4">
+<p style="margin: 0 0 4px; font-size: 15px; display: flex; justify-content: space-between; gap: 8px"><span style="color: #4B5A53">{{ l.k }}</span><strong>{{ l.v }}</strong></p>
+</sc-for>
+<p style="margin: 8px 0 0; font-size: 14px; color: #22302A">{{ o.note }}</p>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ guide.isRet }}" hint-placeholder-val="{{ false }}">
+<section style="background: #FFFFFF; border: 1px solid #E2E6E1; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 14px">
+<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 22px">Sinu aasta</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px 24px">
+<div><label for="rts" style="display: flex; justify-content: space-between; font-size: 15px; font-weight: 600"><span>Väärtus aasta alguses</span><span>{{ rt.sLabel }}</span></label><input id="rts" type="range" min="1000" max="100000" step="500" value="{{ rt.s }}" onChange="{{ rtSetS }}" style="width: 100%; accent-color: #0E6B4F; min-height: 32px"></div>
+<div><label for="rtd" style="display: flex; justify-content: space-between; font-size: 15px; font-weight: 600"><span>Lisasid aasta jooksul</span><span>{{ rt.dLabel }}</span></label><input id="rtd" type="range" min="0" max="50000" step="500" value="{{ rt.d }}" onChange="{{ rtSetD }}" style="width: 100%; accent-color: #0E6B4F; min-height: 32px"></div>
+<div><label for="rtm" style="display: flex; justify-content: space-between; font-size: 15px; font-weight: 600"><span>Lisamise kuu</span><span>{{ rt.mLabel }}</span></label><input id="rtm" type="range" min="1" max="12" step="1" value="{{ rt.m }}" onChange="{{ rtSetM }}" style="width: 100%; accent-color: #0E6B4F; min-height: 32px"></div>
+<div><label for="rtb" style="display: flex; justify-content: space-between; font-size: 15px; font-weight: 600"><span>Väärtus vahetult enne lisamist</span><span>{{ rt.bLabel }}</span></label><input id="rtb" type="range" min="500" max="150000" step="100" value="{{ rt.b }}" onChange="{{ rtSetB }}" style="width: 100%; accent-color: #0E6B4F; min-height: 32px"></div>
+<div><label for="rte" style="display: flex; justify-content: space-between; font-size: 15px; font-weight: 600"><span>Väärtus aasta lõpus</span><span>{{ rt.eLabel }}</span></label><input id="rte" type="range" min="500" max="200000" step="100" value="{{ rt.e }}" onChange="{{ rtSetE }}" style="width: 100%; accent-color: #0E6B4F; min-height: 32px"></div>
+</div>
+</section>
+<div style="margin-top: 16px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px">
+<sc-for list="{{ rt.cards }}" as="c" hint-placeholder-count="4">
+<div style="{{ c.style }}">
+<p style="margin: 0; font-size: 14px; color: {{ c.sub }}">{{ c.k }}</p>
+<p style="margin: 4px 0 4px; font-family: 'Space Grotesk', sans-serif; font-size: 26px; font-weight: 700">{{ c.v }}</p>
+<p style="margin: 0; font-size: 13px; color: {{ c.sub }}">{{ c.note }}</p>
+</div>
+</sc-for>
+</div>
+<p style="margin: 14px 0 0; font-size: 15px; color: #22302A">{{ rt.explain }}</p>
+</sc-if>
+
+<section style="margin-top: 16px; background: #FFFFFF; border: 1px solid #E2E6E1; border-radius: 16px; padding: 24px">
+<sc-for list="{{ guide.sections }}" as="sec" hint-placeholder-count="2">
+<div style="margin-bottom: 18px">
+<h2 style="margin: 0 0 8px; font-family: 'Space Grotesk', sans-serif; font-size: 20px">{{ sec.h }}</h2>
+<p style="margin: 0; font-size: 16px; white-space: pre-line; color: #22302A">{{ sec.t }}</p>
+</div>
+</sc-for>
+<h2 style="margin: 0 0 8px; font-family: 'Space Grotesk', sans-serif; font-size: 20px">Levinud vead</h2>
+<ul style="margin: 0 0 18px; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; font-size: 15px">
+<sc-for list="{{ guide.mistakes }}" as="m" hint-placeholder-count="3">
+<li>{{ m }}</li>
+</sc-for>
+</ul>
+<p style="margin: 0 0 6px; font-size: 14px; font-weight: 600">Allikad (kontrollitud {{ guide.checked }})</p>
+<ul style="margin: 0; padding-left: 20px; font-size: 14px; display: flex; flex-direction: column; gap: 4px">
+<sc-for list="{{ guide.sources }}" as="src" hint-placeholder-count="1">
+<li><a href="{{ src.url }}" target="_blank" rel="noopener">{{ src.label }}</a></li>
+</sc-for>
+</ul>
+<sc-if value="{{ guide.hasNote }}" hint-placeholder-val="{{ false }}">
+<p style="margin: 14px 0 0; padding: 12px 14px; border-radius: 10px; background: #FFF4E0; color: #5C3B00; font-size: 14px">{{ guide.note }}</p>
+</sc-if>
 </section>
 </div>
 </sc-if>
@@ -1298,7 +1435,7 @@ class Component extends DCLogic {
       { id: 'edasi', label: 'Edasijõudnu', dot: '#B4382F' }
     ];
     var navDefs = [['topics', 'Õpi'], ['money', 'Rahaküsimused'], ['tools', 'Tööriistad'], ['invest', 'Turud'], ['qa', 'Kogukond']];
-    var activeMap = { topic: 'topics', calc: 'tools', fees: 'tools', pf: 'tools', ai: 'qa', mq: 'money' };
+    var activeMap = { topic: 'topics', calc: 'tools', fees: 'tools', pf: 'tools', ai: 'qa', mq: 'money', guide: 'invest' };
     var active = activeMap[s.screen] || s.screen;
     var nav = navDefs.map(function (d) {
       var on = d[0] === active;
@@ -1715,15 +1852,6 @@ class Component extends DCLogic {
       hasTopics: srTopics.length > 0, hasTerms: srTerms.length > 0, hasQs: srQs.length > 0,
       askTitle: !sq ? 'Kirjuta otsingusse, mida otsid.' : ((srTopics.length + srTerms.length + srQs.length) === 0 ? 'Midagi ei leitud. Küsi julgelt:' : 'Ei leidnud vastust? Küsi:')
     };
-    var deepDefs = [
-      ['etf', 'ETF-id süvitsi', 'Replikatsioon, jälgimisviga ja fondi asukoht.'],
-      ['ik', 'Investeerimiskonto ja maksud', 'Kuidas maks tekib ja mida deklareerida.'],
-      ['dividendid', 'Dividendid ja maksustamine', 'Eesti ja välismaised dividendid, W-8BEN.'],
-      ['hajutamine', 'Hajutamine ja rebalansseerimine', 'Korrelatsioon ja portfelli tasakaal.'],
-      ['volakiri', 'Võlakirjad ja intressirisk', 'Kestus, tootlus lunastamiseni, allutatud võlakirjad.'],
-      ['sammas', 'II ja III sammas, PIK', 'Fondivalik, PIK ja väljamaksete maksustamine.']
-    ];
-    var deepTopics = deepDefs.map(function (d) { return { title: d[1], text: d[2], pick: function () { self.go('topic', { topicId: d[0], depth: 2 }); } }; });
     var advancedQs = qAll.filter(function (q) { return q.cat !== 'Algajate küsimused'; }).slice(0, 4).map(compact);
     var infoLinks = [
       { label: 'Nasdaq Baltic', url: 'https://nasdaqbaltic.com/', text: 'Balti börsi ametlik leht: börsiteated, statistika, ettevõtted.' },
@@ -1858,6 +1986,104 @@ class Component extends DCLogic {
     var weekly = { q: moneyQs[0].q, short: moneyQs[0].short, open: function () { self.go('mq', { mqId: 'freq' }); } };
     var mq = { q: mqData.q, short: mqData.short, why: mqData.why, isFreq: mqData.tool === 'freq', isPillar: mqData.tool === 'pillar', isFx: mqData.tool === 'fx', isAcc: mqData.tool === 'acc',
       topicLabel: 'Õppetükk: ' + topics[mqData.topic].title, openTopic: function () { self.go('topic', { topicId: mqData.topic }); } };
+    var EMTA_IK_SRC = { label: 'MTA: väärtpaberid ja investeerimiskonto', url: 'https://emta.ee/eraklient/maksud-ja-tasumine/maksustatavad-tulud/vaartpaberid-ja-investeerimiskonto' };
+    var guides = {
+      ik: { title: 'Mul on Eesti pank ja välismaine maakler. Kuidas ma selle kõik deklareerin?', card: 'Näidisaasta kahe kontoga: dividendid, ülekanded ja väljamakse kõrvuti deklaratsiooniga.',
+        summary: ['Deklareerid ainult raha liikumist kontole ja kontolt, mitte oste ega müüke.', 'Kõik sinu investeerimiskontod arvestatakse kokku. Maks tekib alles siis, kui väljamaksed ületavad kõigi kontode sissemakseid.', 'Välismaise maakleri konto võib olla investeerimiskonto, kui maakleril on tegevusluba EL-is või EMP-s. Selle andmed sisestad ise.', 'Eesti ettevõtete dividendid ja välisriigis maksustatud dividendid lähevad kontole sissemaksena.'],
+        sections: [
+          { h: 'Millised kontod sobivad', t: 'Investeerimiskonto peab olema krediidiasutuses, makse- või e-raha asutuses või investeerimisühingus. MTA juhendi järgi sobib välismaine maakler, kui tal on tegevusluba EL-i või EMP riigis. Näiteks USA või Suurbritannia maakler ei sobi.\n\nIgal aastal tuleb esitada tuludeklaratsioon, kui sul on investeerimiskonto. Osa Eesti pankasid ja Lightyear saadavad aruande MTA-le ja tabel 6.5 on eeltäidetud. Välismaise maakleri andmed sisestad ise.' },
+          { h: 'Mis loetakse väljamakseks', t: 'Raha, mis viiakse kontolt välja ja mida ei kasutata finantsvara ostuks ega kanta teisele sinu investeerimiskontole. Väljamakseks loetakse ka marginlaenu intress, konto sulgemisel seal olevate varade soetusmaksumus ning kingitusena üle antud varad.\n\nVäljamakseks ei loeta valuutavahetust vara ostmiseks, konto- ja hoidmistasusid, marginlaenu põhiosa tagasimakset ega raha ülekandmist oma investeerimiskontode vahel.' },
+          { h: 'Kuidas maks arvutatakse', t: 'Maks tekib, kui investeerimiskontolt tehtud väljamakse ületab varem tehtud sissemakseid. Arvestus käib kuupäeva ja kellaaja järgi pärast iga sisse- või väljamakset, mitte kalendriaasta lõpus. Seega võib hommikul välja võetud ja õhtul tagasi pandud raha juba maksu tekitada.' }
+        ],
+        mistakes: ['Osta väärtpaber tavalisele väärtpaberikontole ja loota see hiljem investeerimiskontole tõsta. Tavasüsteemis ostetud vara ei saa investeerimiskontole üle kanda.', 'Unustada välismaise maakleri konto tabelisse 6.5 lisamata, sest see ei tule eeltäidetuna.', 'Märkida sissemakseks välismaine dividend, millelt maksu kinni ei peetud. See ei ole sissemakse.', 'Parandada vigast deklaratsiooni hilisemast aastast alates. Alusta kõige varasemast, et edasikantav summa õigesti edasi liiguks.'],
+        sources: [EMTA_IK_SRC, { label: 'MTA: tulu deklareerimise tähtajad', url: 'https://www.emta.ee/tuludeklaratsioon' }], checked: '23.11.2026',
+        note: 'Näide on lihtsustatud ega asenda maksunõu. Välismaise dividendi puhul arvutab e-MTA tabeli 8.8 põhjal, kas Eestis tuleb midagi juurde maksta. Enne oma deklaratsiooni täitmist kontrolli MTA juhendit või küsi raamatupidajalt.' },
+      rb: { title: 'Mu 80/20 portfellist sai 90/10. Kas müüa või suunata uued ostud mujale?', card: 'Kalkulaator: müük, uued sissemaksed või ootamine. Tasud, aeg ja maksud kõrvuti.',
+        summary: ['Aktsiate tõusuga kasvab nende osakaal ja koos sellega portfelli risk.', 'Tasakaalu saab taastada müües, uusi sissemakseid ümber suunates või oodates.', 'Investeerimiskontol ei teki müügist maksu, tavakontol tuleb kasumilt kohe tulumaks.', 'Paljud investorid tasakaalustavad kord aastas või siis, kui jaotus kaldub sihist üle 5 protsendipunkti.'],
+        sections: [
+          { h: 'Miks tasakaalustada', t: 'Sinu sihtjaotus peegeldab, kui palju kõikumist sa välja kannatad. Kui aktsiad on tõusnud ja nende osa kasvanud 80-lt 90 protsendile, on portfell vaikselt riskantsemaks muutunud, ilma et sa seda otsustanud oleksid.' },
+          { h: 'Kuidas valida', t: 'Kui kõrvalekalle on väike ja teed regulaarselt sissemakseid, on uute ostude suunamine tavaliselt odavaim ja maksuvaba. Kui kõrvalekalle on suur või sissemakseid ei tule, taastab müük jaotuse kohe. Tavakontol arvesta sel juhul tulumaksuga, investeerimiskontol mitte.' }
+        ],
+        mistakes: ['Tasakaalustada liiga tihti, nii et tasud söövad kasu ära.', 'Unustada tavakontol müügi pealt tekkiv tulumaks.', 'Muuta sihtjaotust pärast tõusu, sest „aktsiad ju tõusevad“. See on sama, mis riski suurendamine.'],
+        sources: [EMTA_IK_SRC], checked: '23.11.2026', note: 'Arvutus on lihtsustatud: tasud välismaise ETF-i ostu kohta Eesti pangas, tavakonto maks 22 % kasumilt.' },
+      ret: { title: 'Kui palju mu portfell päriselt teenis, kui lisasin aasta jooksul raha?', card: 'Konto väärtuse kasv ja tegelik tootlus ei ole sama asi. Kalkulaator ja õige võrdlusindeks.',
+        summary: ['Konto väärtuse kasv sisaldab ka sinu enda lisatud raha ja ei ole tootlus.', 'Ajakaalutud tootlus näitab investeeringute tulemust ja sobib võrdluseks indeksiga.', 'Rahakaalutud tootlus näitab, kuidas sinu raha päriselt teenis, sh lisamise ajastuse mõju.', 'Võrdlusindeks peab vastama sinu jaotusele ja valuutale.'],
+        sections: [
+          { h: 'Kaks tootlust, kaks küsimust', t: 'Ajakaalutud tootlus vastab küsimusele „kui hästi minu investeeringud käitusid?“. See jagab aasta osadeks iga sissemakse juures ja korrutab osade tootlused kokku. Fondid ja indeksid näitavad just seda.\n\nRahakaalutud tootlus vastab küsimusele „kui palju minu raha teenis?“. Kui lisasid palju raha vahetult enne langust, on see madalam kui ajakaalutud tootlus.' },
+          { h: 'Kuidas valida võrdlusindeksit', t: 'Kui sinu portfell on 80 % maailma aktsiaid ja 20 % euro võlakirju, võrdle seda samas proportsioonis maailma aktsiaindeksi ja euro võlakirjaindeksiga eurodes. Võrdlemine ainult S&P 500-ga on eksitav, kui sinu portfell on laiem või eurodes.' }
+        ],
+        mistakes: ['Pidada konto väärtuse kasvu tootluseks.', 'Võrrelda oma rahakaalutud tootlust indeksi ajakaalutud tootlusega.', 'Valida võrdlusindeks, mis ei vasta sinu jaotusele või valuutale.'],
+        sources: [], checked: '23.11.2026', note: 'Rahakaalutud tootlus on arvutatud lihtsustatud Dietzi meetodiga: kasum jagatud keskmise investeeritud summaga.' }
+    };
+    var guideOrder = [['ik', true], ['rb', true], ['ret', true],
+      ['Kaks ETF-i jälgivad sama indeksit. Miks nende tootlus erineb?', false], ['Balti ettevõte pakub 9 % kupongi. Mida ma enne märkimist kontrollin?', false], ['Kui palju maksab II samba ise juhtimine 5 000, 20 000 või 50 000 euro puhul?', false]];
+    var deepTopics = guideOrder.map(function (g) {
+      if (g[1]) return { title: guides[g[0]].title, text: guides[g[0]].card, pick: function () { self.go('guide', { guideId: g[0] }); } };
+      return { title: g[0], text: 'Tulekul.', pick: function () {} };
+    });
+    var gd = guides[s.guideId] || guides.ik;
+    var guide = { title: gd.title, summary: gd.summary, sections: gd.sections, mistakes: gd.mistakes, sources: gd.sources, checked: gd.checked, note: gd.note || '', hasNote: !!gd.note,
+      isIk: (s.guideId || 'ik') === 'ik', isRb: s.guideId === 'rb', isRet: s.guideId === 'ret' };
+
+    var e2 = function (x) { return x.toLocaleString('et-EE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); };
+    var ikRaw = [
+      ['15.01', 'Eesti pank', 'Kannab arvelduskontolt investeerimiskontole 3 000 €', '6.5 II, eeltäidetud', 3000, 0],
+      ['01.02', 'Välismaine maakler', 'Kannab arvelduskontolt maaklerikontole 5 000 €', '6.5 I (konto) ja 6.5 II, täidad ise', 5000, 0],
+      ['03.02', 'Mõlemad', 'Ostab ETF-e ja aktsiaid', 'Ei deklareerita', 0, 0],
+      ['10.04', 'Eesti pank', 'Eesti ettevõtte dividend 80 €', '7.1 (eeltäidetud) ja 6.5 II sissemaksena', 80, 0],
+      ['15.06', 'Välismaine maakler', 'USA aktsia dividend: bruto 50 €, USA-s kinni peetud 7,50 € (W-8BEN alusel 15 %)', '8.8 bruto ja maks, 6.5 II sissemaksena netosumma', 42.5, 0],
+      ['20.09', 'Maakler → pank', 'Kannab 1 000 € oma investeerimiskontode vahel', 'Ei ole sisse- ega väljamakse', 0, 0],
+      ['05.10', 'Eesti pank', 'Müüb osa ETF-e kasumiga', 'Ei deklareerita', 0, 0],
+      ['10.11', 'Eesti pank', 'Kannab 4 500 € arvelduskontole', '6.5 II väljamaksena', 0, 4500],
+      ['31.12', '—', 'Aasta lõpp', 'Edasikantav summa järgmisse aastasse, maksu ei teki', 0, 0]
+    ];
+    var bal = 0;
+    var ikRows = ikRaw.map(function (r) { bal += r[4] - r[5]; return { date: r[0], acc: r[1], what: r[2], decl: r[3], inn: r[4] ? e2(r[4]) : '', out: r[5] ? e2(r[5]) : '', bal: e2(bal) }; });
+    var ikW = s.ikW === undefined ? 5000 : s.ikW;
+    var ikTaxable = Math.max(0, ikW - bal);
+    var ik = { rows: ikRows, w: ikW, wLabel: e2(ikW) + ' €', carry: e2(bal) + ' €', taxable: e2(ikTaxable) + ' €', tax: e2(ikTaxable * 0.22) + ' €',
+      explain: ikTaxable > 0 ? 'Väljamakse ületab jääki ' + e2(ikTaxable) + ' euro võrra. See osa on maksustatav tulu ja tulumaks tuleb tasuda järgmise aasta 1. oktoobriks.' : 'Väljamakse jääb jäägi piiresse, nii et maksu ei teki. Jääk väheneb ' + e2(ikW) + ' euro võrra.' };
+
+    var rbV = s.rbV || 20000, rbCur = s.rbCur || 90, rbTgt = s.rbTgt || 80, rbM = s.rbM || 300, rbG = s.rbG === undefined ? 40 : s.rbG, rbAcc = s.rbAcc || 'ik';
+    var fee1 = function (x) { return Math.max(3.9, x * 0.0014); };
+    var Sx = rbV * rbCur / 100, Bx = rbV - Sx, tt = rbTgt / 100;
+    var excess = Math.max(0, Sx - tt * rbV);
+    var feeA = excess > 0 ? 2 * fee1(excess) : 0;
+    var taxA = rbAcc === 'tava' ? excess * rbG / (100 + rbG) * 0.22 : 0;
+    var nMonths = excess > 0 ? Math.ceil(((1 - tt) * rbV - Bx) / (tt * rbM)) : 0;
+    var feeB = nMonths * fee1(rbM);
+    var lossNow = 0.2 * Sx, lossTgt = 0.2 * tt * rbV;
+    var card = function (best) { return 'background: #FFFFFF; border-radius: 16px; padding: 20px; ' + (best ? 'border: 2px solid #0E6B4F' : 'border: 1px solid #E2E6E1'); };
+    var cheapest = Math.min(feeA + taxA, feeB);
+    var rb = {
+      v: rbV, vLabel: eur(rbV), cur: rbCur, tgt: rbTgt, m: rbM, mLabel: eur(rbM), g: rbG,
+      accOpts: [['ik', 'Investeerimiskonto'], ['tava', 'Tavaline väärtpaberikonto']].map(function (o) { return { label: o[1], pick: function () { self.setState({ rbAcc: o[0] }); }, style: chip(o[0] === rbAcc) }; }),
+      options: excess <= 0 ? [{ tag: 'Tulemus', title: 'Portfell on sihtjaotuses', lines: [], note: 'Aktsiate osa ei ületa sihti. Tasakaalustada pole vaja.', style: card(true) }] : [
+        { tag: 'Variant A', title: 'Müü ja osta kohe', style: card(feeA + taxA <= feeB), lines: [{ k: 'Müüd aktsiaid', v: eur(excess) }, { k: 'Tehingutasud', v: e2(feeA) + ' €' }, { k: 'Tulumaks kohe', v: e2(taxA) + ' €' }, { k: 'Aeg', v: 'kohe' }],
+          note: rbAcc === 'ik' ? 'Investeerimiskontol müügist maksu ei teki, kui raha jääb kontole.' : 'Tavakontol tuleb müügi kasumilt maksta 22 % tulumaksu.' },
+        { tag: 'Variant B', title: 'Suuna uued sissemaksed võlakirjadesse', style: card(feeB < feeA + taxA), lines: [{ k: 'Kuude arv', v: nMonths + ' kuud' }, { k: 'Tehingutasud kokku', v: e2(feeB) + ' €' }, { k: 'Tulumaks', v: '0 €' }, { k: 'Aeg', v: nMonths > 24 ? 'üle 2 aasta' : nMonths + ' kuud' }],
+          note: nMonths > 24 ? 'Sissemaksed on portfelliga võrreldes väikesed, nii et tasakaal taastub väga aeglaselt.' : 'Selle aja jooksul on aktsiate osa sihist suurem.' },
+        { tag: 'Variant C', title: 'Ära tee midagi', style: card(false), lines: [{ k: 'Kulud', v: '0 €' }, { k: 'Aktsiaid jääb', v: rbCur + ' %' }, { k: 'Kui aktsiad langevad 20 %', v: '−' + eur(lossNow) }, { k: 'Sihtjaotusega oleks', v: '−' + eur(lossTgt) }],
+          note: 'Risk jääb suuremaks, kui otsustasid. Iga järgmise tõusuga kasvab see veelgi.' }
+      ]
+    };
+
+    var rtS = s.rtS || 10000, rtD = s.rtD === undefined ? 5000 : s.rtD, rtM = s.rtM || 7, rtB = s.rtB || 10400, rtE = s.rtE || 16000;
+    var months = ['jaanuar', 'veebruar', 'märts', 'aprill', 'mai', 'juuni', 'juuli', 'august', 'september', 'oktoober', 'november', 'detsember'];
+    var profit = rtE - rtS - rtD;
+    var wgt = (13 - rtM) / 12;
+    var mwr = profit / (rtS + rtD * wgt);
+    var twr = (rtB / rtS) * (rtE / (rtB + rtD)) - 1;
+    var growth = rtE / rtS - 1;
+    var pc = function (x) { return (x > 0 ? '+' : (x < 0 ? '−' : '')) + Math.abs(Math.round(x * 1000) / 10).toLocaleString('et-EE') + ' %'; };
+    var rt = { s: rtS, d: rtD, m: rtM, b: rtB, e: rtE, sLabel: eur(rtS), dLabel: eur(rtD), mLabel: months[rtM - 1] + 'i algus', bLabel: eur(rtB), eLabel: eur(rtE),
+      cards: [
+        { k: 'Konto väärtus kasvas', v: pc(growth), note: 'Sisaldab ka sinu enda lisatud raha. See ei ole tootlus.', style: 'background: #FBEAE8; border-radius: 14px; padding: 18px', sub: '#7A211C' },
+        { k: 'Tegelik kasum', v: (profit >= 0 ? '+' : '−') + eur(Math.abs(profit)), note: 'Lõppväärtus miinus algväärtus ja sissemaksed.', style: 'background: #FFFFFF; border: 1px solid #E2E6E1; border-radius: 14px; padding: 18px', sub: '#4B5A53' },
+        { k: 'Rahakaalutud tootlus', v: pc(mwr), note: 'Kuidas sinu raha teenis, koos ajastuse mõjuga.', style: 'background: #FFFFFF; border: 1px solid #E2E6E1; border-radius: 14px; padding: 18px', sub: '#4B5A53' },
+        { k: 'Ajakaalutud tootlus', v: pc(twr), note: 'Investeeringute tulemus. Võrdle seda indeksiga.', style: 'background: #14201B; color: #FFFFFF; border-radius: 14px; padding: 18px', sub: '#C9D8D0' }
+      ],
+      explain: 'Konto väärtus kasvas ' + pc(growth) + ', aga sellest suurem osa oli sinu enda lisatud ' + eur(rtD) + '. Investeeringute tegelik tulemus oli ' + pc(twr) + '. ' + (Math.abs(mwr - twr) > 0.005 ? (mwr > twr ? 'Sinu ajastus oli hea: lisasid raha enne tõusu.' : 'Sinu ajastus vähendas tulemust: lisasid raha enne nõrgemat perioodi.') : 'Ajastus tulemust märgatavalt ei mõjutanud.') };
     var assets = this.pfAssets();
     var pfTotal = this.pfTotal(s);
     var invested = pfTotal - s.pfCash;
@@ -1953,6 +2179,18 @@ class Component extends DCLogic {
       goPf: function () { self.go('pf'); },
       pf: pf,
       pf2: pf2,
+      isGuide: s.screen === 'guide', guide: guide, ik: ik, rb: rb, rt: rt,
+      ikSetW: function (e) { self.setState({ ikW: Number(e.target.value) }); },
+      rbSetV: function (e) { self.setState({ rbV: Number(e.target.value) }); },
+      rbSetCur: function (e) { self.setState({ rbCur: Number(e.target.value) }); },
+      rbSetTgt: function (e) { self.setState({ rbTgt: Number(e.target.value) }); },
+      rbSetM: function (e) { self.setState({ rbM: Number(e.target.value) }); },
+      rbSetG: function (e) { self.setState({ rbG: Number(e.target.value) }); },
+      rtSetS: function (e) { self.setState({ rtS: Number(e.target.value) }); },
+      rtSetD: function (e) { self.setState({ rtD: Number(e.target.value) }); },
+      rtSetM: function (e) { self.setState({ rtM: Number(e.target.value) }); },
+      rtSetB: function (e) { self.setState({ rtB: Number(e.target.value) }); },
+      rtSetE: function (e) { self.setState({ rtE: Number(e.target.value) }); },
       isMoney: s.screen === 'money', isMq: s.screen === 'mq', goMoney: function () { self.go('money'); },
       mqCards: mqCards, mqHome: mqHome, mq: mq, weekly: weekly, fq: fq, pl: pl, fx: fx, ac: ac,
       fqSetAmt: function (e) { self.setState({ fqAmt: Number(e.target.value) }); },
