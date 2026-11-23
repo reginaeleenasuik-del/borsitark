@@ -47,46 +47,53 @@ h1,h2{overflow-wrap:anywhere}
 <main style="max-width: 1120px; margin: 0 auto; padding: 32px 24px 64px">
 
 <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
-<section style="background: #FFFFFF; border: 1px solid #E2E6E1; border-radius: 20px; padding: 48px 40px; display: flex; flex-direction: column; gap: 18px">
-<h1 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 44px; line-height: 1.1; max-width: 720px">Investeerimine selges eesti keeles</h1>
-<p style="margin: 0; font-size: 19px; color: #4B5A53; max-width: 620px">Õpi põhitõed 10 lühikese sammuga. Iga samm võtab paar minutit ja algab kõige lihtsamast.</p>
-<div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center">
-<button onClick="{{ startPath }}" style="min-height: 56px; padding: 0 28px; border: 0; border-radius: 12px; background: {{ accent }}; color: #FFFFFF; font-size: 18px; font-weight: 600">{{ startLabel }}</button>
-<span style="font-size: 15px; color: #4B5A53">{{ progressLabel }}</span>
+<section style="background: #FFFFFF; border: 1px solid #E2E6E1; border-radius: 20px; padding: 44px 40px; display: flex; flex-direction: column; gap: 16px">
+<h1 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 44px; line-height: 1.1; max-width: 760px">Investeerimine selges eesti keeles</h1>
+<p style="margin: 0; font-size: 19px; color: #4B5A53; max-width: 640px">Õpi rahulikus tempos ja küsi teistelt, kes on sama tee juba käinud.</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-top: 8px">
+<button onClick="{{ startPath }}" style="text-align: left; border: 0; border-radius: 16px; padding: 24px; background: {{ accent }}; color: #FFFFFF; display: flex; flex-direction: column; gap: 8px; min-height: 150px">
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700">Alustan nullist →</span>
+<span style="font-size: 16px; color: #DDEFE7">10 lühikest sammu, igaüks paar minutit. Alustad kõige lihtsamast.</span>
+<span style="font-size: 14px; color: #DDEFE7; font-weight: 600">{{ progressLabel }}</span>
+</button>
+<button onClick="{{ goQa }}" style="text-align: left; border: 1.5px solid #14201B; border-radius: 16px; padding: 24px; background: #FFFFFF; color: #14201B; display: flex; flex-direction: column; gap: 8px; min-height: 150px">
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700">Investeerin juba →</span>
+<span style="font-size: 16px; color: #4B5A53">Arutelud, strateegiad, maksud ja turuteemad koos teiste investoritega.</span>
+</button>
 </div>
 </section>
 
-<h2 style="margin: 40px 0 14px; font-family: 'Space Grotesk', sans-serif; font-size: 24px">10 sammu</h2>
-<ol style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px">
-<sc-for list="{{ steps }}" as="s" hint-placeholder-count="10">
-<li>
-<button onClick="{{ s.pick }}" style="width: 100%; text-align: left; display: flex; align-items: center; gap: 16px; padding: 14px 18px; border: 1px solid #E2E6E1; border-radius: 12px; background: #FFFFFF; color: #14201B">
-<span style="{{ s.numStyle }}">{{ s.mark }}</span>
-<span style="flex: 1; display: flex; flex-direction: column; gap: 2px">
-<span style="font-size: 17px; font-weight: 600">{{ s.title }}</span>
-<span style="font-size: 14px; color: #4B5A53">{{ s.lead }}</span>
-</span>
-<span aria-hidden="true" style="font-size: 20px; color: #8A9A92">›</span>
-</button>
-</li>
-</sc-for>
-</ol>
-
-<h2 style="margin: 40px 0 14px; font-family: 'Space Grotesk', sans-serif; font-size: 24px">Või küsi kohe</h2>
-<div style="display: flex; flex-wrap: wrap; gap: 10px; max-width: 720px">
-<label for="homeq" style="position: absolute; left: -9999px">Küsi ükskõik mida investeerimise kohta</label>
-<input id="homeq" value="{{ homeQ }}" onChange="{{ setHomeQ }}" onKeyDown="{{ homeKey }}" placeholder="nt Mis on ETF?" style="flex: 1 1 240px; min-height: 52px; padding: 0 18px; font-size: 17px; border: 1.5px solid #C9D1CB; border-radius: 12px; background: #FFFFFF; color: #14201B">
-<button onClick="{{ askHome }}" style="min-height: 52px; padding: 0 26px; border: 1.5px solid #14201B; border-radius: 12px; background: #FFFFFF; color: #14201B; font-size: 16px; font-weight: 600">Küsi</button>
+<div style="margin-top: 28px; display: flex; flex-wrap: wrap; gap: 10px">
+<label for="homeq" style="position: absolute; left: -9999px">Otsi teemadest, sõnastikust ja aruteludest</label>
+<input id="homeq" value="{{ homeQ }}" onChange="{{ setHomeQ }}" onKeyDown="{{ homeKey }}" placeholder="Otsi või küsi, nt dividend, II sammas, ETF" style="flex: 1 1 260px; min-height: 52px; padding: 0 18px; font-size: 17px; border: 1.5px solid #C9D1CB; border-radius: 12px; background: #FFFFFF; color: #14201B">
+<button onClick="{{ askHome }}" style="min-height: 52px; padding: 0 26px; border: 0; border-radius: 12px; background: #14201B; color: #FFFFFF; font-size: 16px; font-weight: 600">Otsi</button>
 </div>
 
-<h2 style="margin: 40px 0 14px; font-family: 'Space Grotesk', sans-serif; font-size: 24px">Tööriistad</h2>
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px">
-<sc-for list="{{ tools }}" as="t" hint-placeholder-count="3">
-<button onClick="{{ t.pick }}" style="text-align: left; background: #FFFFFF; border: 1px solid #E2E6E1; border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 6px">
-<span style="font-family: 'Space Grotesk', sans-serif; font-size: 19px; font-weight: 600; color: #14201B">{{ t.title }}</span>
-<span style="font-size: 15px; color: #4B5A53">{{ t.text }}</span>
+<div style="display: flex; flex-wrap: wrap; gap: 24px; margin-top: 36px">
+<section style="flex: 999 1 520px; min-width: 0">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 12px">
+<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 24px">Viimati kogukonnas</h2>
+<button onClick="{{ goQa }}" style="background: none; border: 0; padding: 0; min-height: 40px; color: #0B5C43; font-size: 15px; font-weight: 600">Kõik arutelud →</button>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<sc-for list="{{ latestQs }}" as="l" hint-placeholder-count="4">
+<button onClick="{{ l.pick }}" style="text-align: left; padding: 14px 18px; border: 1px solid #E2E6E1; border-radius: 12px; background: #FFFFFF; color: #14201B; display: flex; flex-direction: column; gap: 4px">
+<span style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: #2B3A33"><span style="width: 9px; height: 9px; border-radius: 999px; background: {{ l.dot }}"></span>{{ l.cat }} · <span style="font-weight: 400; color: #4B5A53">{{ l.topicTitle }}</span></span>
+<span style="font-size: 16px; font-weight: 600">{{ l.title }}</span>
+<span style="font-size: 13px; color: #4B5A53">{{ l.meta }}</span>
 </button>
 </sc-for>
+</div>
+</section>
+<aside style="flex: 1 1 280px; display: flex; flex-direction: column; gap: 10px">
+<h2 style="margin: 0 0 2px; font-family: 'Space Grotesk', sans-serif; font-size: 24px">Tööriistad</h2>
+<sc-for list="{{ tools }}" as="t" hint-placeholder-count="3">
+<button onClick="{{ t.pick }}" style="text-align: left; background: #FFFFFF; border: 1px solid #E2E6E1; border-radius: 12px; padding: 16px 18px; display: flex; flex-direction: column; gap: 4px">
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 600; color: #14201B">{{ t.title }}</span>
+<span style="font-size: 14px; color: #4B5A53">{{ t.text }}</span>
+</button>
+</sc-for>
+</aside>
 </div>
 </sc-if>
 
@@ -202,7 +209,85 @@ h1,h2{overflow-wrap:anywhere}
 </sc-if>
 </div>
 </article>
-<p style="margin: 16px 0 0; font-size: 15px; color: #4B5A53">Jäi midagi segaseks? <button onClick="{{ askTopic }}" style="background: none; border: 0; padding: 0; min-height: 32px; color: #0B5C43; font-size: 15px; font-weight: 600; text-decoration: underline">Küsi selle teema kohta</button></p>
+<section style="margin-top: 28px; background: #FFFFFF; border: 1px solid #E2E6E1; border-radius: 16px; padding: 28px 32px">
+<h2 style="margin: 0 0 4px; font-family: 'Space Grotesk', sans-serif; font-size: 22px">Arutelu selle teema all</h2>
+<p style="margin: 0 0 16px; font-size: 15px; color: #4B5A53">Küsimused, mida teised on sel teemal küsinud. Küsi julgelt ka ise, rumalaid küsimusi pole.</p>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<sc-for list="{{ topicQs }}" as="l" hint-placeholder-count="2">
+<button onClick="{{ l.pick }}" style="text-align: left; padding: 12px 16px; border: 1px solid #E2E6E1; border-radius: 10px; background: #FBFCFA; color: #14201B; display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 16px; font-weight: 600">{{ l.title }}</span>
+<span style="font-size: 13px; color: #4B5A53">{{ l.cat }} · {{ l.meta }}</span>
+</button>
+</sc-for>
+</div>
+<sc-if value="{{ topicQsEmpty }}" hint-placeholder-val="{{ false }}">
+<p style="margin: 0; font-size: 15px; color: #4B5A53">Sel teemal pole veel küsitud. Ole esimene.</p>
+</sc-if>
+<div style="margin-top: 16px; display: flex; flex-direction: column; gap: 8px">
+<label for="tq" style="font-size: 14px; font-weight: 600">Sinu küsimus selle teema kohta</label>
+<textarea id="tq" rows="2" value="{{ topicDraft }}" onChange="{{ setTopicDraft }}" placeholder="Kirjuta oma küsimus" style="padding: 12px; font-size: 15px; border: 1.5px solid #C9D1CB; border-radius: 10px; resize: vertical; font-family: inherit"></textarea>
+<div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center">
+<button onClick="{{ postTopicQ }}" style="min-height: 44px; padding: 0 18px; border: 0; border-radius: 10px; background: {{ accent }}; color: #FFFFFF; font-size: 15px; font-weight: 600">Küsi kogukonnalt</button>
+<button onClick="{{ askTopic }}" style="min-height: 44px; padding: 0 16px; border: 1px solid #C9D1CB; border-radius: 10px; background: #FFFFFF; color: #14201B; font-size: 15px">Küsi kohe abiliselt</button>
+</div>
+</div>
+</section>
+</div>
+</sc-if>
+
+<sc-if value="{{ isSearch }}" hint-placeholder-val="{{ false }}">
+<h1 style="margin: 0 0 16px; font-family: 'Space Grotesk', sans-serif; font-size: 32px">Otsing</h1>
+<div style="display: flex; flex-wrap: wrap; gap: 10px; max-width: 760px; margin-bottom: 24px">
+<label for="sq" style="position: absolute; left: -9999px">Otsi</label>
+<input id="sq" value="{{ searchQ }}" onChange="{{ setSearchQ }}" placeholder="Otsi teemadest, sõnastikust ja aruteludest" style="flex: 1 1 260px; min-height: 52px; padding: 0 18px; font-size: 17px; border: 1.5px solid #C9D1CB; border-radius: 12px; background: #FFFFFF">
+</div>
+<div style="display: flex; flex-direction: column; gap: 28px; max-width: 760px">
+<sc-if value="{{ sr.hasTopics }}" hint-placeholder-val="{{ true }}">
+<div>
+<h2 style="margin: 0 0 10px; font-size: 18px">Teemad</h2>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<sc-for list="{{ sr.topics }}" as="r" hint-placeholder-count="2">
+<button onClick="{{ r.pick }}" style="text-align: left; padding: 14px 18px; border: 1px solid #E2E6E1; border-radius: 12px; background: #FFFFFF; display: flex; flex-direction: column; gap: 2px; color: #14201B">
+<span style="font-size: 16px; font-weight: 600">{{ r.title }}</span>
+<span style="font-size: 14px; color: #4B5A53">{{ r.lead }}</span>
+</button>
+</sc-for>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{ sr.hasTerms }}" hint-placeholder-val="{{ true }}">
+<div>
+<h2 style="margin: 0 0 10px; font-size: 18px">Sõnastik</h2>
+<dl style="margin: 0; display: flex; flex-direction: column; gap: 8px">
+<sc-for list="{{ sr.terms }}" as="g" hint-placeholder-count="2">
+<div style="padding: 14px 18px; border: 1px solid #E2E6E1; border-radius: 12px; background: #FFFFFF">
+<dt style="font-size: 16px; font-weight: 600">{{ g.term }}</dt>
+<dd style="margin: 2px 0 0; font-size: 14px; color: #3A4943">{{ g.def }}</dd>
+</div>
+</sc-for>
+</dl>
+</div>
+</sc-if>
+<sc-if value="{{ sr.hasQs }}" hint-placeholder-val="{{ true }}">
+<div>
+<h2 style="margin: 0 0 10px; font-size: 18px">Arutelud</h2>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<sc-for list="{{ sr.qs }}" as="l" hint-placeholder-count="2">
+<button onClick="{{ l.pick }}" style="text-align: left; padding: 14px 18px; border: 1px solid #E2E6E1; border-radius: 12px; background: #FFFFFF; display: flex; flex-direction: column; gap: 2px; color: #14201B">
+<span style="font-size: 16px; font-weight: 600">{{ l.title }}</span>
+<span style="font-size: 13px; color: #4B5A53">{{ l.cat }} · {{ l.meta }}</span>
+</button>
+</sc-for>
+</div>
+</div>
+</sc-if>
+<div style="padding: 20px 22px; border-radius: 12px; background: #F2F4F1; display: flex; flex-direction: column; gap: 10px">
+<p style="margin: 0; font-size: 16px; font-weight: 600">{{ sr.askTitle }}</p>
+<div style="display: flex; flex-wrap: wrap; gap: 10px">
+<button onClick="{{ searchAskAi }}" style="min-height: 44px; padding: 0 18px; border: 0; border-radius: 10px; background: {{ accent }}; color: #FFFFFF; font-size: 15px; font-weight: 600">Küsi abiliselt</button>
+<button onClick="{{ searchAskForum }}" style="min-height: 44px; padding: 0 18px; border: 1px solid #C9D1CB; border-radius: 10px; background: #FFFFFF; color: #14201B; font-size: 15px">Küsi kogukonnalt</button>
+</div>
+</div>
 </div>
 </sc-if>
 
@@ -249,12 +334,29 @@ h1,h2{overflow-wrap:anywhere}
 </sc-if>
 
 <sc-if value="{{ isQa }}" hint-placeholder-val="{{ false }}">
-<button onClick="{{ goAi }}" style="background: none; border: 0; padding: 0; min-height: 44px; color: {{ accent }}; font-size: 15px; font-weight: 500">← Küsi</button>
-<h1 style="margin: 0 0 8px; font-family: 'Space Grotesk', sans-serif; font-size: 36px">Küsimused ja vastused</h1>
-<p style="margin: 0 0 24px; color: #4B5A53">Algajate küsimustele vastavad kogenumad investorid. Prototüübis on näidisküsimused.</p>
+<h1 style="margin: 0 0 8px; font-family: 'Space Grotesk', sans-serif; font-size: 36px">Kogukond</h1>
+<p style="margin: 0 0 18px; color: #4B5A53; max-width: 720px">Küsi, vasta ja aruta nii algaja kui ka kogenud investorina. Prototüübis on osa küsimusi ja vastuseid näidised.</p>
+<div role="group" aria-label="Kategooria" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px">
+<sc-for list="{{ qaCatOpts }}" as="c" hint-placeholder-count="5">
+<button onClick="{{ c.pick }}" style="{{ c.style }}">{{ c.label }}</button>
+</sc-for>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 20px">
+<label for="qatopic" style="font-size: 14px; font-weight: 600">Teema</label>
+<select id="qatopic" value="{{ qaTopic }}" onChange="{{ setQaTopic }}" style="min-height: 40px; padding: 0 10px; font-size: 15px; border: 1.5px solid #C9D1CB; border-radius: 10px; background: #FFFFFF">
+<option value="">Kõik teemad</option>
+<sc-for list="{{ topicOpts }}" as="o" hint-placeholder-count="10">
+<option value="{{ o.id }}">{{ o.title }}</option>
+</sc-for>
+</select>
+<span style="font-size: 14px; color: #4B5A53">{{ qaCountLabel }}</span>
+</div>
 <div style="display: flex; flex-wrap: wrap; gap: 24px">
 <section style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
-<sc-for list="{{ questions }}" as="q" hint-placeholder-count="4">
+<sc-if value="{{ qaEmpty }}" hint-placeholder-val="{{ false }}">
+<p style="margin: 0; padding: 20px; border: 1px dashed #C9D1CB; border-radius: 12px; color: #4B5A53">Selle valikuga küsimusi veel pole. Esita esimene küsimus.</p>
+</sc-if>
+<sc-for list="{{ qaList }}" as="q" hint-placeholder-count="4">
 <article style="background: #FFFFFF; border: 1px solid #E2E6E1; border-radius: 14px; padding: 20px 22px">
 <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 8px">
 <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: #2B3A33"><span style="width: 9px; height: 9px; border-radius: 999px; background: {{ q.dot }}"></span>{{ q.level }}</span>
@@ -307,11 +409,17 @@ h1,h2{overflow-wrap:anywhere}
 <label for="qn" style="font-size: 14px; font-weight: 600">Sinu nimi <span style="font-weight: 400; color: #4B5A53">(valikuline)</span></label>
 <input id="qn" value="{{ myName }}" onChange="{{ setMyName }}" placeholder="Tühjaks jättes anonüümne" style="min-height: 44px; padding: 0 12px; font-size: 15px; border: 1.5px solid #C9D1CB; border-radius: 10px"><label for="qt" style="font-size: 14px; font-weight: 600">Sinu küsimus</label>
 <textarea id="qt" rows="4" value="{{ newQ }}" onChange="{{ setNewQ }}" placeholder="Kirjelda, mida tahad teada" style="padding: 12px; font-size: 15px; border: 1.5px solid #C9D1CB; border-radius: 10px; resize: vertical"></textarea>
-<label for="ql" style="font-size: 14px; font-weight: 600">Sinu tase</label>
-<select id="ql" value="{{ newLevel }}" onChange="{{ setNewLevel }}" style="min-height: 44px; padding: 0 10px; font-size: 15px; border: 1.5px solid #C9D1CB; border-radius: 10px; background: #FFFFFF">
-<option value="Algaja">Algaja</option>
-<option value="Kesktase">Kesktase</option>
-<option value="Edasijõudnu">Edasijõudnu</option>
+<label for="ql" style="font-size: 14px; font-weight: 600">Kategooria</label>
+<select id="ql" value="{{ newCat }}" onChange="{{ setNewCat }}" style="min-height: 44px; padding: 0 10px; font-size: 15px; border: 1.5px solid #C9D1CB; border-radius: 10px; background: #FFFFFF">
+<sc-for list="{{ catNames }}" as="c" hint-placeholder-count="4">
+<option value="{{ c }}">{{ c }}</option>
+</sc-for>
+</select>
+<label for="qtp" style="font-size: 14px; font-weight: 600">Teema</label>
+<select id="qtp" value="{{ newTopic }}" onChange="{{ setNewTopic }}" style="min-height: 44px; padding: 0 10px; font-size: 15px; border: 1.5px solid #C9D1CB; border-radius: 10px; background: #FFFFFF">
+<sc-for list="{{ topicOpts }}" as="o" hint-placeholder-count="10">
+<option value="{{ o.id }}">{{ o.title }}</option>
+</sc-for>
 </select>
 <button type="button" onClick="{{ postQ }}" style="min-height: 44px; border: 0; border-radius: 10px; background: {{ accent }}; color: #FFFFFF; font-size: 15px; font-weight: 600">Postita küsimus</button>
 <p style="margin: 0; font-size: 13px; color: #4B5A53">Vastused on kogukonna arvamused, mitte investeerimissoovitused.</p>
@@ -905,8 +1013,8 @@ class Component extends DCLogic {
       { id: 'kesk', label: 'Kesktase', dot: '#C27A00' },
       { id: 'edasi', label: 'Edasijõudnu', dot: '#B4382F' }
     ];
-    var navDefs = [['topics', 'Õpi'], ['glossary', 'Sõnastik'], ['tools', 'Tööriistad'], ['ai', 'Küsi']];
-    var activeMap = { topic: 'topics', calc: 'tools', fees: 'tools', pf: 'tools', qa: 'ai' };
+    var navDefs = [['topics', 'Õpi'], ['qa', 'Kogukond'], ['tools', 'Tööriistad'], ['glossary', 'Sõnastik']];
+    var activeMap = { topic: 'topics', calc: 'tools', fees: 'tools', pf: 'tools', ai: 'qa' };
     var active = activeMap[s.screen] || s.screen;
     var nav = navDefs.map(function (d) {
       var on = d[0] === active;
@@ -1219,15 +1327,27 @@ class Component extends DCLogic {
       return { label: c + ' (' + n + ')', pick: function () { self.setState({ glossCat: c }); }, style: 'min-height: 40px; padding: 0 14px; border-radius: 999px; font-size: 14px; font-weight: 500; ' + (on ? 'background: #14201B; color: #FFFFFF; border: 1px solid #14201B' : 'background: #FFFFFF; color: #2B3A33; border: 1px solid #C9D1CB') };
     });
 
+    var CATS = { 'Algajate küsimused': '#1F8A5B', 'Strateegiad ja portfellid': '#2F5DA8', 'Maksud ja deklareerimine': '#A35F00', 'Turg ja uudised': '#7A3E9D' };
+    var catNames = Object.keys(CATS);
     var qDefs = [
-      { level: 'Algaja', dot: '#1F8A5B', tag: 'Alustamine', title: 'Kas 50 eurost kuus on üldse mõtet alustada?', answer: 'Jah. Väikese summaga alustamine aitab harjumust ja kogemust luua. Oluline on valida platvorm, kus tehingutasu ei söö väikest sissemakset ära, ja investeerida regulaarselt.' },
-      { level: 'Algaja', dot: '#1F8A5B', tag: 'Investeerimiskonto', title: 'Kas pean igal aastal oma aktsiaid deklareerima?', answer: 'Kui investeerid investeerimiskonto kaudu, siis maksukohustus tekib alles siis, kui võtad välja rohkem, kui oled sisse pannud. Pangad edastavad andmed Maksu- ja Tolliametile.' },
-      { level: 'Kesktase', dot: '#C27A00', tag: 'ETF', title: 'Akumuleeriv või jaotav ETF: kumb sobib pikaajaliseks kogumiseks?', answer: 'Akumuleeriv investeerib dividendid automaatselt tagasi, mis on mugav pikaajalisel kogumisel. Jaotav sobib, kui soovid regulaarset rahavoogu. Vali eesmärgi järgi.' },
-      { level: 'Edasijõudnu', dot: '#B4382F', tag: 'Maksud', title: 'Kuidas mõjutab fondi asukohariik dividendimakse?', answer: 'Fondi asukoht määrab, millised dividendimaksud fondi tasandil kinni peetakse. Seepärast valivad paljud Euroopa investorid Iirimaal registreeritud fonde. Täpsus sõltub fondist, vaata põhiteabedokumenti.' }
+      { cat: 'Algajate küsimused', topic: 'alustamine', title: 'Kas 50 eurost kuus on üldse mõtet alustada?', answer: 'Jah. Väikese summaga alustamine aitab harjumust ja kogemust luua. Vali platvorm, kus tehingutasu ei söö väikest sissemakset ära, ja investeeri regulaarselt. Tasude võrdlusest näed, kui suur vahe võib olla.' },
+      { cat: 'Algajate küsimused', topic: 'aktsia', title: 'Mis vahe on turuhinnaga ja limiithinnaga orderil?', answer: 'Turuhinnaga order täidetakse kohe parima saadaoleva hinnaga. Limiithinnaga orderis määrad ise hinna, millest kallimalt sa ei osta. Vähe kaubeldavate aktsiate puhul, näiteks osa Balti aktsiaid, on limiit turvalisem.' },
+      { cat: 'Algajate küsimused', topic: 'sammas', title: 'Kas tasub II samba makset 2 %-lt 6 %-le tõsta?', answer: 'See sõltub sinu olukorrast. Tõstmisel kasvab sinu enda sissemakse, riigi 4 % jääb samaks ja netopalk väheneb. Kui sul on puhver olemas ja kogud nagunii pensioniks, on see mugav automaatne viis. Uus määr hakkab kehtima järgmisest aastast, kui avaldus on esitatud 30. novembriks.' },
+      { cat: 'Strateegiad ja portfellid', topic: 'etf', title: 'Akumuleeriv või jaotav ETF: kumb sobib pikaajaliseks kogumiseks?', answer: 'Akumuleeriv investeerib dividendid automaatselt tagasi, mis on mugav pikaajalisel kogumisel. Jaotav sobib, kui soovid regulaarset rahavoogu. Maksude mõju sõltub sinu kontost, vaata investeerimiskonto teemat.' },
+      { cat: 'Strateegiad ja portfellid', topic: 'hajutamine', title: 'Kas maailma indeksifondist piisab või peaks lisama Balti aktsiaid?', answer: 'Lai maailma indeksifond on juba väga hajutatud. Balti turg on maailma mastaabis väike, nii et paljud hoiavad Balti aktsiaid pigem väikese lisana, kas huvi või dividendide pärast. Oluline on teadlik otsus, mitte kodumaa eelistus.' },
+      { cat: 'Strateegiad ja portfellid', topic: 'tasud', title: 'Kas on mõtet kasutada korraga panka ja investeerimisäppi?', answer: 'Osa investoreid teeb nii: Balti aktsiaid ostavad nad pangas, kus need on tasuta, ja välismaiseid ETF-e äpis, kus tasud on väiksemad. Pea meeles, et iga investeerimiskonto deklareeritakse eraldi.' },
+      { cat: 'Maksud ja deklareerimine', topic: 'ik', title: 'Kas pean igal aastal oma aktsiaid deklareerima?', answer: 'Investeerimiskonto puhul deklareerid sisse- ja väljamaksed. Maks tekib alles siis, kui võtad välja rohkem, kui oled sisse pannud. Tavalise väärtpaberikonto puhul tuleb müügitulu deklareerida müügiaasta kohta.' },
+      { cat: 'Maksud ja deklareerimine', topic: 'dividendid', title: 'Kuidas mõjutab fondi asukohariik dividendimakse?', answer: 'Fondi asukoht määrab, millised dividendimaksud fondi tasandil kinni peetakse. Seepärast valivad paljud Euroopa investorid Iirimaal registreeritud fonde. Täpsus sõltub fondist, vaata põhiteabedokumenti.' },
+      { cat: 'Turg ja uudised', topic: 'risk', title: 'Börs langes täna järsult. Kas peaks midagi tegema?', answer: 'Lühiajalised langused on aktsiaturul tavalised. Pikaajaline investor jääb üldjuhul oma plaani juurde. Küsi endalt, kas sinu ajahorisont või puhver on muutunud. Kui ei ole, siis paanikas müümine lukustab kahjumi.' },
+      { cat: 'Turg ja uudised', topic: 'volakiri', title: 'Mida tähendab, kui pank pakub allutatud võlakirju?', answer: 'Allutatud võlakiri maksab tavaliselt kõrgemat intressi, sest pankroti korral saab selle omanik raha alles pärast teisi võlausaldajaid. Loe enne märkimist prospekti ja mõtle, kui suure osa portfellist sellele annad.' }
     ];
+    var topicTitle = function (id) { return topics[id] ? topics[id].title : 'Üldine'; };
     var qAll = s.userQs.concat(qDefs.map(function (q, i) {
       return Object.assign({ id: 'q' + i, answerLabel: 'Kogenud liikme vastus (näidis)', waiting: false }, q);
-    }));
+    })).map(function (q) {
+      var cat = CATS[q.cat] ? q.cat : 'Algajate küsimused';
+      return Object.assign({}, q, { cat: cat, level: cat, dot: CATS[cat], tag: topicTitle(q.topic) });
+    });
     var questions = qAll.map(function (q) {
       var open = s.openQ === q.id;
       var votes = s.votes[q.id] || 0;
@@ -1268,6 +1388,34 @@ class Component extends DCLogic {
       });
     });
 
+    var compact = function (q) {
+      var n = (s.replies[q.id] || []).length;
+      var total = q.waiting ? n : n + 1;
+      var meta = q.waiting && n === 0 ? 'Ootab kogukonna vastust' : (total + (total === 1 ? ' vastus' : ' vastust'));
+      return { title: q.title, cat: q.cat, dot: q.dot, topicTitle: q.tag, meta: meta, pick: function () { self.go('qa', { openQ: q.id, qaCat: 'Kõik', qaTopic: '' }); } };
+    };
+    var qaCat = s.qaCat || 'Kõik';
+    var qaList = questions.filter(function (q) { return (qaCat === 'Kõik' || q.cat === qaCat) && (!s.qaTopic || q.topic === s.qaTopic); });
+    var qaCatOpts = ['Kõik'].concat(catNames).map(function (c) {
+      var on = c === qaCat;
+      return { label: c, pick: function () { self.setState({ qaCat: c }); }, style: 'min-height: 40px; padding: 0 14px; border-radius: 999px; font-size: 14px; font-weight: 500; ' + (on ? 'background: #14201B; color: #FFFFFF; border: 1px solid #14201B' : 'background: #FFFFFF; color: #2B3A33; border: 1px solid #C9D1CB') };
+    });
+    var topicOpts = topicOrder.map(function (id) { return { id: id, title: topics[id].title }; });
+    var latestQs = qAll.slice(0, 4).map(compact);
+    var topicQs = qAll.filter(function (q) { return q.topic === s.topicId; }).map(compact);
+    var sq = (s.searchQ || '').toLowerCase().trim();
+    var has = function (txt) { return !!sq && String(txt || '').toLowerCase().indexOf(sq) >= 0; };
+    var srTopics = !sq ? [] : topicOrder.filter(function (id) {
+      var t = topics[id];
+      return has(t.title) || has(t.lead) || has(t.levels.algaja.body) || has(t.levels.kesk.body) || has((t.terms || []).join(' '));
+    }).map(function (id) { return { title: topics[id].title, lead: topics[id].lead, pick: function () { self.go('topic', { topicId: id }); } }; });
+    var srTerms = !sq ? [] : glossAll.filter(function (g) { return has(g.term) || has(g.def); }).slice(0, 6);
+    var srQs = !sq ? [] : qAll.filter(function (q) { return has(q.title) || has(q.answer); }).map(compact);
+    var sr = {
+      topics: srTopics, terms: srTerms, qs: srQs,
+      hasTopics: srTopics.length > 0, hasTerms: srTerms.length > 0, hasQs: srQs.length > 0,
+      askTitle: !sq ? 'Kirjuta otsingusse, mida otsid.' : ((srTopics.length + srTerms.length + srQs.length) === 0 ? 'Midagi ei leitud. Küsi julgelt:' : 'Ei leidnud vastust? Küsi:')
+    };
     var assets = this.pfAssets();
     var pfTotal = this.pfTotal(s);
     var invested = pfTotal - s.pfCash;
@@ -1367,25 +1515,41 @@ class Component extends DCLogic {
       pfReset: function () { self.setState(self.pfStart()); },
       myName: s.myName || '',
       setMyName: function (e) { self.setState({ myName: e.target.value }); },
-      newQ: s.newQ || '', newLevel: s.newLevel || 'Algaja',
+      newQ: s.newQ || '', newCat: s.newCat || catNames[0], newTopic: s.newTopic || (s.qaTopic || 'alustamine'),
       setNewQ: function (e) { self.setState({ newQ: e.target.value }); },
-      setNewLevel: function (e) { self.setState({ newLevel: e.target.value }); },
+      setNewCat: function (e) { self.setState({ newCat: e.target.value }); },
+      setNewTopic: function (e) { self.setState({ newTopic: e.target.value }); },
+      catNames: catNames, topicOpts: topicOpts,
       postQ: function () {
         var t = (s.newQ || '').trim();
         if (!t) return;
-        var lvl = s.newLevel || 'Algaja';
-        var dots = { 'Algaja': '#1F8A5B', 'Kesktase': '#C27A00', 'Edasijõudnu': '#B4382F' };
         var id = 'u' + Date.now();
-        var nq = { id: id, asker: (s.myName || '').trim(), level: lvl, dot: dots[lvl], tag: 'Uus küsimus', title: t, answer: 'Küsimus on postitatud. Kogukonna vastused ilmuvad siia.', answerLabel: 'Staatus', waiting: true };
-        self.setState({ userQs: [nq].concat(s.userQs), openQ: id, newQ: '' });
+        var nq = { id: id, asker: (s.myName || '').trim(), cat: s.newCat || catNames[0], topic: s.newTopic || (s.qaTopic || 'alustamine'), title: t, answer: 'Küsimus on postitatud. Kogukonna vastused ilmuvad siia.', answerLabel: 'Staatus', waiting: true };
+        self.setState({ userQs: [nq].concat(s.userQs), openQ: id, newQ: '', qaCat: 'Kõik', qaTopic: '' });
       },
       fbNone: s.fb === 'none', fbThanks: s.fb === 'yes',
       fbYes: function () { self.setState({ fb: 'yes' }); },
       toForum: function () {
         var id = 'u' + Date.now();
-        var nq = { id: id, asker: (s.myName || '').trim(), level: 'Algaja', dot: '#1F8A5B', tag: 'Uus küsimus', title: s.asked, answer: answer.text, answerLabel: 'AI-abilise esimene vastus', waiting: true };
-        self.go('qa', { userQs: [nq].concat(s.userQs), openQ: id, fb: 'none' });
+        var nq = { id: id, asker: (s.myName || '').trim(), cat: 'Algajate küsimused', topic: hit || '', title: s.asked, answer: answer.text, answerLabel: 'AI-abilise esimene vastus', waiting: true };
+        self.go('qa', { userQs: [nq].concat(s.userQs), openQ: id, fb: 'none', qaCat: 'Kõik', qaTopic: '' });
       },
+      qaList: qaList, qaEmpty: qaList.length === 0, qaCatOpts: qaCatOpts, qaTopic: s.qaTopic || '', qaCountLabel: qaList.length + (qaList.length === 1 ? ' küsimus' : ' küsimust'),
+      setQaTopic: function (e) { self.setState({ qaTopic: e.target.value }); },
+      latestQs: latestQs, topicQs: topicQs, topicQsEmpty: topicQs.length === 0,
+      topicDraft: s.topicDraft || '',
+      setTopicDraft: function (e) { self.setState({ topicDraft: e.target.value }); },
+      postTopicQ: function () {
+        var t = (s.topicDraft || '').trim();
+        if (!t) return;
+        var id = 'u' + Date.now();
+        var nq = { id: id, asker: (s.myName || '').trim(), cat: 'Algajate küsimused', topic: s.topicId, title: t, answer: 'Küsimus on postitatud. Kogukonna vastused ilmuvad siia.', answerLabel: 'Staatus', waiting: true };
+        self.setState({ userQs: [nq].concat(s.userQs), topicDraft: '' });
+      },
+      isSearch: s.screen === 'search', searchQ: s.searchQ || '', sr: sr,
+      setSearchQ: function (e) { self.setState({ searchQ: e.target.value }); },
+      searchAskAi: function () { self.ask(s.searchQ); },
+      searchAskForum: function () { self.go('qa', { newQ: s.searchQ || '' }); },
       goFees: function () { self.go('fees'); },
       feeRows: feeRows, tradeOpts: tradeOpts, assetOpts: assetOpts,
       feeMonthly: s.feeMonthly,
@@ -1407,8 +1571,8 @@ class Component extends DCLogic {
       goCalc: function () { self.go('calc'); },
       homeQ: s.homeQ,
       setHomeQ: function (e) { self.setState({ homeQ: e.target.value }); },
-      homeKey: function (e) { if (e.key === 'Enter') self.ask(s.homeQ); },
-      askHome: function () { self.ask(s.homeQ); },
+      homeKey: function (e) { if (e.key === 'Enter') self.go('search', { searchQ: s.homeQ || '', homeQ: '' }); },
+      askHome: function () { self.go('search', { searchQ: s.homeQ || '', homeQ: '' }); },
       chips: chips, doors: doors, steps: steps,
       levelTabs: levelTabs, topicCards: topicCards,
       topic: topic, topicLevel: topicLevel, tx: topicExtra,
