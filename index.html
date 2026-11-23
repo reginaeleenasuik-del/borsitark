@@ -56,9 +56,9 @@ h1,h2{overflow-wrap:anywhere}
 <span style="font-size: 16px; color: #DDEFE7">10 lühikest sammu, igaüks paar minutit. Alustad kõige lihtsamast.</span>
 <span style="font-size: 14px; color: #DDEFE7; font-weight: 600">{{ progressLabel }}</span>
 </button>
-<button onClick="{{ goQa }}" style="text-align: left; border: 1.5px solid #14201B; border-radius: 16px; padding: 24px; background: #FFFFFF; color: #14201B; display: flex; flex-direction: column; gap: 8px; min-height: 150px">
+<button onClick="{{ goInvest }}" style="text-align: left; border: 1.5px solid #14201B; border-radius: 16px; padding: 24px; background: #FFFFFF; color: #14201B; display: flex; flex-direction: column; gap: 8px; min-height: 150px">
 <span style="font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700">Investeerin juba →</span>
-<span style="font-size: 16px; color: #4B5A53">Arutelud, strateegiad, maksud ja turuteemad koos teiste investoritega.</span>
+<span style="font-size: 16px; color: #4B5A53">Turuhinnad, süvateemad, maksud ja arutelud teiste investoritega.</span>
 </button>
 </div>
 </section>
@@ -288,6 +288,67 @@ h1,h2{overflow-wrap:anywhere}
 <button onClick="{{ searchAskForum }}" style="min-height: 44px; padding: 0 18px; border: 1px solid #C9D1CB; border-radius: 10px; background: #FFFFFF; color: #14201B; font-size: 15px">Küsi kogukonnalt</button>
 </div>
 </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isInvest }}" hint-placeholder-val="{{ false }}">
+<h1 style="margin: 0 0 8px; font-family: 'Space Grotesk', sans-serif; font-size: 36px">Turud ja investeerimisinfo</h1>
+<p style="margin: 0 0 20px; color: #4B5A53; max-width: 720px">Turuhinnad, süvateemad ja arutelud kogenumale investorile ühes kohas.</p>
+
+<div data-keep="" data-tv="ticker" style="min-height: 46px; margin-bottom: 20px; background: #FFFFFF; border: 1px solid #E2E6E1; border-radius: 12px; overflow: hidden"></div>
+
+<section style="background: #FFFFFF; border: 1px solid #E2E6E1; border-radius: 16px; padding: 24px">
+<h2 style="margin: 0 0 4px; font-family: 'Space Grotesk', sans-serif; font-size: 22px">Turud täna</h2>
+<p style="margin: 0 0 14px; font-size: 14px; color: #4B5A53">Maailma indeksid, Tallinna börsi aktsiad, valuuta ja toorained. Andmed: TradingView, võivad olla viivitusega. See on info, mitte investeerimissoovitus.</p>
+<div data-keep="" data-tv="overview" style="min-height: 560px"></div>
+</section>
+
+<div style="display: flex; flex-wrap: wrap; gap: 24px; margin-top: 28px">
+<section style="flex: 999 1 520px; min-width: 0">
+<h2 style="margin: 0 0 12px; font-family: 'Space Grotesk', sans-serif; font-size: 22px">Süvateemad</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 10px">
+<sc-for list="{{ deepTopics }}" as="d" hint-placeholder-count="6">
+<button onClick="{{ d.pick }}" style="text-align: left; padding: 16px 18px; border: 1px solid #E2E6E1; border-radius: 12px; background: #FFFFFF; color: #14201B; display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 16px; font-weight: 600">{{ d.title }}</span>
+<span style="font-size: 14px; color: #4B5A53">{{ d.text }}</span>
+</button>
+</sc-for>
+</div>
+
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin: 28px 0 12px">
+<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 22px">Arutelud kogenumatele</h2>
+<button onClick="{{ goQa }}" style="background: none; border: 0; padding: 0; min-height: 40px; color: #0B5C43; font-size: 15px; font-weight: 600">Kogukonda →</button>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<sc-for list="{{ advancedQs }}" as="l" hint-placeholder-count="4">
+<button onClick="{{ l.pick }}" style="text-align: left; padding: 14px 18px; border: 1px solid #E2E6E1; border-radius: 12px; background: #FFFFFF; color: #14201B; display: flex; flex-direction: column; gap: 4px">
+<span style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: #2B3A33"><span style="width: 9px; height: 9px; border-radius: 999px; background: {{ l.dot }}"></span>{{ l.cat }}</span>
+<span style="font-size: 16px; font-weight: 600">{{ l.title }}</span>
+<span style="font-size: 13px; color: #4B5A53">{{ l.meta }}</span>
+</button>
+</sc-for>
+</div>
+</section>
+
+<aside style="flex: 1 1 280px; display: flex; flex-direction: column; gap: 16px">
+<div style="background: #FFFFFF; border: 1px solid #E2E6E1; border-radius: 16px; padding: 22px">
+<h2 style="margin: 0 0 12px; font-family: 'Space Grotesk', sans-serif; font-size: 20px">Kasulikud allikad</h2>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px">
+<sc-for list="{{ infoLinks }}" as="k" hint-placeholder-count="6">
+<li style="display: flex; flex-direction: column; gap: 2px">
+<a href="{{ k.url }}" target="_blank" rel="noopener" style="font-size: 15px; font-weight: 600">{{ k.label }}</a>
+<span style="font-size: 13px; color: #4B5A53">{{ k.text }}</span>
+</li>
+</sc-for>
+</ul>
+</div>
+<div style="background: #FFFFFF; border: 1px solid #E2E6E1; border-radius: 16px; padding: 22px; display: flex; flex-direction: column; gap: 10px">
+<h2 style="margin: 0 0 2px; font-family: 'Space Grotesk', sans-serif; font-size: 20px">Tööriistad</h2>
+<sc-for list="{{ tools }}" as="t" hint-placeholder-count="3">
+<button onClick="{{ t.pick }}" style="text-align: left; background: #FBFCFA; border: 1px solid #E2E6E1; border-radius: 10px; padding: 12px 14px; font-size: 15px; font-weight: 600; color: #14201B">{{ t.title }}</button>
+</sc-for>
+</div>
+</aside>
 </div>
 </sc-if>
 
@@ -767,6 +828,7 @@ h1,h2{overflow-wrap:anywhere}
     setVal(oldEl);
   }
   function morphChildren(oldP, newP) {
+    if (oldP.nodeType === 1 && oldP.hasAttribute && oldP.hasAttribute('data-keep')) return;
     var olds = Array.prototype.slice.call(oldP.childNodes);
     var news = Array.prototype.slice.call(newP.childNodes);
     for (var i = 0; i < news.length; i++) {
@@ -801,6 +863,7 @@ h1,h2{overflow-wrap:anywhere}
       src.childNodes.forEach(function (c) { build(c, scope, out); });
       out.forEach(function (n) { holder.appendChild(n); });
       morphChildren(root, holder);
+      if (opts.afterRender) { try { opts.afterRender(root); } catch (e) {} }
       if (opts.save) { try { opts.save(inst.state); } catch (e) {} }
     };
     ['click', 'input', 'change', 'keydown'].forEach(function (type) {
@@ -993,7 +1056,7 @@ class Component extends DCLogic {
   }
   go(screen, extra) {
     var ex = Object.assign({}, extra || {});
-    if (screen === 'topic') { ex.depth = 0; ex.extrasOpen = false; }
+    if (screen === 'topic') { if (ex.depth === undefined) ex.depth = 0; ex.extrasOpen = false; }
     this.setState(Object.assign({ screen: screen }, ex));
     try { window.scrollTo(0, 0); } catch (e) {}
   }
@@ -1013,7 +1076,7 @@ class Component extends DCLogic {
       { id: 'kesk', label: 'Kesktase', dot: '#C27A00' },
       { id: 'edasi', label: 'Edasijõudnu', dot: '#B4382F' }
     ];
-    var navDefs = [['topics', 'Õpi'], ['qa', 'Kogukond'], ['tools', 'Tööriistad'], ['glossary', 'Sõnastik']];
+    var navDefs = [['topics', 'Õpi'], ['invest', 'Turud'], ['qa', 'Kogukond'], ['tools', 'Tööriistad'], ['glossary', 'Sõnastik']];
     var activeMap = { topic: 'topics', calc: 'tools', fees: 'tools', pf: 'tools', ai: 'qa' };
     var active = activeMap[s.screen] || s.screen;
     var nav = navDefs.map(function (d) {
@@ -1416,6 +1479,24 @@ class Component extends DCLogic {
       hasTopics: srTopics.length > 0, hasTerms: srTerms.length > 0, hasQs: srQs.length > 0,
       askTitle: !sq ? 'Kirjuta otsingusse, mida otsid.' : ((srTopics.length + srTerms.length + srQs.length) === 0 ? 'Midagi ei leitud. Küsi julgelt:' : 'Ei leidnud vastust? Küsi:')
     };
+    var deepDefs = [
+      ['etf', 'ETF-id süvitsi', 'Replikatsioon, jälgimisviga ja fondi asukoht.'],
+      ['ik', 'Investeerimiskonto ja maksud', 'Kuidas maks tekib ja mida deklareerida.'],
+      ['dividendid', 'Dividendid ja maksustamine', 'Eesti ja välismaised dividendid, W-8BEN.'],
+      ['hajutamine', 'Hajutamine ja rebalansseerimine', 'Korrelatsioon ja portfelli tasakaal.'],
+      ['volakiri', 'Võlakirjad ja intressirisk', 'Kestus, tootlus lunastamiseni, allutatud võlakirjad.'],
+      ['sammas', 'II ja III sammas, PIK', 'Fondivalik, PIK ja väljamaksete maksustamine.']
+    ];
+    var deepTopics = deepDefs.map(function (d) { return { title: d[1], text: d[2], pick: function () { self.go('topic', { topicId: d[0], depth: 2 }); } }; });
+    var advancedQs = qAll.filter(function (q) { return q.cat !== 'Algajate küsimused'; }).slice(0, 4).map(compact);
+    var infoLinks = [
+      { label: 'Nasdaq Baltic', url: 'https://nasdaqbaltic.com/', text: 'Balti börsi ametlik leht: börsiteated, statistika, ettevõtted.' },
+      { label: 'LHV finantsportaal', url: 'https://fp.lhv.ee/', text: 'Börsiuudised ja aktiivne investorite foorum.' },
+      { label: 'Äripäev', url: 'https://www.aripaev.ee/', text: 'Majandus- ja ettevõtlusuudised.' },
+      { label: 'Minuraha', url: 'https://minuraha.ee/', text: 'Finantsinspektsiooni rahatarkuse portaal.' },
+      { label: 'MTA: väärtpaberid ja investeerimiskonto', url: 'https://emta.ee/eraklient/maksud-ja-tasumine/maksustatavad-tulud/vaartpaberid-ja-investeerimiskonto', text: 'Ametlikud maksureeglid investorile.' },
+      { label: 'Pensionikeskus', url: 'https://www.pensionikeskus.ee/', text: 'II ja III samba fondid, tasud ja avaldused.' }
+    ];
     var assets = this.pfAssets();
     var pfTotal = this.pfTotal(s);
     var invested = pfTotal - s.pfCash;
@@ -1580,6 +1661,8 @@ class Component extends DCLogic {
       startPath: function () { self.go('topic', { topicId: firstOpen }); },
       tools: toolCards, isTools: s.screen === 'tools',
       goTools: function () { self.go('tools'); },
+      isInvest: s.screen === 'invest', goInvest: function () { self.go('invest'); },
+      deepTopics: deepTopics, advancedQs: advancedQs, infoLinks: infoLinks,
       goAi: function () { self.go('ai'); },
       askTopic: function () { self.ask(topic.title); },
       glossQ: s.glossQ, glossary: glossary, glossCatOpts: glossCatOpts, glossCount: glossAll.length, glossEmpty: glossary.length === 0,
@@ -1606,7 +1689,47 @@ class Component extends DCLogic {
   var KEY = 'borsitark-v1';
   var KEEP = ["pfCash", "pfUnits", "pfPrices", "pfMoves", "pfMonth", "pfHist", "pfAmt", "pfLog", "userQs", "replies", "votes", "best", "quiz", "myName"];
   window.addEventListener('DOMContentLoaded', function () {
+    var TV = {
+      ticker: { src: 'embed-widget-ticker-tape.js', cfg: { symbols: [
+        { proName: 'FOREXCOM:SPXUSD', title: 'S&P 500' }, { proName: 'FOREXCOM:NSXUSD', title: 'Nasdaq 100' },
+        { proName: 'INDEX:DEU40', title: 'DAX' }, { proName: 'FX_IDC:EURUSD', title: 'EUR/USD' },
+        { proName: 'TVC:GOLD', title: 'Kuld' }, { proName: 'BITSTAMP:BTCUSD', title: 'Bitcoin' }
+      ], showSymbolLogo: true, isTransparent: true, displayMode: 'adaptive', colorTheme: 'light', locale: 'en' } },
+      overview: { src: 'embed-widget-market-overview.js', cfg: {
+        colorTheme: 'light', dateRange: '12M', showChart: true, locale: 'en', width: '100%', height: 550,
+        largeChartUrl: '', isTransparent: true, showSymbolLogo: true, showFloatingTooltip: true,
+        tabs: [
+          { title: 'Indeksid', symbols: [
+            { s: 'FOREXCOM:SPXUSD', d: 'S&P 500' }, { s: 'FOREXCOM:NSXUSD', d: 'Nasdaq 100' },
+            { s: 'FOREXCOM:DJI', d: 'Dow Jones 30' }, { s: 'INDEX:DEU40', d: 'DAX (Saksamaa)' }, { s: 'INDEX:NKY', d: 'Nikkei 225 (Jaapan)' } ] },
+          { title: 'Tallinna börs', symbols: [
+            { s: 'OMXTSE:LHV1T', d: 'LHV Group' }, { s: 'OMXTSE:TAL1T', d: 'Tallink Grupp' },
+            { s: 'OMXTSE:TKM1T', d: 'Tallinna Kaubamaja' }, { s: 'OMXTSE:TVE1T', d: 'Tallinna Vesi' },
+            { s: 'OMXTSE:MRK1T', d: 'Merko Ehitus' }, { s: 'OMXTSE:HAE1T', d: 'Harju Elekter' }, { s: 'OMXTSE:CPA1T', d: 'Coop Pank' } ] },
+          { title: 'Valuuta ja toorained', symbols: [
+            { s: 'FX_IDC:EURUSD', d: 'EUR/USD' }, { s: 'FX_IDC:EURGBP', d: 'EUR/GBP' },
+            { s: 'TVC:GOLD', d: 'Kuld' }, { s: 'TVC:UKOIL', d: 'Brent nafta' } ] }
+        ] } }
+    };
+    function mountWidgets(root) {
+      var slots = root.querySelectorAll('[data-tv]');
+      for (var i = 0; i < slots.length; i++) {
+        var slot = slots[i], def = TV[slot.getAttribute('data-tv')];
+        if (!def || slot.childNodes.length) continue;
+        var box = document.createElement('div'); box.className = 'tradingview-widget-container';
+        var inner = document.createElement('div'); inner.className = 'tradingview-widget-container__widget';
+        var copy = document.createElement('div'); copy.className = 'tradingview-widget-copyright';
+        copy.style.cssText = 'font-size:12px;padding:4px 8px;color:#4B5A53';
+        copy.innerHTML = '<a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank">Andmed: TradingView</a>';
+        var sc = document.createElement('script');
+        sc.src = 'https://s3.tradingview.com/external-embedding/' + def.src; sc.async = true;
+        sc.text = JSON.stringify(def.cfg);
+        box.appendChild(inner); box.appendChild(copy); box.appendChild(sc);
+        slot.appendChild(box);
+      }
+    }
     mountDC(Component, document.getElementById('app'), document.getElementById('tpl'), {
+      afterRender: mountWidgets,
       load: function () { var raw = localStorage.getItem(KEY); return raw ? JSON.parse(raw) : {}; },
       save: function (st) { var o = {}; KEEP.forEach(function (k) { if (st[k] !== undefined) o[k] = st[k]; }); localStorage.setItem(KEY, JSON.stringify(o)); }
     });
