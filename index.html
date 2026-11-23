@@ -63,6 +63,51 @@ h1,h2{overflow-wrap:anywhere}
 </div>
 </section>
 
+<section style="margin-top: 24px; background: #FFFFFF; border: 2px solid #0E6B4F; border-radius: 20px; padding: 28px 32px; display: flex; flex-direction: column; gap: 14px">
+<p style="margin: 0; font-size: 13px; font-weight: 700; color: #0B4D39; text-transform: uppercase; letter-spacing: 0.04em">Nädala küsimus</p>
+<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 28px; line-height: 1.2">{{ weekly.q }}</h2>
+<p style="margin: 0; font-size: 17px; color: #22302A; max-width: 760px">{{ weekly.short }}</p>
+<div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end">
+<div style="flex: 1 1 260px">
+<label for="wqa" style="display: flex; justify-content: space-between; font-size: 15px; font-weight: 600"><span>Investeerin kuus</span><span>{{ fq.amtLabel }}</span></label>
+<input id="wqa" type="range" min="25" max="1000" step="25" value="{{ fq.amt }}" onChange="{{ fqSetAmt }}" style="width: 100%; accent-color: #0E6B4F; min-height: 32px">
+</div>
+<div role="group" aria-label="Kus investeerid" style="display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{ fq.platOpts }}" as="o" hint-placeholder-count="4">
+<button onClick="{{ o.pick }}" style="{{ o.style }}">{{ o.label }}</button>
+</sc-for>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px">
+<sc-for list="{{ fq.rows }}" as="r" hint-placeholder-count="3">
+<div style="{{ r.cardStyle }}">
+<span style="font-size: 15px; font-weight: 600">{{ r.label }}</span>
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700">{{ r.cost }}</span>
+<span style="font-size: 13px; color: #4B5A53">ostutasud aastas · {{ r.pct }} rahast</span>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center">
+<button onClick="{{ weekly.open }}" style="min-height: 48px; padding: 0 20px; border: 0; border-radius: 12px; background: {{ accent }}; color: #FFFFFF; font-size: 16px; font-weight: 600">Loe, miks see nii on →</button>
+<button onClick="{{ goFees }}" style="min-height: 48px; padding: 0 18px; border: 1px solid #C9D1CB; border-radius: 12px; background: #FFFFFF; color: #14201B; font-size: 15px">Kõik tasud võrdluses</button>
+</div>
+</section>
+
+<section style="margin-top: 32px">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 12px">
+<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 24px">Rahaküsimused</h2>
+<button onClick="{{ goMoney }}" style="background: none; border: 0; padding: 0; min-height: 40px; color: #0B5C43; font-size: 15px; font-weight: 600">Kõik küsimused →</button>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px">
+<sc-for list="{{ mqHome }}" as="m" hint-placeholder-count="4">
+<button onClick="{{ m.pick }}" style="text-align: left; padding: 16px 18px; border: 1px solid #E2E6E1; border-radius: 12px; background: #FFFFFF; color: #14201B; display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 16px; font-weight: 600">{{ m.q }}</span>
+<span style="font-size: 13px; color: #0B5C43; font-weight: 600">Arvuta enda jaoks →</span>
+</button>
+</sc-for>
+</div>
+</section>
+
 <div style="margin-top: 28px; display: flex; flex-wrap: wrap; gap: 10px">
 <label for="homeq" style="position: absolute; left: -9999px">Otsi teemadest, sõnastikust ja aruteludest</label>
 <input id="homeq" value="{{ homeQ }}" onChange="{{ setHomeQ }}" onKeyDown="{{ homeKey }}" placeholder="Otsi või küsi, nt dividend, II sammas, ETF" style="flex: 1 1 260px; min-height: 52px; padding: 0 18px; font-size: 17px; border: 1.5px solid #C9D1CB; border-radius: 12px; background: #FFFFFF; color: #14201B">
@@ -72,9 +117,10 @@ h1,h2{overflow-wrap:anywhere}
 <div style="display: flex; flex-wrap: wrap; gap: 24px; margin-top: 36px">
 <section style="flex: 999 1 520px; min-width: 0">
 <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 12px">
-<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 24px">Viimati kogukonnas</h2>
+<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 24px">Kogukonnas <span style="display: inline-block; vertical-align: middle; margin-left: 6px; padding: 3px 10px; border-radius: 999px; background: #FFF4E0; color: #5C3B00; font-family: Inter, sans-serif; font-size: 12px; font-weight: 600">Näidisarutelud</span></h2>
 <button onClick="{{ goQa }}" style="background: none; border: 0; padding: 0; min-height: 40px; color: #0B5C43; font-size: 15px; font-weight: 600">Kõik arutelud →</button>
 </div>
+<p style="margin: 0 0 10px; font-size: 14px; color: #4B5A53">Kogukond avaneb peagi. Praegu näed näidisküsimusi, mis näitavad, millest siin räägitakse.</p>
 <div style="display: flex; flex-direction: column; gap: 8px">
 <sc-for list="{{ latestQs }}" as="l" hint-placeholder-count="4">
 <button onClick="{{ l.pick }}" style="text-align: left; padding: 14px 18px; border: 1px solid #E2E6E1; border-radius: 12px; background: #FFFFFF; color: #14201B; display: flex; flex-direction: column; gap: 4px">
@@ -162,6 +208,10 @@ h1,h2{overflow-wrap:anywhere}
 </div>
 <sc-if value="{{ tx.quizDone }}" hint-placeholder-val="{{ false }}">
 <p style="margin: 12px 0 0; font-size: 15px; color: #22302A">{{ tx.quizResult }}</p>
+<div style="margin-top: 14px; padding: 14px 16px; border-radius: 10px; background: #FFFFFF; border: 1.5px solid #0E6B4F; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px">
+<span style="font-size: 15px; font-weight: 600">Järgmine praktiline samm: {{ tx.tryText }}</span>
+<button onClick="{{ tx.tryOpen }}" style="min-height: 44px; padding: 0 16px; border: 0; border-radius: 10px; background: {{ accent }}; color: #FFFFFF; font-size: 15px; font-weight: 600">{{ tx.tryLabel }}</button>
+</div>
 </sc-if>
 </div>
 </sc-if>
@@ -352,6 +402,126 @@ h1,h2{overflow-wrap:anywhere}
 </div>
 </sc-if>
 
+<sc-if value="{{ isMoney }}" hint-placeholder-val="{{ false }}">
+<h1 style="margin: 0 0 8px; font-family: 'Space Grotesk', sans-serif; font-size: 36px">Rahaküsimused</h1>
+<p style="margin: 0 0 24px; color: #4B5A53; max-width: 680px">Küsimused, mida inimesed päriselt küsivad. Igaühel on lühike vastus ja tööriist, millega saad oma olukorra läbi arvutada.</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px">
+<sc-for list="{{ mqCards }}" as="m" hint-placeholder-count="6">
+<button onClick="{{ m.pick }}" style="{{ m.style }}">
+<span style="font-size: 12px; font-weight: 700; color: {{ m.tagColor }}; text-transform: uppercase; letter-spacing: 0.04em">{{ m.tag }}</span>
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600; color: #14201B">{{ m.q }}</span>
+<span style="font-size: 15px; color: #4B5A53">{{ m.short }}</span>
+</button>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ isMq }}" hint-placeholder-val="{{ false }}">
+<div style="max-width: 820px; margin: 0 auto">
+<button onClick="{{ goMoney }}" style="background: none; border: 0; padding: 0; min-height: 44px; color: {{ accent }}; font-size: 15px; font-weight: 500">← Kõik rahaküsimused</button>
+<h1 style="margin: 0 0 14px; font-family: 'Space Grotesk', sans-serif; font-size: 34px; line-height: 1.15">{{ mq.q }}</h1>
+<div style="padding: 18px 20px; border-radius: 12px; background: #E9F3EE; margin-bottom: 18px">
+<p style="margin: 0 0 4px; font-size: 13px; font-weight: 700; color: #0B4D39; text-transform: uppercase; letter-spacing: 0.04em">Lühike vastus</p>
+<p style="margin: 0; font-size: 18px; color: #14201B">{{ mq.short }}</p>
+</div>
+
+<section style="background: #FFFFFF; border: 1px solid #E2E6E1; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 16px">
+<p style="margin: 0; font-size: 13px; font-weight: 700; color: #0B4D39; text-transform: uppercase; letter-spacing: 0.04em">Arvuta enda jaoks</p>
+
+<sc-if value="{{ mq.isFreq }}" hint-placeholder-val="{{ false }}">
+<div>
+<label for="fqa" style="display: flex; justify-content: space-between; font-size: 15px; font-weight: 600"><span>Investeerin kuus</span><span>{{ fq.amtLabel }}</span></label>
+<input id="fqa" type="range" min="25" max="1000" step="25" value="{{ fq.amt }}" onChange="{{ fqSetAmt }}" style="width: 100%; accent-color: #0E6B4F; min-height: 32px">
+</div>
+<div role="group" aria-label="Kus investeerid" style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{ fq.platOpts }}" as="o" hint-placeholder-count="4">
+<button onClick="{{ o.pick }}" style="{{ o.style }}">{{ o.label }}</button>
+</sc-for>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<sc-for list="{{ fq.rows }}" as="r" hint-placeholder-count="3">
+<div style="{{ r.style }}">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 16px; font-weight: 600">{{ r.label }}</span>
+<span style="font-size: 13px; color: #4B5A53">{{ r.detail }}</span>
+</div>
+<div style="text-align: right">
+<span style="display: block; font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700">{{ r.cost }}</span>
+<span style="display: block; font-size: 13px; color: #4B5A53">ostutasud aastas · {{ r.pct }}</span>
+</div>
+</div>
+</sc-for>
+</div>
+<p style="margin: 0; font-size: 14px; color: #4B5A53">{{ fq.note }}</p>
+</sc-if>
+
+<sc-if value="{{ mq.isPillar }}" hint-placeholder-val="{{ false }}">
+<div>
+<label for="plg" style="display: flex; justify-content: space-between; font-size: 15px; font-weight: 600"><span>Brutopalk kuus</span><span>{{ pl.grossLabel }}</span></label>
+<input id="plg" type="range" min="900" max="6000" step="50" value="{{ pl.gross }}" onChange="{{ plSetGross }}" style="width: 100%; accent-color: #0E6B4F; min-height: 32px">
+</div>
+<div>
+<label for="ply" style="display: flex; justify-content: space-between; font-size: 15px; font-weight: 600"><span>Aastaid pensionini</span><span>{{ pl.years }}</span></label>
+<input id="ply" type="range" min="1" max="45" step="1" value="{{ pl.years }}" onChange="{{ plSetYears }}" style="width: 100%; accent-color: #0E6B4F; min-height: 32px">
+</div>
+<div role="group" aria-label="Sinu makse määr" style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{ pl.rateOpts }}" as="o" hint-placeholder-count="3">
+<button onClick="{{ o.pick }}" style="{{ o.style }}">{{ o.label }}</button>
+</sc-for>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px">
+<div style="padding: 16px; border-radius: 12px; background: #F2F5F1"><p style="margin: 0; font-size: 14px; color: #4B5A53">Sambasse läheb kuus</p><p style="margin: 4px 0 0; font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700">{{ pl.monthly }}</p><p style="margin: 2px 0 0; font-size: 13px; color: #4B5A53">{{ pl.monthlyDetail }}</p></div>
+<div style="padding: 16px; border-radius: 12px; background: #F2F5F1"><p style="margin: 0; font-size: 14px; color: #4B5A53">Netopalk muutub 2 %-ga võrreldes</p><p style="margin: 4px 0 0; font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700">{{ pl.netDiff }}</p><p style="margin: 2px 0 0; font-size: 13px; color: #4B5A53">{{ pl.netDetail }}</p></div>
+<div style="padding: 16px; border-radius: 12px; background: #14201B; color: #FFFFFF"><p style="margin: 0; font-size: 14px; color: #C9D8D0">Kogud pensionieaks umbes</p><p style="margin: 4px 0 0; font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700">{{ pl.total }}</p><p style="margin: 2px 0 0; font-size: 13px; color: #C9D8D0">{{ pl.totalDetail }}</p></div>
+</div>
+<p style="margin: 0; font-size: 14px; color: #4B5A53">Arvutus eeldab 5 % aastast tootlust pärast tasusid ja sama palka kogu perioodi jooksul. Netopalga arvestus kasutab 2026. aasta reegleid: tulumaks 22 %, maksuvaba tulu 700 € kuus, töötuskindlustusmakse 1,6 %. II samba makse arvatakse enne tulumaksu maha.</p>
+</sc-if>
+
+<sc-if value="{{ mq.isFx }}" hint-placeholder-val="{{ false }}">
+<div>
+<label for="fxi" style="display: flex; justify-content: space-between; font-size: 15px; font-weight: 600"><span>USA börs muutus (dollarites)</span><span>{{ fx.idxLabel }}</span></label>
+<input id="fxi" type="range" min="-20" max="30" step="1" value="{{ fx.idx }}" onChange="{{ fxSetIdx }}" style="width: 100%; accent-color: #0E6B4F; min-height: 32px">
+</div>
+<div>
+<label for="fxf" style="display: flex; justify-content: space-between; font-size: 15px; font-weight: 600"><span>Euro muutus dollari suhtes</span><span>{{ fx.fxLabel }}</span></label>
+<input id="fxf" type="range" min="-15" max="15" step="1" value="{{ fx.fx }}" onChange="{{ fxSetFx }}" style="width: 100%; accent-color: #0E6B4F; min-height: 32px">
+</div>
+<div style="padding: 18px 20px; border-radius: 12px; background: #14201B; color: #FFFFFF">
+<p style="margin: 0; font-size: 14px; color: #C9D8D0">Sinu USA aktsiate ETF eurodes</p>
+<p style="margin: 4px 0 0; font-family: 'Space Grotesk', sans-serif; font-size: 30px; font-weight: 700">{{ fx.resLabel }}</p>
+</div>
+<p style="margin: 0; font-size: 15px; color: #22302A">{{ fx.explain }}</p>
+</sc-if>
+
+<sc-if value="{{ mq.isAcc }}" hint-placeholder-val="{{ false }}">
+<div>
+<label for="aca" style="display: flex; justify-content: space-between; font-size: 15px; font-weight: 600"><span>Investeerisid kokku</span><span>{{ ac.amtLabel }}</span></label>
+<input id="aca" type="range" min="500" max="50000" step="500" value="{{ ac.amt }}" onChange="{{ acSetAmt }}" style="width: 100%; accent-color: #0E6B4F; min-height: 32px">
+</div>
+<div>
+<label for="acg" style="display: flex; justify-content: space-between; font-size: 15px; font-weight: 600"><span>Väärtus on kasvanud</span><span>{{ ac.gainLabel }}</span></label>
+<input id="acg" type="range" min="0" max="200" step="5" value="{{ ac.gain }}" onChange="{{ acSetGain }}" style="width: 100%; accent-color: #0E6B4F; min-height: 32px">
+</div>
+<p style="margin: 0; font-size: 15px; font-weight: 600">Müüd kogu portfelli ja ostad raha eest kohe uue fondi. Kui palju makse tuleb kohe maksta?</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px">
+<div style="padding: 16px; border-radius: 12px; background: #FBEAE8"><p style="margin: 0; font-size: 14px; color: #7A211C">Tavaline väärtpaberikonto</p><p style="margin: 4px 0 0; font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700; color: #7A211C">{{ ac.taxNow }}</p><p style="margin: 2px 0 0; font-size: 13px; color: #7A211C">22 % kasumist tuleb deklareerida müügiaasta eest</p></div>
+<div style="padding: 16px; border-radius: 12px; background: #E9F3EE"><p style="margin: 0; font-size: 14px; color: #0B4D39">Investeerimiskonto</p><p style="margin: 4px 0 0; font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700; color: #0B4D39">0 €</p><p style="margin: 2px 0 0; font-size: 13px; color: #0B4D39">maks lükkub edasi, kogu {{ ac.valueLabel }} jääb tööle</p></div>
+</div>
+<p style="margin: 0; font-size: 14px; color: #4B5A53">Lõpuks raha välja võttes maksad mõlemal juhul tulumaksu kasumilt. Investeerimiskonto eelis on see, et vahepeal saad investeeringuid vahetada ilma, et osa rahast maksudeks ära läheks. Lihtsustatud näide, kontrolli kehtivaid reegleid MTA-st.</p>
+</sc-if>
+</section>
+
+<section style="margin-top: 18px; background: #FFFFFF; border: 1px solid #E2E6E1; border-radius: 16px; padding: 24px">
+<h2 style="margin: 0 0 10px; font-family: 'Space Grotesk', sans-serif; font-size: 22px">Miks see nii on</h2>
+<p style="margin: 0; font-size: 16px; white-space: pre-line; color: #22302A">{{ mq.why }}</p>
+<div style="margin-top: 16px; display: flex; flex-wrap: wrap; gap: 10px">
+<button onClick="{{ mq.openTopic }}" style="min-height: 44px; padding: 0 16px; border: 1px solid #0E6B4F; border-radius: 10px; background: #FFFFFF; color: #0B5C43; font-size: 15px; font-weight: 600">{{ mq.topicLabel }}</button>
+<button onClick="{{ goQa }}" style="min-height: 44px; padding: 0 16px; border: 1px solid #C9D1CB; border-radius: 10px; background: #FFFFFF; color: #14201B; font-size: 15px">Arutle kogukonnas</button>
+</div>
+</section>
+</div>
+</sc-if>
+
 <sc-if value="{{ isTools }}" hint-placeholder-val="{{ false }}">
 <h1 style="margin: 0 0 8px; font-family: 'Space Grotesk', sans-serif; font-size: 36px">Tööriistad</h1>
 <p style="margin: 0 0 24px; color: #4B5A53; max-width: 640px">Arvuta, võrdle ja proovi järele ilma päris rahata.</p>
@@ -533,6 +703,7 @@ h1,h2{overflow-wrap:anywhere}
 <button onClick="{{ goTools }}" style="background: none; border: 0; padding: 0; min-height: 44px; color: {{ accent }}; font-size: 15px; font-weight: 500">← Tööriistad</button>
 <h1 style="margin: 0 0 8px; font-family: 'Space Grotesk', sans-serif; font-size: 36px">Tasude võrdlus</h1>
 <p style="margin: 0 0 24px; color: #4B5A53; max-width: 720px">Vali, mida ostad, kui palju ja kui tihti. Näed, kui palju Eesti levinumad investeerimiskohad sulle aastas tehingutasudena maksma lähevad.</p>
+<div style="margin: 0 0 12px; padding: 14px 18px; border-radius: 12px; background: #E9F3EE; color: #0B4D39; font-size: 16px; font-weight: 600; max-width: 820px">Võrdlus näitab ainult ostutehingute tasusid. Valuutavahetus, müügitasud ja fondi haldustasu tulevad neile lisaks.</div>
 <div style="margin: 0 0 24px; padding: 14px 18px; border-radius: 12px; background: #FFF4E0; color: #5C3B00; font-size: 14px; max-width: 820px">Tasud on kogutud pankade ja platvormide hinnakirjadest 23.11.2026, internetipanga või äpi hinnad tavakontol. Hinnakirjad muutuvad, kontrolli enne otsustamist allikast.</div>
 <div style="display: flex; flex-wrap: wrap; gap: 24px">
 <section style="flex: 1 1 320px; background: #FFFFFF; border: 1px solid #E2E6E1; border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 22px; align-self: flex-start">
@@ -570,7 +741,7 @@ h1,h2{overflow-wrap:anywhere}
 <div style="display: flex; gap: 20px; text-align: right">
 <div>
 <span style="display: block; font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700">{{ f.costLabel }}</span>
-<span style="display: block; font-size: 13px; color: #4B5A53">tasud aastas</span>
+<span style="display: block; font-size: 13px; color: #4B5A53">ostutasud aastas</span>
 </div>
 <div>
 <span style="{{ f.shareStyle }}">{{ f.shareLabel }}</span>
@@ -727,6 +898,7 @@ h1,h2{overflow-wrap:anywhere}
 <footer style="border-top: 1px solid #E2E6E1; background: #FFFFFF">
 <div style="max-width: 1120px; margin: 0 auto; padding: 24px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; font-size: 14px; color: #4B5A53">
 <span>Börsitark õpetab ja selgitab, kuid ei anna investeerimissoovitusi.</span>
+<button onClick="{{ goGlossary }}" style="background: none; border: 0; padding: 0; color: #0B5C43; font-size: 14px; font-weight: 600; text-decoration: underline">Sõnastik</button>
 <span>Tööversioon · Börsitark</span>
 </div>
 </footer>
@@ -1125,8 +1297,8 @@ class Component extends DCLogic {
       { id: 'kesk', label: 'Kesktase', dot: '#C27A00' },
       { id: 'edasi', label: 'Edasijõudnu', dot: '#B4382F' }
     ];
-    var navDefs = [['topics', 'Õpi'], ['invest', 'Turud'], ['qa', 'Kogukond'], ['tools', 'Tööriistad'], ['glossary', 'Sõnastik']];
-    var activeMap = { topic: 'topics', calc: 'tools', fees: 'tools', pf: 'tools', ai: 'qa' };
+    var navDefs = [['topics', 'Õpi'], ['money', 'Rahaküsimused'], ['tools', 'Tööriistad'], ['invest', 'Turud'], ['qa', 'Kogukond']];
+    var activeMap = { topic: 'topics', calc: 'tools', fees: 'tools', pf: 'tools', ai: 'qa', mq: 'money' };
     var active = activeMap[s.screen] || s.screen;
     var nav = navDefs.map(function (d) {
       var on = d[0] === active;
@@ -1309,6 +1481,18 @@ class Component extends DCLogic {
       { title: 'Tasude võrdlus', text: 'Vaata, palju LHV, Swedbank, SEB ja Lightyear sinu summade pealt küsivad.', pick: function () { self.go('fees'); } },
       { title: 'Harjutusportfell', text: 'Proovi investeerimist 1000 virtuaalse euroga.', pick: function () { self.go('pf'); } }
     ];
+    var tryMap = {
+      risk: ['vaata harjutusportfellis, kuidas langused ja tõusud päriselt välja näevad.', 'Proovi harjutusportfelli →', 'pf'],
+      aktsia: ['proovi, kuidas aktsiad 10 aasta jooksul kõiguvad.', 'Proovi harjutusportfelli →', 'pf'],
+      volakiri: ['võrdle harjutusportfellis aktsiaid ja võlakirju.', 'Proovi harjutusportfelli →', 'pf'],
+      etf: ['saa aru, miks ETF võib langeda, kui börs tõuseb.', 'Arvuta →', 'mq', 'fx'],
+      ik: ['vaata, kui palju maksu säästad fondi vahetades.', 'Arvuta →', 'mq', 'acc'],
+      tasud: ['arvuta, kas osta kord kuus või kord kvartalis.', 'Arvuta →', 'mq', 'freq'],
+      alustamine: ['arvuta, palju sinu igakuine summa aastatega kasvab.', 'Ava kalkulaator →', 'calc'],
+      hajutamine: ['võrdle harjutusportfellis eri jaotusi.', 'Proovi harjutusportfelli →', 'pf'],
+      dividendid: ['vaata, kuidas investeerimiskonto maksu edasi lükkab.', 'Arvuta →', 'mq', 'acc'],
+      sammas: ['arvuta, mida tähendab sinu jaoks 6 % makse.', 'Arvuta →', 'mq', 'pillar']
+    };
     var topicExtra = {
       hasExample: !!topic.example, example: topic.example || '',
       mistakes: topic.mistakes || [], hasMistakes: !!(topic.mistakes && topic.mistakes.length),
@@ -1318,6 +1502,9 @@ class Component extends DCLogic {
       prevLabel: prevId ? '← Eelmine samm' : '', nextLabel: nextId ? 'Järgmine: ' + topics[nextId].title + ' →' : '',
       goPrev: function () { if (prevId) self.go('topic', { topicId: prevId }); },
       goNext: function () { if (nextId) self.go('topic', { topicId: nextId }); },
+      tryText: tryMap[s.topicId] ? tryMap[s.topicId][0] : 'proovi harjutusportfelli',
+      tryLabel: tryMap[s.topicId] ? tryMap[s.topicId][1] : 'Ava →',
+      tryOpen: function () { var t = tryMap[s.topicId] || ['', '', 'pf']; self.go(t[2], t[3] ? { mqId: t[3] } : {}); },
       stepLabel: tIdx >= 0 ? 'Samm ' + (tIdx + 1) + ' / ' + topicOrder.length : '',
       basic: topic.levels.algaja.body,
       kesk: topic.levels.kesk, edasi: topic.levels.edasi,
@@ -1596,6 +1783,81 @@ class Component extends DCLogic {
       chartLabel: 'Portfelli väärtus ' + shown + ' aasta jooksul, praegu ' + fmtE(cur),
       years: yearsShown, hasYears: shown > 0, done: shown === 10, lesson: lesson, compare: compare
     };
+    var moneyQs = [
+      { id: 'freq', tool: 'freq', tag: 'Tasud', topic: 'tasud', q: 'Kas 100 eurot osta kord kuus või kord kvartalis?',
+        short: 'Kui platvormil on miinimumtasu, on väikeste summade puhul harvem ostmine selgelt soodsam. Kui ETF-ide ostul tehingutasu pole, võid osta kasvõi iga kuu.',
+        why: 'Pankades on välismaiste ETF-ide ostul miinimumtasu: LHV-s ja SEB-s 5 €, Swedbankis 3,90 €. Kui ostad 100 euro eest, moodustab 5 € tasu 5 % sinu rahast. Kui ostad kord kvartalis 300 euro eest, maksad sama 5 €, aga see on vaid 1,7 %.\n\nHarvem ostmise hind on see, et raha ootab vahepeal kontol ega teeni tootlust. Väikeste summade juures on tasude kokkuhoid tavaliselt suurem kui see kaotus.\n\nOn ka platvorme, kus ETF-ide ostul tehingutasu pole. Seal ei ole sagedusel tasude mõttes vahet.' },
+      { id: 'pillar', tool: 'pillar', tag: 'Pension', topic: 'sammas', q: 'Kas tõsta II samba makse 2 %-lt 6 %-le?',
+        short: 'Tõstes kasvab ainult sinu enda osa, riigi 4 % jääb samaks. Netopalk väheneb vähem, kui pensionikontole juurde läheb, sest makse arvatakse enne tulumaksu maha.',
+        why: 'II sambasse läheb sinu valitud 2 %, 4 % või 6 % brutopalgast ja riik lisab alati 4 % sotsiaalmaksu arvelt.\n\nII samba makse arvatakse maha enne tulumaksu arvestamist. Kui palk on üle maksuvaba tulu, väheneb netopalk umbes 78 senti iga pensionikontole lisanduva euro kohta.\n\nKaalu, kas sul on puhver olemas ja kas eelistad koguda pensioniks või hoida raha paindlikumalt kättesaadavana. Määra saab muuta kord aastas: kui avaldus on esitatud 30. novembriks, kehtib uus määr järgmise aasta algusest.' },
+      { id: 'fx', tool: 'fx', tag: 'Turud', topic: 'etf', q: 'Miks mu ETF langes, kui uudistes öeldi, et börs tõusis?',
+        short: 'Sageli on põhjus valuutakursis: kui euro dollari suhtes tugevneb, on dollarites kasvanud aktsiad eurodes vähem väärt.',
+        why: 'USA aktsiate hinnad on dollarites, sinu ETF aga eurodes. Kui euro tugevneb, saad iga dollari eest vähem eurosid ja see võib USA börsi tõusu ära süüa.\n\nTeised levinud põhjused: uudistes räägitakse ühest indeksist, näiteks S&P 500-st, aga sinu fond võib jälgida teist, näiteks kogu maailma. Euroopa börsil kaubeldava ETF-i hind võib ajavahe tõttu USA börsi liikumisest maha jääda ja järele jõuda alles järgmisel päeval.' },
+      { id: 'acc', tool: 'acc', tag: 'Maksud', topic: 'ik', q: 'Investeerimiskonto või tavaline väärtpaberikonto?',
+        short: 'Kui plaanid investeeringuid aja jooksul vahetada, on investeerimiskonto mugavam: maks tuleb alles siis, kui võtad välja rohkem, kui oled sisse pannud.',
+        why: 'Tavalisel väärtpaberikontol tuleb iga kasumliku müügi pealt maksta tulumaksu müügiaasta eest, ka siis, kui ostad raha eest kohe midagi uut. Investeerimiskontol lükkub maks edasi seni, kuni võtad kontolt välja rohkem raha, kui oled sinna sisse pannud.\n\nOluline on valida süsteem kohe ostes. Kui ostad väärtpaberi tavakontole, jääb see tavasüsteemi kuni müümiseni.' }
+    ];
+    var moneySoon = ['Kas maksta enne laen tagasi või investeerida?', 'Kuidas lapsele investeerida?'];
+    var tagColors = { 'Tasud': '#0B5C43', 'Pension': '#2F5DA8', 'Turud': '#7A3E9D', 'Maksud': '#A35F00', 'Tulekul': '#5E6B65' };
+    var mqCards = moneyQs.map(function (m) {
+      return { q: m.q, short: m.short, tag: m.tag, tagColor: tagColors[m.tag], pick: function () { self.go('mq', { mqId: m.id }); },
+        style: 'text-align: left; background: #FFFFFF; border: 1px solid #E2E6E1; border-radius: 16px; padding: 22px; display: flex; flex-direction: column; gap: 8px; min-height: 170px' };
+    }).concat(moneySoon.map(function (q) {
+      return { q: q, short: 'Tulekul.', tag: 'Tulekul', tagColor: tagColors['Tulekul'], pick: function () {},
+        style: 'text-align: left; background: #FAFBF9; border: 1px dashed #C9D1CB; border-radius: 16px; padding: 22px; display: flex; flex-direction: column; gap: 8px; min-height: 170px' };
+    }));
+    var mqHome = moneyQs.slice(1).map(function (m) { return { q: m.q, pick: function () { self.go('mq', { mqId: m.id }); } }; });
+    var mqData = moneyQs.filter(function (m) { return m.id === s.mqId; })[0] || moneyQs[0];
+    var chip = function (on) { return 'min-height: 40px; padding: 0 14px; border-radius: 10px; font-size: 15px; font-weight: 500; ' + (on ? 'background: #14201B; color: #FFFFFF; border: 1px solid #14201B' : 'background: #FFFFFF; color: #2B3A33; border: 1px solid #C9D1CB'); };
+    var eur = function (x, d) { return x.toLocaleString('et-EE', { minimumFractionDigits: d || 0, maximumFractionDigits: d || 0 }) + ' €'; };
+    var sgnPct = function (x) { return (x > 0 ? '+' : (x < 0 ? '−' : '')) + Math.abs(Math.round(x * 10) / 10).toLocaleString('et-EE') + ' %'; };
+
+    var fqAmt = s.fqAmt || 100, fqPlat = s.fqPlat || 'Swedbank';
+    var fqDef = feeDefs.filter(function (f) { return f.name === fqPlat; })[0] || feeDefs[1];
+    var fqCosts = [[12, 1, 'Kord kuus', '12 ostu'], [4, 3, 'Kord kvartalis', '4 ostu'], [1, 12, 'Kord aastas', '1 ost']].map(function (v) {
+      return { n: v[0], per: fqAmt * v[1], label: v[2], cnt: v[3], cost: fqDef.etf.fn(fqAmt * v[1], v[0]) };
+    });
+    var fqMin = Math.min.apply(null, fqCosts.map(function (c) { return c.cost; }));
+    var fq = {
+      amt: fqAmt, amtLabel: eur(fqAmt),
+      platOpts: feeDefs.map(function (f) { return { label: f.name, pick: function () { self.setState({ fqPlat: f.name }); }, style: chip(f.name === fqPlat) }; }),
+      rows: fqCosts.map(function (c) {
+        var best = c.cost === fqMin;
+        return { label: c.label, detail: c.cnt + ' à ' + eur(c.per), cost: eur(c.cost, 2), pct: (c.cost / (fqAmt * 12) * 100).toLocaleString('et-EE', { maximumFractionDigits: 2 }) + ' %',
+          style: 'display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; padding: 14px 16px; border-radius: 12px; ' + (best ? 'background: #E9F3EE; border: 1.5px solid #0E6B4F' : 'background: #FFFFFF; border: 1px solid #E2E6E1'),
+          cardStyle: 'display: flex; flex-direction: column; gap: 2px; padding: 14px 16px; border-radius: 12px; ' + (best ? 'background: #E9F3EE; border: 1.5px solid #0E6B4F' : 'background: #F6F7F4; border: 1px solid #E2E6E1') };
+      }),
+      note: fqCosts[0].cost === 0 ? fqPlat + ' ei võta ETF-ide ostul tehingutasu, seega võid osta nii tihti kui soovid.' : 'Harvem ostes ootab raha vahepeal kontol ega teeni tootlust. Väikeste summade puhul on tasude kokkuhoid tavaliselt suurem kui see kaotus. Hinnad: ' + fqPlat + ' hinnakiri, välismaise ETF-i ost internetis.'
+    };
+
+    var plG = s.plGross || 1800, plY = s.plYears || 25, plR = s.plRate || 6;
+    var netFor = function (rate) { var ui = plG * 0.016, p = plG * rate / 100, tax = Math.max(0, plG - ui - p - 700) * 0.22; return plG - ui - p - tax; };
+    var own = plG * plR / 100, state4 = plG * 0.04, mth = own + state4, rr = 0.05 / 12, nn = plY * 12;
+    var fv = mth * (Math.pow(1 + rr, nn) - 1) / rr;
+    var netDiff = netFor(plR) - netFor(2);
+    var pl = {
+      gross: plG, grossLabel: eur(plG), years: plY,
+      rateOpts: [2, 4, 6].map(function (r) { return { label: 'Minu makse ' + r + ' %', pick: function () { self.setState({ plRate: r }); }, style: chip(r === plR) }; }),
+      monthly: eur(mth), monthlyDetail: 'sinu osa ' + eur(own) + ' + riigi osa ' + eur(state4),
+      netDiff: plR === 2 ? '0 €' : '−' + eur(Math.abs(netDiff)), netDetail: plR === 2 ? 'võrdluspunkt' : 'aga sambasse läheb ' + eur(own - plG * 0.02) + ' rohkem',
+      total: eur(Math.round(fv / 100) * 100), totalDetail: 'sissemakseid ' + eur(mth * nn) + ', kasv ' + eur(Math.max(0, fv - mth * nn))
+    };
+
+    var fxI = s.fxIdx === undefined ? 10 : s.fxIdx, fxF = s.fxFx === undefined ? 8 : s.fxFx;
+    var fxRes = ((1 + fxI / 100) / (1 + fxF / 100) - 1) * 100;
+    var fx = {
+      idx: fxI, fx: fxF, idxLabel: sgnPct(fxI), fxLabel: sgnPct(fxF), resLabel: sgnPct(fxRes),
+      explain: (fxI > 0 && fxRes < 0) ? 'Börs tõusis dollarites ' + sgnPct(fxI) + ', aga euro tugevnes ' + sgnPct(fxF) + '. Eurodes oled seega miinuses, kuigi uudised räägivad tõusust.'
+        : (fxF > 0 ? 'Euro tugevnemine sööb osa tõusust ära: dollarites ' + sgnPct(fxI) + ', eurodes ' + sgnPct(fxRes) + '.'
+          : (fxF < 0 ? 'Euro nõrgenes, mis tõstab sinu tulemust eurodes: dollarites ' + sgnPct(fxI) + ', eurodes ' + sgnPct(fxRes) + '.' : 'Kui kurss ei muutu, on tulemus eurodes sama mis dollarites.'))
+    };
+
+    var acA = s.acAmt || 5000, acG = s.acGain === undefined ? 40 : s.acGain;
+    var ac = { amt: acA, gain: acG, amtLabel: eur(acA), gainLabel: '+' + acG + ' %', taxNow: eur(acA * acG / 100 * 0.22), valueLabel: eur(acA * (1 + acG / 100)) };
+
+    var weekly = { q: moneyQs[0].q, short: moneyQs[0].short, open: function () { self.go('mq', { mqId: 'freq' }); } };
+    var mq = { q: mqData.q, short: mqData.short, why: mqData.why, isFreq: mqData.tool === 'freq', isPillar: mqData.tool === 'pillar', isFx: mqData.tool === 'fx', isAcc: mqData.tool === 'acc',
+      topicLabel: 'Õppetükk: ' + topics[mqData.topic].title, openTopic: function () { self.go('topic', { topicId: mqData.topic }); } };
     var assets = this.pfAssets();
     var pfTotal = this.pfTotal(s);
     var invested = pfTotal - s.pfCash;
@@ -1691,6 +1953,15 @@ class Component extends DCLogic {
       goPf: function () { self.go('pf'); },
       pf: pf,
       pf2: pf2,
+      isMoney: s.screen === 'money', isMq: s.screen === 'mq', goMoney: function () { self.go('money'); },
+      mqCards: mqCards, mqHome: mqHome, mq: mq, weekly: weekly, fq: fq, pl: pl, fx: fx, ac: ac,
+      fqSetAmt: function (e) { self.setState({ fqAmt: Number(e.target.value) }); },
+      plSetGross: function (e) { self.setState({ plGross: Number(e.target.value) }); },
+      plSetYears: function (e) { self.setState({ plYears: Number(e.target.value) }); },
+      fxSetIdx: function (e) { self.setState({ fxIdx: Number(e.target.value) }); },
+      fxSetFx: function (e) { self.setState({ fxFx: Number(e.target.value) }); },
+      acSetAmt: function (e) { self.setState({ acAmt: Number(e.target.value) }); },
+      acSetGain: function (e) { self.setState({ acGain: Number(e.target.value) }); },
       pf2SetAlloc: function (e) { self.setState({ pf2Alloc: Number(e.target.value), pf2Ev: ev }); },
       pf2Next: function () { self.setState({ pf2Shown: Math.min(10, shown + 1), pf2Ev: ev }); },
       pf2All: function () { self.setState({ pf2Shown: 10, pf2Ev: ev }); },
@@ -1791,7 +2062,7 @@ class Component extends DCLogic {
 
 (function () {
   var KEY = 'borsitark-v1';
-  var KEEP = ["pf2Alloc", "pf2Ev", "pf2Shown", "userQs", "replies", "votes", "best", "quiz", "myName"];
+  var KEEP = ["pf2Alloc", "pf2Ev", "pf2Shown", "userQs", "replies", "votes", "best", "quiz", "myName", "fqAmt", "fqPlat", "plGross", "plYears", "plRate"];
   window.addEventListener('DOMContentLoaded', function () {
     var TV = {
       ticker: { src: 'embed-widget-ticker-tape.js', cfg: { symbols: [
