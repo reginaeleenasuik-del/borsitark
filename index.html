@@ -23,6 +23,7 @@ h1,h2{overflow-wrap:anywhere}
   main h1{font-size:30px !important;line-height:1.15 !important}
   header nav button{padding:0 10px !important;font-size:15px !important}
 }
+@media print{header,footer,.no-print{display:none !important}body,main{background:#fff !important}main{padding:0 !important}#plan-print{border:0 !important}}
 </style>
 </head>
 <body>
@@ -153,6 +154,22 @@ h1,h2{overflow-wrap:anywhere}
 <sc-for list="{{ steps }}" as="s" hint-placeholder-count="10">
 <li>
 <button onClick="{{ s.pick }}" style="width: 100%; text-align: left; display: flex; align-items: center; gap: 16px; padding: 14px 18px; border: 1px solid #E2E6E1; border-radius: 12px; background: #FFFFFF; color: #14201B">
+<span style="{{ s.numStyle }}">{{ s.mark }}</span>
+<span style="flex: 1; display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 17px; font-weight: 600">{{ s.title }}</span>
+<span style="font-size: 14px; color: #4B5A53">{{ s.lead }}</span>
+</span>
+<span aria-hidden="true" style="font-size: 20px; color: #8A9A92">›</span>
+</button>
+</li>
+</sc-for>
+</ol>
+<h2 style="margin: 36px 0 6px; font-family: 'Space Grotesk', sans-serif; font-size: 26px">Tase 2: esimesest ostust kogenud investoriks</h2>
+<p style="margin: 0 0 16px; color: #4B5A53; max-width: 680px">Uued teemad neile, kes on põhitõed selgeks saanud või juba investeerivad. {{ progress2 }}</p>
+<ol style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; max-width: 760px">
+<sc-for list="{{ steps2 }}" as="s" hint-placeholder-count="10">
+<li>
+<button onClick="{{ s.pick }}" style="width: 100%; text-align: left; display: flex; align-items: center; gap: 16px; padding: 14px 18px; border: 1px solid #D6E0F0; border-radius: 12px; background: #FFFFFF; color: #14201B">
 <span style="{{ s.numStyle }}">{{ s.mark }}</span>
 <span style="flex: 1; display: flex; flex-direction: column; gap: 2px">
 <span style="font-size: 17px; font-weight: 600">{{ s.title }}</span>
@@ -672,7 +689,20 @@ h1,h2{overflow-wrap:anywhere}
 <p style="margin: 0; font-size: 14px; color: #E3F2EB">{{ nx.progress }}</p>
 </section>
 
-<ol style="margin: 20px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px">
+<div style="margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px">
+<button onClick="{{ goPlan }}" style="text-align: left; border: 0; border-radius: 16px; padding: 24px; background: #14201B; color: #FFFFFF; display: flex; flex-direction: column; gap: 8px; min-height: 170px">
+<span style="font-size: 13px; font-weight: 700; color: #A9D9C4; text-transform: uppercase; letter-spacing: 0.04em">Uus</span>
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700">Koosta oma investeerimisplaan →</span>
+<span style="font-size: 15px; color: #D4DDD8">8 küsimust ja saad oma plaani ühel lehel, mida saad salvestada või välja printida.</span>
+</button>
+<button onClick="{{ goTase2 }}" style="text-align: left; border: 0; border-radius: 16px; padding: 24px; background: #2F5DA8; color: #FFFFFF; display: flex; flex-direction: column; gap: 8px; min-height: 170px">
+<span style="font-size: 13px; font-weight: 700; color: #CFE0FA; text-transform: uppercase; letter-spacing: 0.04em">Uus õpitee</span>
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700">Tase 2: kogenud investoriks →</span>
+<span style="font-size: 15px; color: #E3ECFA">10 uut teemat: esimene ost, turu kukkumine, dividendid, võlakirjad, valuutarisk ja palju muud.</span>
+</button>
+</div>
+<h2 style="margin: 28px 0 0; font-family: 'Space Grotesk', sans-serif; font-size: 22px">Kontrollnimekiri enne esimest päris ostu</h2>
+<ol style="margin: 12px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px">
 <sc-for list="{{ nx.items }}" as="it" hint-placeholder-count="8">
 <li style="{{ it.style }}">
 <button onClick="{{ it.toggle }}" aria-label="{{ it.aria }}" style="{{ it.boxStyle }}">{{ it.mark }}</button>
@@ -697,6 +727,95 @@ h1,h2{overflow-wrap:anywhere}
 </section>
 </sc-if>
 <p style="margin: 16px 0 0; font-size: 13px; color: #4B5A53">Märkused salvestuvad ainult sinu brauserisse. Börsitark õpetab ja selgitab, kuid ei anna investeerimissoovitusi.</p>
+</div>
+</sc-if>
+
+<sc-if value="{{ isPlan }}" hint-placeholder-val="{{ false }}">
+<div style="max-width: 860px; margin: 0 auto">
+<button onClick="{{ goNext2 }}" style="background: none; border: 0; padding: 0; min-height: 44px; color: {{ accent }}; font-size: 15px; font-weight: 500" class="no-print">← Mis edasi?</button>
+<h1 style="margin: 0 0 8px; font-family: 'Space Grotesk', sans-serif; font-size: 34px" class="no-print">Minu investeerimisplaan</h1>
+<p style="margin: 0 0 20px; color: #4B5A53; max-width: 680px" class="no-print">Vasta kaheksale küsimusele. Saad oma plaani ühel lehel, mida saad salvestada või välja printida. Plaan põhineb sinu enda valikutel. Börsitark ei soovita konkreetseid tooteid.</p>
+
+<section class="no-print" style="background: #FFFFFF; border: 1px solid #E2E6E1; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 22px">
+<div>
+<p style="margin: 0 0 8px; font-size: 16px; font-weight: 600">1. Milleks sa investeerid?</p>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{ plan.goalOpts }}" as="o" hint-placeholder-count="5"><button onClick="{{ o.pick }}" style="{{ o.style }}">{{ o.label }}</button></sc-for>
+</div>
+</div>
+<div>
+<label for="pyrs" style="display: flex; justify-content: space-between; font-size: 16px; font-weight: 600"><span>2. Mitme aasta pärast seda raha vajad?</span><span>{{ plan.yearsLabel }}</span></label>
+<input id="pyrs" type="range" min="1" max="40" step="1" value="{{ plan.years }}" onChange="{{ planSetYears }}" style="width: 100%; accent-color: #0E6B4F; min-height: 32px">
+</div>
+<div>
+<label for="pamt" style="display: flex; justify-content: space-between; font-size: 16px; font-weight: 600"><span>3. Kui palju investeerid kuus?</span><span>{{ plan.amtLabel }}</span></label>
+<input id="pamt" type="range" min="10" max="2000" step="10" value="{{ plan.amt }}" onChange="{{ planSetAmt }}" style="width: 100%; accent-color: #0E6B4F; min-height: 32px">
+</div>
+<div>
+<p style="margin: 0 0 8px; font-size: 16px; font-weight: 600">4. Kas sul on puhver ootamatuteks kuludeks?</p>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{ plan.bufOpts }}" as="o" hint-placeholder-count="3"><button onClick="{{ o.pick }}" style="{{ o.style }}">{{ o.label }}</button></sc-for>
+</div>
+</div>
+<div>
+<p style="margin: 0 0 8px; font-size: 16px; font-weight: 600">5. Su portfell langeb ühe kuuga 20 %. Mida teed?</p>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{ plan.reactOpts }}" as="o" hint-placeholder-count="3"><button onClick="{{ o.pick }}" style="{{ o.style }}">{{ o.label }}</button></sc-for>
+</div>
+</div>
+<div>
+<label for="palloc" style="display: flex; justify-content: space-between; font-size: 16px; font-weight: 600"><span>6. Kui suur osa läheb aktsiatesse?</span><span>{{ plan.alloc }} % aktsiad · {{ plan.bonds }} % võlakirjad</span></label>
+<input id="palloc" type="range" min="0" max="100" step="10" value="{{ plan.alloc }}" onChange="{{ planSetAlloc }}" style="width: 100%; accent-color: #0E6B4F; min-height: 32px">
+<p style="margin: 4px 0 0; font-size: 14px; color: #4B5A53">Mida pikem aeg, seda rohkem kõikumist jõuab tasa tulla. Lühikese ajaga eesmärgi puhul on väiksem aktsiaosa rahulikum.</p>
+</div>
+<div>
+<p style="margin: 0 0 8px; font-size: 16px; font-weight: 600">7. Kus ja millisel kontol?</p>
+<div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px">
+<sc-for list="{{ plan.platOpts }}" as="o" hint-placeholder-count="4"><button onClick="{{ o.pick }}" style="{{ o.style }}">{{ o.label }}</button></sc-for>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{ plan.accOpts }}" as="o" hint-placeholder-count="2"><button onClick="{{ o.pick }}" style="{{ o.style }}">{{ o.label }}</button></sc-for>
+</div>
+</div>
+<div>
+<label for="pday" style="display: flex; justify-content: space-between; font-size: 16px; font-weight: 600"><span>8. Mis kuupäeval teed igakuise ostu?</span><span>{{ plan.day }}. kuupäeval</span></label>
+<input id="pday" type="range" min="1" max="28" step="1" value="{{ plan.day }}" onChange="{{ planSetDay }}" style="width: 100%; accent-color: #0E6B4F; min-height: 32px">
+</div>
+</section>
+
+<sc-if value="{{ plan.hasWarn }}" hint-placeholder-val="{{ false }}">
+<section class="no-print" style="margin-top: 16px; padding: 18px 20px; border-radius: 14px; background: #FFF4E0; border: 1px solid #F0D29A">
+<p style="margin: 0 0 8px; font-size: 16px; font-weight: 700; color: #5C3B00">Mõtle need läbi</p>
+<ul style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; font-size: 15px; color: #4A3000">
+<sc-for list="{{ plan.warns }}" as="w" hint-placeholder-count="2"><li>{{ w }}</li></sc-for>
+</ul>
+</section>
+</sc-if>
+
+<section id="plan-print" style="margin-top: 16px; background: #FFFFFF; border: 2px solid #14201B; border-radius: 16px; padding: 28px">
+<p style="margin: 0 0 4px; font-size: 13px; font-weight: 700; color: #0B4D39; text-transform: uppercase; letter-spacing: 0.04em">Minu investeerimisplaan · {{ plan.date }}</p>
+<h2 style="margin: 0 0 16px; font-family: 'Space Grotesk', sans-serif; font-size: 26px">{{ plan.headline }}</h2>
+<ul style="margin: 0 0 18px; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 16px">
+<sc-for list="{{ plan.lines }}" as="l" hint-placeholder-count="6"><li>{{ l }}</li></sc-for>
+</ul>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-bottom: 18px">
+<sc-for list="{{ plan.nums }}" as="n" hint-placeholder-count="4">
+<div style="padding: 14px 16px; border-radius: 12px; background: #F2F5F1">
+<p style="margin: 0; font-size: 13px; color: #4B5A53">{{ n.k }}</p>
+<p style="margin: 4px 0 0; font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700">{{ n.v }}</p>
+</div>
+</sc-for>
+</div>
+<p style="margin: 0 0 6px; font-size: 16px; font-weight: 700">Minu reeglid</p>
+<ol style="margin: 0 0 16px; padding-left: 22px; display: flex; flex-direction: column; gap: 6px; font-size: 15px">
+<sc-for list="{{ plan.rules }}" as="r" hint-placeholder-count="4"><li>{{ r }}</li></sc-for>
+</ol>
+<p style="margin: 0; font-size: 13px; color: #4B5A53">Arvutused on näitlikud: aktsiate puhul eeldatud 6 % ja võlakirjade puhul 2 % aastast tootlust ning ajaloolisi suuri langusi. See ei ole prognoos ega investeerimissoovitus.</p>
+</section>
+<div class="no-print" style="margin-top: 14px; display: flex; flex-wrap: wrap; gap: 10px">
+<button onClick="{{ planPrint }}" style="min-height: 48px; padding: 0 20px; border: 0; border-radius: 12px; background: {{ accent }}; color: #FFFFFF; font-size: 16px; font-weight: 600">Prindi või salvesta PDF-ina</button>
+<button onClick="{{ goTase2 }}" style="min-height: 48px; padding: 0 18px; border: 1px solid #C9D1CB; border-radius: 12px; background: #FFFFFF; color: #14201B; font-size: 15px">Jätka Tase 2 õpiteega →</button>
+</div>
 </div>
 </sc-if>
 
@@ -1325,6 +1444,161 @@ class Component extends DCLogic {
     }
     return { vals: vals, dd: dd, rets: rets };
   }
+  topicData2() {
+    var EMTA_IK = { label: 'MTA: väärtpaberid ja investeerimiskonto', url: 'https://emta.ee/eraklient/maksud-ja-tasumine/maksustatavad-tulud/vaartpaberid-ja-investeerimiskonto' };
+    return {
+      t2kid: {
+        title: 'Kuidas lugeda fondi põhiteabedokumenti?',
+        lead: 'Iga fondi juurde kuulub lühike kohustuslik dokument. Selles on kirjas risk, kulud ja eesmärk. See on parim viis fonde omavahel võrrelda.',
+        terms: ['Põhiteabedokument (KID)', 'Haldustasu (TER)', 'Volatiilsus'],
+        estonia: 'Põhiteabedokument peab olema kättesaadav eesti keeles, kui fondi pakutakse Eesti jaeinvestoritele. Pangas ja investeerimisplatvormil leiad selle fondi lehelt, tavaliselt lingiga „KID“ või „Põhiteave“.',
+        levels: {
+          algaja: { heading: 'Lihtsalt öeldes', body: 'Põhiteabedokument on paari leheküljeline fondi „kasutusjuhend“. Sealt leiad kolm asja, mida tasub alati vaadata: mida fond teeb, kui riskantne see on ja kui palju see maksab.\n\nRiskinäitaja on skaalal 1–7. Number 1 tähendab väga väikest kõikumist, 7 väga suurt. Laiad aktsiafondid on enamasti 4–5 juures.' },
+          kesk: { heading: 'Mida dokumendist otsida', body: 'Eesmärk ja poliitika: millist indeksit fond jälgib ja kas ta investeerib dividendid tagasi.\n\nKulud: jooksvad kulud aastas ja tehingukulud. Jooksvad kulud on see, mida fond iga aasta sinu rahast võtab.\n\nSoovitatav hoidmisperiood: mitu aastat peaks fondis olema, et kõikumine jõuaks tasa tulla.' },
+          edasi: { heading: 'Tootlusstsenaariumid ja nende piirid', body: 'Dokumendis on stressi-, ebasoodne, mõõdukas ja soodne stsenaarium. Need on arvutatud mineviku andmete põhjal ega ennusta tulevikku. Võrdle pigem stsenaariumide vahet: mida suurem vahe, seda suurem on määramatus.\n\nVõrdle sama indeksi fonde jooksvate kulude ja fondi suuruse järgi. Fondi tegelik erinevus indeksist leiab sageli fondi aastaaruandest või haldaja kodulehelt.' }
+        },
+        example: 'Kaks maailma aktsiate fondi: A jooksvad kulud 0,20 % aastas, B 0,60 %. 10 000 euro pealt on vahe aastas 40 €. 20 aasta jooksul koos kasvuga on see mitu tuhat eurot.',
+        mistakes: ['Vaadata ainult eelmise aasta tootlust ja jätta kulud vaatamata.', 'Pidada mõõdukat stsenaariumi lubaduseks.', 'Valida fond, mille soovitatav hoidmisperiood on pikem kui sinu ajahorisont.'],
+        quiz: { q: 'Fondi riskinäitaja on 6 skaalal 1–7. Mida see tähendab?', opts: ['Fond on väga turvaline', 'Fondi väärtus võib tugevalt kõikuda', 'Fond on 6 aastat vana'], correct: 1, why: 'Kõrge riskinäitaja tähendab suurt kõikumist. Pikal perioodil võib see tuua ka suurema tootluse, aga vahepealsed langused on sügavamad.' },
+        sources: []
+      },
+      t2order: {
+        title: 'Esimene ost: turu- ja limiithinnaga order',
+        lead: 'Esimene ost on lihtsam, kui tead, mida ostunupu taga olevad valikud tähendavad.',
+        terms: ['Order', 'Turuhinnaga order', 'Limiithinnaga order', 'Hinnavahe (spread)'],
+        estonia: 'Eesti pankades ja platvormidel saab välismaiseid ETF-e osta peamiselt Euroopa börsidelt, näiteks Saksamaa Xetra kaudu. Balti aktsiate kauplemine toimub Nasdaq Balticu börsidel, kus osa aktsiaid on vähe kaubeldud, nii et limiithinnaga order on seal eriti oluline.',
+        levels: {
+          algaja: { heading: 'Lihtsalt öeldes', body: 'Ostes valid, mida, mitu osakut ja millise hinnaga. Turuhinnaga order ostab kohe parima saadaoleva hinnaga. Limiithinnaga order ostab ainult siis, kui hind on sinu määratud piiris või parem.\n\nEsimesel korral on mõistlik osta laia fondi ja kasutada limiiti, mis on praegusest hinnast veidi kõrgem. Siis tehing tõenäoliselt toimub, aga ootamatut hinda ei tule.' },
+          kesk: { heading: 'Millal ja kuidas osta', body: 'Osta börsi lahtiolekuajal, kui kauplemine on aktiivne. Kohe avanemise järel ja enne sulgemist võib hinnavahe olla suurem.\n\nKui platvorm lubab osta murdosa osakust, saad investeerida täpse summa. Kui mitte, ostad terve osaku ja ülejääk jääb kontole.\n\nKontrolli, millises valuutas fond kaupleb. Kui see on dollarites, lisandub valuutavahetuse tasu.' },
+          edasi: { heading: 'Pisikiri', body: 'Hinnavahe ehk ostu- ja müügihinna erinevus on peidetud kulu. Suurte fondide puhul on see väike, väikeste fondide ja vähe kaubeldud aktsiate puhul suurem.\n\nLimiithinnaga order võib jääda osaliselt täitmata. Vaata orderi kehtivusaega: kas see kehtib ainult tänase päeva või kuni tühistamiseni.' }
+        },
+        example: 'ETF-i hind on 100,00 € ja müüja küsib 100,05 €. Paned limiidiks 100,10 €. Tehing toimub 100,05 € juures. Kui hind järsku hüppaks 103 euroni, sinu order ei täituks ja kalli hinna eest sa ei ostaks.',
+        mistakes: ['Panna turuhinnaga order vähe kaubeldud aktsiale ja maksta oodatust palju rohkem.', 'Unustada valuutavahetuse tasu dollarites kaubeldava fondi puhul.', 'Unustada aegunud limiitorder kehtima.'],
+        quiz: { q: 'Mis on limiithinnaga orderi peamine eelis?', opts: ['Tehing toimub alati kohe', 'Sa ei maksa rohkem kui sinu määratud hind', 'Tehingutasu on null'], correct: 1, why: 'Limiit kaitseb ootamatu hinna eest. Selle eest on risk, et tehing ei toimu.' },
+        sources: []
+      },
+      t2watch: {
+        title: 'Kuidas jälgida portfelli ilma iga päev muretsemata',
+        lead: 'Mida tihemini portfelli vaatad, seda rohkem näed langusi. Pikaajalisele investorile piisab harvast ülevaatusest.',
+        terms: ['Volatiilsus', 'Rebalansseerimine', 'Tootlus'],
+        estonia: 'Eesti pangad ja platvormid näitavad portfelli väärtust reaalajas. Tasub välja lülitada igapäevased hinnateavitused ja jätta alles ainult teated tehingute ja dividendide kohta.',
+        levels: {
+          algaja: { heading: 'Lihtsalt öeldes', body: 'Aktsiaturg on iga päev umbes sama tõenäoliselt plussis kui miinuses. Kui vaatad iga päev, näed pidevalt langusi ja see tekitab tahtmise midagi teha.\n\nPiisab, kui vaatad portfelli kord kuus või kord kvartalis. Kontrolli, et püsiost toimus ja jaotus on enam-vähem paigas.' },
+          kesk: { heading: 'Mida ülevaatusel vaadata', body: 'Kas sissemaksed toimuvad plaanipäraselt? Kas jaotus aktsiate ja võlakirjade vahel on sihist üle 5 protsendipunkti eemal? Kas tasud on muutunud?\n\nTootlust tasub hinnata aastate kaupa, mitte kuude kaupa. Ja võrdle seda sobiva indeksiga, mitte naabri parima aktsiaga.' },
+          edasi: { heading: 'Õige mõõdik', body: 'Konto väärtuse muutus sisaldab ka sinu sissemakseid. Investeeringute tegeliku tulemuse näitab ajakaalutud tootlus. Vaata süvateemat „Kui palju mu portfell päriselt teenis?“.\n\nPea lihtsat logi: kuupäev, sissemakse, väärtus. Aasta lõpus on sellest lihtne tegelikku tootlust arvutada.' }
+        },
+        example: 'Kui avad rakenduse iga päev, näed aastas umbes 250 börsipäeva, millest ligi pooled on miinuses. Kui vaatad kord kvartalis, näed neli numbrit ja pikal perioodil on suurem osa neist plussis.',
+        mistakes: ['Teha otsuseid ühe halva päeva või nädala põhjal.', 'Pidada konto väärtuse kasvu tootluseks.', 'Lisada pidevalt uusi fonde, sest midagi „tundub hea“.'],
+        quiz: { q: 'Kui tihti piisab pikaajalisel investoril portfelli üle vaadata?', opts: ['Iga päev', 'Kord kuus või kvartalis', 'Mitte kunagi'], correct: 1, why: 'Harv ülevaatus hoiab ära emotsionaalsed otsused, aga tagab, et plaan töötab.' },
+        sources: []
+      },
+      t2crash: {
+        title: 'Mida teha, kui turg kukub 30 %?',
+        lead: 'Suured langused on investeerimise osa. Plaan, mis on tehtud enne langust, aitab langusel rahulikuks jääda.',
+        terms: ['Karuturg', 'Korrektsioon', 'Maksimaalne langus', 'Hädaabifond'],
+        estonia: 'Kui kasutad investeerimiskontot, saad languse ajal portfelli tasakaalustada ilma, et müük tekitaks maksu. Puhver arvelduskontol hoiab ära selle, et peaksid investeeringuid halval hetkel müüma.',
+        levels: {
+          algaja: { heading: 'Lihtsalt öeldes', body: 'Ajaloos on aktsiaturud mitu korda kukkunud 30 % või rohkem. 2008. aasta finantskriisis langesid maailma aktsiaturud tipust ligikaudu poole võrra. 2020. aasta kevadel langes USA turg mõne nädalaga umbes kolmandiku võrra ja taastus samal aastal.\n\nKõige kallim viga on müüa langusel ja jääda tõusust ilma. Kui sul on puhver ja pikk ajahorisont, on enamasti parim teha mitte midagi.' },
+          kesk: { heading: 'Mida teha', body: '1. Ära müü paanikas. Loe oma plaan läbi.\n2. Jätka püsiostuga. Madalama hinnaga saad sama raha eest rohkem osakuid.\n3. Tasakaalusta. Kui aktsiate osa on langenud sihist allapoole, suuna uued sissemaksed aktsiatesse.\n4. Kontrolli puhvrit. Kui töökoht on ohus, on puhver olulisem kui investeerimine.' },
+          edasi: { heading: 'Taastumise matemaatika', body: '30 % languse järel on vaja algtasemele jõudmiseks umbes 43 % tõusu, 50 % languse järel 100 %. Taastumine võib võtta kuid või aastaid.\n\nKui investeerid regulaarselt, ostad languse ajal odavamalt ja jõuad tagasi algtasemele kiiremini kui ühekordse investeeringu korral.' }
+        },
+        example: 'Portfell oli 10 000 € ja langes 7000 euroni. Kui müüd, on kahjum lukus. Kui jätkad 200-eurose püsiostuga, ostad iga kuu odavamalt. Kui turg taastub, on sinu portfell rohkem kui algne 10 000 € pluss sissemaksed.',
+        mistakes: ['Müüa langusel ja oodata „selgemat pilti“. Taastumine algab sageli ootamatult.', 'Lõpetada püsiost hirmu tõttu.', 'Võtta laenu, et langusel „odavalt“ osta.'],
+        quiz: { q: 'Portfell langeb 30 %. Mitu protsenti peab see tõusma, et jõuda algtasemele?', opts: ['30 %', 'Umbes 43 %', '60 %'], correct: 1, why: '70 eurolt 100 euroni jõudmiseks on vaja 30 / 70 ehk umbes 43 % tõusu.' },
+        sources: []
+      },
+      t2div: {
+        title: 'Dividendiinvesteerimine: plussid ja lõksud',
+        lead: 'Regulaarne dividend tundub turvaline sissetulek. Tasub teada, millal see on hea strateegia ja millal lõks.',
+        terms: ['Dividend', 'Dividenditootlus', 'Ex-dividendipäev', 'Tootlus'],
+        estonia: 'Mitmed Tallinna börsi ettevõtted maksavad regulaarselt dividendi. Eesti ettevõte maksab dividendilt tulumaksu ettevõtte tasandil. Investeerimiskontole laekunud Eesti dividend läheb arvesse sissemaksena.',
+        levels: {
+          algaja: { heading: 'Lihtsalt öeldes', body: 'Dividendiaktsiad maksavad osa kasumist välja rahana. Paljudele meeldib, et raha laekub kontole ja seda saab kasutada.\n\nAga dividend ei ole lisaraha: dividendi maksmise päeval langeb aktsia hind üldjuhul umbes sama palju. Oluline on kogutootlus ehk hinnamuutus ja dividend kokku.' },
+          kesk: { heading: 'Plussid ja miinused', body: 'Plussid: regulaarne rahavoog, sageli stabiilsemad ettevõtted, distsipliin.\n\nMiinused: ainult dividendiaktsiatele keskendudes jääb portfell kitsaks, sageli pankade, energeetika ja kinnisvara kasuks. Kasvavad ettevõtted, mis kasumi tagasi investeerivad, jäävad välja.' },
+          edasi: { heading: 'Dividendilõks', body: 'Väga kõrge dividenditootlus tähendab tihti, et aktsia hind on kukkunud, sest turg ootab raskusi. Kui ettevõte dividendi kärbib, kaotad nii dividendi kui ka osa väärtusest.\n\nKontrolli, kas dividend on kaetud kasumi ja rahavooga ning kas ettevõttel on laenukoormus kontrolli all.' }
+        },
+        example: 'Aktsia A maksab 8 % dividendi, aga tema hind langes aastaga 15 %. Aktsia B maksab 1 % dividendi ja tõusis 10 %. A kogutootlus on −7 %, B oma +11 %.',
+        mistakes: ['Valida aktsiad ainult kõrge dividenditootluse järgi.', 'Pidada dividendi tasuta rahaks.', 'Unustada, et välismaistelt dividendidelt peetakse sageli kinni maks.'],
+        quiz: { q: 'Aktsia maksab 6 % dividendi ja selle hind langes aastaga 10 %. Mis on kogutootlus?', opts: ['+6 %', '−4 %', '−10 %'], correct: 1, why: 'Kogutootlus on hinnamuutus pluss dividend: −10 % + 6 % = −4 %.' },
+        sources: [EMTA_IK]
+      },
+      t2bond: {
+        title: 'Võlakirjade märkimine Baltikumis',
+        lead: 'Balti ettevõtted ja ka riik pakuvad sageli võlakirju otse jaeinvestoritele. Märkimine on lihtne, riskide hindamine nõuab tööd.',
+        terms: ['Võlakiri', 'Allutatud võlakiri', 'Krediidirisk', 'Likviidsus'],
+        estonia: 'Eesti riik on pakkunud jaeinvestoritele riigivõlakirju. Ettevõtete võlakirjapakkumisi tehakse sageli Nasdaq Balticu kaudu ja märkida saab oma panga internetipangas.',
+        levels: {
+          algaja: { heading: 'Kuidas märkimine käib', body: 'Väljaandja avaldab prospekti ja märkimisperioodi. Sel ajal esitad oma pangas märkimiskorralduse: mitu võlakirja ja millise hinnaga. Raha broneeritakse kontol.\n\nPärast perioodi lõppu otsustatakse jaotus. Kui huvi on suur, võid saada vähem, kui märkisid. Ülejäänud raha vabaneb.' },
+          kesk: { heading: 'Mida enne märkimist kontrollida', body: 'Kes on väljaandja ja kui stabiilne on tema äri. Kas võlakiri on tagatud või tagamata. Kas see on allutatud, mis tähendab, et pankroti korral makstakse sulle viimasena.\n\nKas ettevõte võib võlakirja ennetähtaegselt tagasi osta. Kas võlakiri noteeritakse börsil, et saaksid vajadusel müüa.' },
+          edasi: { heading: 'Intress ja risk', body: 'Kõrge kupong on hüvitis kõrgema riski eest. Võrdle kupongi riigivõlakirja intressiga: vahe näitab, kui suurt riski turg näeb.\n\nVähe kaubeldud võlakirja võib olla raske enne tähtaega müüa ilma allahindluseta. Ära pane ühte võlakirja suurt osa portfellist.' }
+        },
+        example: 'Ettevõte pakub 3-aastast allutatud võlakirja 9 % kupongiga. Samal ajal maksab riigivõlakiri umbes 3 %. 6-protsendipunktiline vahe on turu hinnang lisariskile. Kui ettevõte satub raskustesse, võid kaotada suure osa rahast.',
+        mistakes: ['Vaadata ainult kupongi ja mitte lugeda prospekti riskide peatükki.', 'Panna suur osa rahast ühte ettevõtte võlakirja.', 'Eeldada, et võlakirja saab igal ajal täishinnaga müüa.'],
+        quiz: { q: 'Mida tähendab, et võlakiri on allutatud?', opts: ['Sellelt makstakse kõrgemat maksu', 'Pankroti korral makstakse selle omanikele pärast teisi võlausaldajaid', 'Seda ei saa börsil müüa'], correct: 1, why: 'Allutatud võlakirja omanik on nõuete järjekorras tagapool. Seepärast on intress tavaliselt kõrgem.' },
+        sources: []
+      },
+      t2year: {
+        title: 'Aasta lõpu kontroll: maksud, sambad ja tasakaal',
+        lead: 'Novembris ja detsembris on mõned tähtajad, mis võivad sulle raha säästa. Kord aastas tasub portfell ka üle vaadata.',
+        terms: ['III sammas', 'II sammas', 'Rebalansseerimine', 'Tuludeklaratsioon'],
+        estonia: 'II samba makse määra muutmise avaldus tuleb esitada 30. novembriks, et uus määr kehtiks järgmise aasta algusest. III samba sissemakseid saab tulust maha arvata kuni 15 % ulatuses, aga mitte rohkem kui 6000 eurot aastas. Tuludeklaratsioon tuleb esitada 30. aprilliks.',
+        levels: {
+          algaja: { heading: 'Kolm asja aasta lõpus', body: '1. Kontrolli, kas tahad muuta II samba makse määra. Tähtaeg on 30. november.\n2. Tee III samba sissemakse enne aasta lõppu, kui tahad maksusoodustust selle aasta eest.\n3. Vaata portfell üle: kas jaotus on paigas.' },
+          kesk: { heading: 'III samba arvutus', body: 'Arvuta oma aasta brutotulu ja sellest 15 %. Nii palju saad III sambasse maksta ja maksusoodustust saada, kuid mitte üle 6000 euro. Sissemakse peab kontole jõudma enne aasta lõppu, nii et ära jäta seda viimasele päevale.\n\nTasakaalustamine kord aastas on lihtne reegel, mida on kerge meeles pidada.' },
+          edasi: { heading: 'Deklareerimise ettevalmistus', body: 'Kogu kokku kõigi investeerimiskontode väljavõtted, eriti välismaiste maaklerite omad, mis ei tule eeltäidetuna. Märgi üles välismaised dividendid ja kinnipeetud maksud.\n\nKui kasutad tavalist väärtpaberikontot, mõtle läbi, millal müük maksu mõttes mõistlik on.' }
+        },
+        example: 'Aasta brutotulu on 30 000 €. 15 % sellest on 4500 €. Kui oled III sambasse maksnud 2000 €, võid enne aasta lõppu maksta veel 2500 €. Kevadel saad 22 % tulumaksumääraga selle pealt tagasi 550 €.',
+        mistakes: ['Jätta III samba sissemakse viimastesse päevadesse, nii et see jõuab järgmisse aastasse.', 'Maksta III sambasse üle 15 % tulust ja oodata selle pealt maksutagastust.', 'Unustada välismaise konto andmed deklaratsiooni jaoks.'],
+        quiz: { q: 'Mis kuupäevaks tuleb esitada II samba makse määra muutmise avaldus, et see kehtiks järgmise aasta algusest?', opts: ['31. detsember', '30. november', '30. aprill'], correct: 1, why: 'Avaldus tuleb esitada 30. novembriks. Detsembris esitatud avaldus jõustub alles ülejärgmisel aastal.' },
+        sources: [{ label: 'MTA: III samba sissemaksed', url: 'https://emta.ee/eraklient/maksud-ja-tasumine/maksusoodustused/taiendava-kogumispensioni-sissemaksed' }, { label: 'Pensionikeskus: sissemakse määra muutmine', url: 'https://pensionikeskus.ee/en/ii-pillar/contributions/changing-the-rate-of-contributions-to-mandatory-funded-pensions' }]
+      },
+      t2fx: {
+        title: 'Valuutarisk ja selle maandamine',
+        lead: 'Kui investeerid eurodes, aga fond hoiab dollarites aktsiaid, mõjutab sinu tulemust ka dollari kurss.',
+        terms: ['Volatiilsus', 'ETF', 'Varaklass'],
+        estonia: 'Euroopa börsidel kaubeldakse paljusid maailma ja USA fonde eurodes. Euro hind ei tähenda, et valuutarisk kaob: fondi sees on endiselt dollarites aktsiad.',
+        levels: {
+          algaja: { heading: 'Lihtsalt öeldes', body: 'Kui USA aktsiad tõusevad dollarites 10 %, aga dollar odaveneb euro suhtes 10 %, on sinu tulemus eurodes ligikaudu null. Kui dollar kallineb, on tulemus parem.\n\nPikal perioodil kipuvad valuutamõjud osaliselt tasa tulema, lühiajaliselt võivad need olla suured.' },
+          kesk: { heading: 'Mis on maandatud fond', body: 'Valuutariski maandav (hedged) fond kasutab tuletisinstrumente, et kursimuutus ei mõjutaks tulemust. Fondi nimes on sageli „EUR Hedged“.\n\nMaandamisel on kulu ja see kaotab ka positiivse kursimõju. Aktsiafondide puhul jätavad paljud pikaajalised investorid riski maandamata, võlakirjafondide puhul aga maandavad, sest seal oleks kursikõikumine tootlusega võrreldes suur.' },
+          edasi: { heading: 'Kas maandada', body: 'Mõtle, mis valuutas sul raha tulevikus vaja on. Kui kulutad eurodes, on suur dollaririsk lisakõikumine.\n\nMaandamise kulu sõltub kahe valuuta intressivahest. Võrdle sama indeksi maandatud ja maandamata versiooni jooksvaid kulusid ja varasemat erinevust.' }
+        },
+        example: 'USA aktsiad tõusid aastaga dollarites 10 %. Euro tugevnes dollari suhtes 8 %. Maandamata fond tõusis eurodes umbes 1,9 %, maandatud fond umbes 10 % miinus maandamise kulu.',
+        mistakes: ['Arvata, et eurodes kaubeldav fond ei sisalda valuutariski.', 'Maandada aktsiafond ja maksta lisakulu, mõistmata, mida see teeb.', 'Unustada valuutariski võlakirjafondi valides.'],
+        quiz: { q: 'USA aktsiad tõusid dollarites 10 % ja dollar nõrgenes euro suhtes 10 %. Mis juhtus sinu maandamata fondiga eurodes?', opts: ['+20 %', 'Ligikaudu 0 %', '+10 %'], correct: 1, why: 'Aktsiate tõus ja dollari nõrgenemine tasakaalustavad teineteist. Tulemus eurodes on ligikaudu null.' },
+        sources: []
+      },
+      t2stock: {
+        title: 'Kas tasub osta üksikaktsiaid?',
+        lead: 'Üksikaktsiad on huvitavad ja hariduslikud, aga enamikule on pikaajalise vara alus siiski lai fond.',
+        terms: ['Aktsia', 'Indeksfond', 'Hajutamine', 'P/E suhe'],
+        estonia: 'Balti aktsiatega kauplemine on Eesti pankades internetis tasuta. See teeb väikestes summades üksikaktsiate ostmise lihtsaks, aga ei vähenda üksikaktsia riski.',
+        levels: {
+          algaja: { heading: 'Lihtsalt öeldes', body: 'Üksikaktsia puhul sõltub kõik ühest ettevõttest. Kui sellel läheb halvasti, võid kaotada suure osa rahast. Fond jagab riski paljude ettevõtete vahel.\n\nKui üksikaktsiad sind huvitavad, hoia neid väikese osana portfellist ja põhiraha laias fondis.' },
+          kesk: { heading: 'Tuum ja satelliidid', body: 'Levinud lähenemine: 80–90 % portfellist on lai indeksifond ehk tuum ja 10–20 % on üksikaktsiad või teemad ehk satelliidid. Nii saad õppida ja proovida, ilma et kogu vara oleks ühe otsuse taga.\n\nPea üksikaktsiate kohta kirja, miks ostsid ja millal müüksid.' },
+          edasi: { heading: 'Mida uuringud näitavad', body: 'Uuringud on aastakümneid näidanud, et enamik aktiivselt juhitud fonde jääb pikal perioodil oma võrdlusindeksile alla, peamiselt kulude tõttu. Erainvestoril on lisaks vähem infot ja aega.\n\nÜksikaktsiate valimine nõuab aruannete lugemist, ettevõtte äri mõistmist ja distsipliini müüa siis, kui põhjus ostuks on kadunud.' }
+        },
+        example: 'Mari pani 1000 € ühte tehnoloogiaaktsiasse ja see langes 60 %. Jüri pani 1000 € maailma indeksifondi. Isegi kui see aktsia oli fondis olemas, oli tema osa fondis nii väike, et Jüri portfell seda peaaegu ei tundnud.',
+        mistakes: ['Osta aktsia sõbra või sotsiaalmeedia soovituse põhjal.', 'Hoida kaotavat aktsiat lootuses, et „see tuleb tagasi“, ilma uue põhjenduseta.', 'Panna suur osa varast ühte ettevõttesse, kus ka töötad.'],
+        quiz: { q: 'Mis on „tuuma ja satelliitide“ lähenemise mõte?', opts: ['Kogu raha üksikaktsiates', 'Suurem osa laias fondis, väike osa üksikaktsiates', 'Ainult riigivõlakirjad'], correct: 1, why: 'Tuum annab hajutatuse, satelliidid võimaldavad proovida ja õppida suurt riski võtmata.' },
+        sources: []
+      },
+      t2life: {
+        title: 'Investeerimine ja elu muutused',
+        lead: 'Laps, kodulaen või töökaotus muudavad sinu rahalist olukorda. Plaan peab nendega kaasa muutuma.',
+        terms: ['Hädaabifond', 'Ajahorisont', 'Riskitaluvus'],
+        estonia: 'Lapsele saab investeerida lapse nimele avatud kontol, kus vanem teeb tehinguid ja deklareerib. Kodulaenu intress on Eestis tavaliselt seotud euriboriga, nii et selle võrdlus oodatava tootlusega muutub ajas.',
+        levels: {
+          algaja: { heading: 'Lihtsalt öeldes', body: 'Iga suure elumuutuse juures küsi kahte asja: kas puhver on piisav ja kas ajahorisont muutus.\n\nKui ootad last või kardad töökohta kaotada, on puhver tähtsam kui investeeringud. Kui ostad kodu mõne aasta pärast, tuleb selle raha jaoks võtta vähem riski.' },
+          kesk: { heading: 'Laen või investeerimine', body: 'Kui sul on kallis laen, näiteks krediitkaart või järelmaks, on selle tagasimaksmine peaaegu alati parem kui investeerimine, sest säästetud intress on kindel tulu.\n\nKodulaenu puhul võrdle laenu intressi oodatava tootlusega ja oma riskitaluvusega. Paljud teevad mõlemat: maksavad laenu graafiku järgi ja investeerivad regulaarselt.' },
+          edasi: { heading: 'Mitu eesmärki korraga', body: 'Jaga raha eesmärkide järgi: lühiajaline (kodu sissemakse), keskmine (lapse haridus) ja pikaajaline (pension). Igale eesmärgile on oma ajahorisont ja oma jaotus.\n\nVaata plaan üle iga suurema muutuse järel ja vähemalt kord aastas.' }
+        },
+        example: 'Krediitkaardi intress on 18 % aastas. 1000 euro tagasimaksmine säästab aastas 180 € kindlalt. Investeerides peaks sama summa teenima 18 % aastas, et olla sama hea, ja seda ei saa keegi lubada.',
+        mistakes: ['Investeerida, kui kallis tarbimislaen on maksmata.', 'Hoida kodu sissemakse raha täielikult aktsiates, kui ost on aasta-kahe pärast.', 'Mitte üle vaadata plaani pärast suurt muutust elus.'],
+        quiz: { q: 'Sul on krediitkaardivõlg 18 % intressiga ja 1000 € vaba raha. Mis on tavaliselt mõistlikum?', opts: ['Investeerida aktsiatesse', 'Maksta võlg tagasi', 'Hoida arvelduskontol'], correct: 1, why: 'Võla tagasimaksmine annab kindla „tootluse“, mis on võrdne võla intressiga.' },
+        sources: []
+      }
+    };
+  }
   topicData() {
     var EMTA_IK = { label: 'MTA: väärtpaberid ja investeerimiskonto', url: 'https://emta.ee/eraklient/maksud-ja-tasumine/maksustatavad-tulud/vaartpaberid-ja-investeerimiskonto' };
     return {
@@ -1476,7 +1750,7 @@ class Component extends DCLogic {
       { id: 'edasi', label: 'Edasijõudnu', dot: '#B4382F' }
     ];
     var navDefs = [['topics', 'Õpi'], ['money', 'Rahaküsimused'], ['tools', 'Tööriistad'], ['invest', 'Turud'], ['qa', 'Kogukond']];
-    var activeMap = { next: 'topics', topic: 'topics', calc: 'tools', fees: 'tools', pf: 'tools', ai: 'qa', mq: 'money', guide: 'invest' };
+    var activeMap = { plan: 'topics', next: 'topics', topic: 'topics', calc: 'tools', fees: 'tools', pf: 'tools', ai: 'qa', mq: 'money', guide: 'invest' };
     var active = activeMap[s.screen] || s.screen;
     var nav = navDefs.map(function (d) {
       var on = d[0] === active;
@@ -1527,6 +1801,9 @@ class Component extends DCLogic {
     var extra = this.topicData();
     Object.keys(extra).forEach(function (k) { topics[k] = Object.assign({}, topics[k] || {}, extra[k]); });
     var topicOrder = ['risk', 'aktsia', 'volakiri', 'etf', 'ik', 'tasud', 'alustamine', 'hajutamine', 'dividendid', 'sammas'];
+    var extra2 = this.topicData2();
+    Object.keys(extra2).forEach(function (k) { topics[k] = extra2[k]; });
+    var topicOrder2 = ['t2kid', 't2order', 't2watch', 't2crash', 't2div', 't2bond', 't2year', 't2fx', 't2stock', 't2life'];
 
     function pct(rate, min) { return function (a, t) { return t * Math.max(min, a * rate); }; }
     function free() { return function () { return 0; }; }
@@ -1621,9 +1898,11 @@ class Component extends DCLogic {
 
     var topic = topics[s.topicId] || topics.etf;
     var topicLevel = topic.levels[s.level];
-    var tIdx = topicOrder.indexOf(s.topicId);
-    var prevId = tIdx > 0 ? topicOrder[tIdx - 1] : null;
-    var nextId = tIdx >= 0 && tIdx < topicOrder.length - 1 ? topicOrder[tIdx + 1] : null;
+    var isL2 = topicOrder2.indexOf(s.topicId) >= 0;
+    var curOrder = isL2 ? topicOrder2 : topicOrder;
+    var tIdx = curOrder.indexOf(s.topicId);
+    var prevId = tIdx > 0 ? curOrder[tIdx - 1] : null;
+    var nextId = tIdx >= 0 && tIdx < curOrder.length - 1 ? curOrder[tIdx + 1] : null;
     var quizPick = (s.quiz || {})[s.topicId];
     var qz = topic.quiz;
     var quizOpts = qz ? qz.opts.map(function (o, oi) {
@@ -1669,9 +1948,9 @@ class Component extends DCLogic {
     var nxDone = nxDefs.filter(function (d) { return nd[d[0]]; }).length;
     var nx = {
       badge: allDone ? 'Kõik 10 sammu läbitud' : 'Õpitee: ' + doneCount + ' / ' + topicOrder.length + ' sammu',
-      title: nxDone === nxDefs.length ? 'Oled valmis esimeseks investeeringuks' : 'Mis edasi? 8 sammu esimese päris investeeringuni',
-      lead: 'Teooria on käes. Nüüd vii see oma ellu. Märgi punkt tehtuks, kui oled selle ära teinud. Iga punkti juures on tööriist, mis aitab.',
-      progress: 'Tehtud ' + nxDone + ' / ' + nxDefs.length,
+      title: allDone ? 'Palju õnne, põhitõed on käes!' : 'Mis edasi?',
+      lead: 'Järgmised sammud: koosta oma plaan, jätka Tase 2 õpiteega ja tee kontrollnimekiri läbi enne esimest päris ostu.',
+      progress: 'Kontrollnimekiri: tehtud ' + nxDone + ' / ' + nxDefs.length,
       barStyle: 'height: 100%; border-radius: 999px; background: #FFFFFF; width: ' + Math.round(nxDone / nxDefs.length * 100) + '%',
       allDone: nxDone === nxDefs.length,
       items: nxDefs.map(function (d) {
@@ -1683,6 +1962,15 @@ class Component extends DCLogic {
           titleStyle: 'font-size: 16px; font-weight: 600; ' + (on ? 'color: #0B4D39' : 'color: #14201B') };
       })
     };
+    var isDone2 = function (id) { return topics[id].quiz && quizMap[id] === topics[id].quiz.correct; };
+    var done2 = topicOrder2.filter(isDone2).length;
+    var pathSteps2 = topicOrder2.map(function (id, i) {
+      var d = isDone2(id);
+      return { title: topics[id].title, lead: topics[id].lead, mark: d ? '✓' : String(i + 1),
+        numStyle: 'width: 36px; height: 36px; flex: none; border-radius: 999px; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; ' + (d ? 'background: #2F5DA8; color: #FFFFFF' : 'background: #E8EEF8; color: #1F3F75'),
+        pick: function () { self.go('topic', { topicId: id }); } };
+    });
+    var firstOpen2 = topicOrder2.filter(function (id) { return !isDone2(id); })[0] || topicOrder2[0];
     var toolCards = [
       { title: 'Palju ma kogun?', text: 'Arvuta, mis saab igakuisest investeerimisest aastate jooksul.', pick: function () { self.go('calc'); } },
       { title: 'Tasude võrdlus', text: 'Vaata, palju LHV, Swedbank, SEB ja Lightyear sinu summade pealt küsivad.', pick: function () { self.go('fees'); } },
@@ -1698,7 +1986,17 @@ class Component extends DCLogic {
       alustamine: ['arvuta, palju sinu igakuine summa aastatega kasvab.', 'Ava kalkulaator →', 'calc'],
       hajutamine: ['võrdle harjutusportfellis eri jaotusi.', 'Proovi harjutusportfelli →', 'pf'],
       dividendid: ['vaata, kuidas investeerimiskonto maksu edasi lükkab.', 'Arvuta →', 'mq', 'acc'],
-      sammas: ['arvuta, mida tähendab sinu jaoks 6 % makse.', 'Arvuta →', 'mq', 'pillar']
+      sammas: ['arvuta, mida tähendab sinu jaoks 6 % makse.', 'Arvuta →', 'mq', 'pillar'],
+      t2kid: ['võrdle, kui palju tasud sinu summade pealt maksavad.', 'Võrdle →', 'fees'],
+      t2order: ['vaata, kus on sinu ostu tasud väikseimad.', 'Võrdle →', 'fees'],
+      t2watch: ['arvuta oma portfelli tegelik tootlus.', 'Arvuta →', 'guide', { guideId: 'ret' }],
+      t2crash: ['vaata harjutusportfellis, kuidas langus ja taastumine välja näevad.', 'Proovi →', 'pf'],
+      t2div: ['vaata, kuidas investeerimiskonto maksu edasi lükkab.', 'Arvuta →', 'mq', 'acc'],
+      t2bond: ['võrdle harjutusportfellis aktsiate ja võlakirjade käitumist.', 'Proovi →', 'pf'],
+      t2year: ['arvuta, mida tähendab sinu jaoks II samba makse muutmine.', 'Arvuta →', 'mq', 'pillar'],
+      t2fx: ['proovi, kuidas valuutakurss sinu tulemust muudab.', 'Arvuta →', 'mq', 'fx'],
+      t2stock: ['võrdle harjutusportfellis eri jaotusi.', 'Proovi →', 'pf'],
+      t2life: ['vaata oma investeerimisplaan üle.', 'Ava plaan →', 'plan']
     };
     var topicExtra = {
       hasExample: !!topic.example, example: topic.example || '',
@@ -1706,13 +2004,13 @@ class Component extends DCLogic {
       hasQuiz: !!qz, quizQ: qz ? qz.q : '', quizOpts: quizOpts, quizDone: quizResult !== '', quizResult: quizResult,
       sources: topic.sources || [], hasSources: !!(topic.sources && topic.sources.length),
       hasPrev: !!prevId, hasNext: true,
-      prevLabel: prevId ? '← Eelmine samm' : '', nextLabel: nextId ? 'Järgmine: ' + topics[nextId].title + ' →' : 'Õpitee lõpp. Mis edasi? →',
+      prevLabel: prevId ? '← Eelmine samm' : '', nextLabel: nextId ? 'Järgmine: ' + topics[nextId].title + ' →' : (isL2 ? 'Tase 2 läbitud. Vaata oma plaani →' : 'Õpitee lõpp. Mis edasi? →'),
       goPrev: function () { if (prevId) self.go('topic', { topicId: prevId }); },
-      goNext: function () { if (nextId) self.go('topic', { topicId: nextId }); else self.go('next'); },
+      goNext: function () { if (nextId) self.go('topic', { topicId: nextId }); else self.go(isL2 ? 'plan' : 'next'); },
       tryText: tryMap[s.topicId] ? tryMap[s.topicId][0] : 'proovi harjutusportfelli',
       tryLabel: tryMap[s.topicId] ? tryMap[s.topicId][1] : 'Ava →',
-      tryOpen: function () { var t = tryMap[s.topicId] || ['', '', 'pf']; self.go(t[2], t[3] ? { mqId: t[3] } : {}); },
-      stepLabel: tIdx >= 0 ? 'Samm ' + (tIdx + 1) + ' / ' + topicOrder.length : '',
+      tryOpen: function () { var t = tryMap[s.topicId] || ['', '', 'pf']; self.go(t[2], t[3] ? (typeof t[3] === 'string' ? { mqId: t[3] } : t[3]) : {}); },
+      stepLabel: tIdx >= 0 ? (isL2 ? 'Tase 2 · samm ' : 'Samm ') + (tIdx + 1) + ' / ' + curOrder.length : '',
       basic: topic.levels.algaja.body,
       kesk: topic.levels.kesk, edasi: topic.levels.edasi,
       showKesk: (s.depth || 0) >= 1, showEdasi: (s.depth || 0) >= 2,
@@ -1911,7 +2209,7 @@ class Component extends DCLogic {
     var topicQs = qAll.filter(function (q) { return q.topic === s.topicId; }).map(compact);
     var sq = (s.searchQ || '').toLowerCase().trim();
     var has = function (txt) { return !!sq && String(txt || '').toLowerCase().indexOf(sq) >= 0; };
-    var srTopics = !sq ? [] : topicOrder.filter(function (id) {
+    var srTopics = !sq ? [] : topicOrder.concat(topicOrder2).filter(function (id) {
       var t = topics[id];
       return has(t.title) || has(t.lead) || has(t.levels.algaja.body) || has(t.levels.kesk.body) || has((t.terms || []).join(' '));
     }).map(function (id) { return { title: topics[id].title, lead: topics[id].lead, pick: function () { self.go('topic', { topicId: id }); } }; });
@@ -2154,6 +2452,55 @@ class Component extends DCLogic {
         { k: 'Ajakaalutud tootlus', v: pc(twr), note: 'Investeeringute tulemus. Võrdle seda indeksiga.', style: 'background: #14201B; color: #FFFFFF; border-radius: 14px; padding: 18px', sub: '#C9D8D0' }
       ],
       explain: 'Konto väärtus kasvas ' + pc(growth) + ', aga sellest suurem osa oli sinu enda lisatud ' + eur(rtD) + '. Investeeringute tegelik tulemus oli ' + pc(twr) + '. ' + (Math.abs(mwr - twr) > 0.005 ? (mwr > twr ? 'Sinu ajastus oli hea: lisasid raha enne tõusu.' : 'Sinu ajastus vähendas tulemust: lisasid raha enne nõrgemat perioodi.') : 'Ajastus tulemust märgatavalt ei mõjutanud.') };
+    var pa = s.plan || {};
+    var pGoal = pa.goal || 'vara', pYears = pa.years || 15, pAmt = pa.amt || 150, pBuf = pa.buf || 'jah', pReact = pa.react || 'ootan';
+    var pAlloc = pa.alloc === undefined ? 70 : pa.alloc, pPlat = pa.plat || 'Lightyear', pAcc = pa.acc || 'ik', pDay = pa.day || 5;
+    var setPlan = function (k, v) { var x = Object.assign({}, pa); x[k] = v; self.setState({ plan: x }); };
+    var goals = [['vara', 'Vara kasvatamine'], ['pension', 'Lisa pensioniks'], ['kodu', 'Kodu sissemakse'], ['laps', 'Lapse tulevik'], ['muu', 'Muu eesmärk']];
+    var goalText = { vara: 'oma vara kasvatamiseks', pension: 'pensionipõlve lisaks', kodu: 'kodu sissemakseks', laps: 'lapse tulevikuks', muu: 'oma eesmärgi jaoks' };
+    var bufs = [['jah', 'Jah'], ['osaliselt', 'Osaliselt'], ['ei', 'Ei ole']];
+    var reacts = [['muun', 'Müüksin, et rohkem ei kaotaks'], ['ootan', 'Ootaksin rahulikult'], ['ostan', 'Ostaksin juurde']];
+    var platDef = feeDefs.filter(function (f) { return f.name === pPlat; })[0] || feeDefs[3];
+    var yearFee = platDef.etf.fn(pAmt, 12);
+    var feePct = pAmt > 0 ? yearFee / (pAmt * 12) * 100 : 0;
+    var rP = (pAlloc / 100 * 0.06 + (1 - pAlloc / 100) * 0.02) / 12, nP = pYears * 12;
+    var fvP = rP > 0 ? pAmt * (Math.pow(1 + rP, nP) - 1) / rP : pAmt * nP;
+    var crash = Math.round(pAlloc * 0.45 + (100 - pAlloc) * 0.05);
+    var pWarn = [];
+    if (pBuf === 'ei') pWarn.push('Sul pole puhvrit. Kogu enne investeerimist raha ootamatuteks kuludeks, muidu võid pidada investeeringud halval hetkel maha müüma.');
+    if (pBuf === 'osaliselt') pWarn.push('Puhver on osaliselt olemas. Kaalu, kas suunata alguses osa igakuisest summast puhvri täiendamiseks.');
+    if (pYears <= 3 && pAlloc > 30) pWarn.push('Raha on vaja juba ' + pYears + ' aasta pärast, aga aktsiaid on ' + pAlloc + ' %. Suur langus võib tabada just enne raha kasutamist.');
+    if (pReact === 'muun' && pAlloc > 50) pWarn.push('Ütlesid, et 20 % languse korral müüksid. ' + pAlloc + ' % aktsiatega on selline langus täiesti võimalik. Kaalu väiksemat aktsiaosa, mille juures jääksid rahulikuks.');
+    if (pYears >= 15 && pAlloc < 30) pWarn.push('Aega on ' + pYears + ' aastat, aga aktsiaid ainult ' + pAlloc + ' %. Pikal perioodil võib liiga väike aktsiaosa tähendada aeglast kasvu.');
+    if (pAcc === 'tava') pWarn.push('Valisid tavalise väärtpaberikonto. Investeerimiskontol saad investeeringuid vahetada ilma, et iga müük kohe maksu tekitaks.');
+    if (feePct > 1) pWarn.push('Ostutasud võtavad ' + feePct.toLocaleString('et-EE', { maximumFractionDigits: 1 }) + ' % sinu sissemaksetest. Vaata tasude võrdlust või kaalu harvemat ostmist.');
+    var reactRule = pReact === 'muun' ? 'Kui portfell langeb, ei tee ma esimese hooga midagi. Ootan vähemalt kuu ja loen enne otsustamist läbi oma plaani.' : (pReact === 'ostan' ? 'Kui portfell langeb, jätkan püsiostuga ja kaalun puhvrist väljaspool oleva lisaraha investeerimist.' : 'Kui portfell langeb, jätkan püsiostuga ega müü paanikas.');
+    var today = new Date();
+    var plan = {
+      goalOpts: goals.map(function (g) { return { label: g[1], pick: function () { setPlan('goal', g[0]); }, style: chip(g[0] === pGoal) }; }),
+      bufOpts: bufs.map(function (g) { return { label: g[1], pick: function () { setPlan('buf', g[0]); }, style: chip(g[0] === pBuf) }; }),
+      reactOpts: reacts.map(function (g) { return { label: g[1], pick: function () { setPlan('react', g[0]); }, style: chip(g[0] === pReact) }; }),
+      platOpts: feeDefs.map(function (f) { return { label: f.name, pick: function () { setPlan('plat', f.name); }, style: chip(f.name === pPlat) }; }),
+      accOpts: [['ik', 'Investeerimiskonto'], ['tava', 'Tavaline väärtpaberikonto']].map(function (g) { return { label: g[1], pick: function () { setPlan('acc', g[0]); }, style: chip(g[0] === pAcc) }; }),
+      years: pYears, yearsLabel: pYears + (pYears === 1 ? ' aasta' : ' aasta pärast'), amt: pAmt, amtLabel: eur(pAmt), alloc: pAlloc, bonds: 100 - pAlloc, day: pDay,
+      warns: pWarn, hasWarn: pWarn.length > 0,
+      date: today.toLocaleDateString('et-EE'),
+      headline: 'Investeerin ' + eur(pAmt) + ' kuus ' + pYears + ' aastat ' + goalText[pGoal],
+      lines: [
+        'Jaotus: ' + pAlloc + ' % aktsiad ja ' + (100 - pAlloc) + ' % võlakirjad, laiades ja madala tasuga fondides.',
+        'Investeerin platvormil ' + pPlat + ', ' + (pAcc === 'ik' ? 'investeerimiskontol.' : 'tavalisel väärtpaberikontol.'),
+        'Püsiost iga kuu ' + pDay + '. kuupäeval.',
+        pBuf === 'jah' ? 'Puhver ootamatuteks kuludeks on olemas.' : (pBuf === 'osaliselt' ? 'Puhver on osaliselt olemas ja täiendan seda.' : 'Kogun enne alustamist puhvri.'),
+        'Vaatan portfelli üle kord aastas ja taastan vajadusel jaotuse.'
+      ],
+      nums: [
+        { k: 'Sissemaksed kokku', v: eur(pAmt * nP) },
+        { k: 'Näitlik väärtus lõpus', v: eur(Math.round(fvP / 100) * 100) },
+        { k: 'Suures kriisis võib langeda', v: '−' + crash + ' %' },
+        { k: 'Ostutasud aastas', v: eur(Math.round(yearFee * 100) / 100, 2) }
+      ],
+      rules: [reactRule, 'Ma ei muuda jaotust ainult uudiste või teiste soovituste pärast.', 'Kui elus midagi oluliselt muutub, vaatan plaani uuesti üle.', 'Detsembris kontrollin III samba sissemakset ja tasakaalustan portfelli.']
+    };
     var assets = this.pfAssets();
     var pfTotal = this.pfTotal(s);
     var invested = pfTotal - s.pfCash;
@@ -2343,6 +2690,14 @@ class Component extends DCLogic {
       steps: pathSteps, progressLabel: progressLabel, startLabel: startLabel,
       startPath: function () { if (doneCount === topicOrder.length) self.go('next'); else self.go('topic', { topicId: firstOpen }); },
       doorTitle: allDone ? 'Mis edasi? →' : 'Alustan nullist →', doorText: allDone ? 'Õpitee on läbitud. 8 sammu esimese päris investeeringuni.' : '10 lühikest sammu, igaüks paar minutit. Alustad kõige lihtsamast.',
+      steps2: pathSteps2, progress2: done2 === 0 ? '' : 'Läbitud ' + done2 + ' / ' + topicOrder2.length + '.',
+      goTase2: function () { self.go('topic', { topicId: firstOpen2 }); },
+      isPlan: s.screen === 'plan', goPlan: function () { self.go('plan'); }, plan: plan,
+      planSetYears: function (e) { var x = Object.assign({}, pa); x.years = Number(e.target.value); self.setState({ plan: x }); },
+      planSetAmt: function (e) { var x = Object.assign({}, pa); x.amt = Number(e.target.value); self.setState({ plan: x }); },
+      planSetAlloc: function (e) { var x = Object.assign({}, pa); x.alloc = Number(e.target.value); self.setState({ plan: x }); },
+      planSetDay: function (e) { var x = Object.assign({}, pa); x.day = Number(e.target.value); self.setState({ plan: x }); },
+      planPrint: function () { try { window.print(); } catch (e) {} },
       isNext: s.screen === 'next', nx: nx, goNext2: function () { self.go('next'); }, allDone: allDone,
       tools: toolCards, isTools: s.screen === 'tools',
       goTools: function () { self.go('tools'); },
@@ -2372,7 +2727,7 @@ class Component extends DCLogic {
 
 (function () {
   var KEY = 'borsitark-v1';
-  var KEEP = ["pf2Alloc", "pf2Ev", "pf2Shown", "userQs", "replies", "votes", "best", "quiz", "myName", "fqAmt", "fqPlat", "plGross", "plYears", "plRate", "nextDone"];
+  var KEEP = ["pf2Alloc", "pf2Ev", "pf2Shown", "userQs", "replies", "votes", "best", "quiz", "myName", "fqAmt", "fqPlat", "plGross", "plYears", "plRate", "nextDone", "plan"];
   window.addEventListener('DOMContentLoaded', function () {
     var TV = {
       ticker: { src: 'embed-widget-ticker-tape.js', cfg: { symbols: [
