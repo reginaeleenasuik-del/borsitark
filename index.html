@@ -133,7 +133,7 @@ h1,h2{overflow-wrap:anywhere}
 </div>
 </section>
 <aside style="flex: 1 1 280px; display: flex; flex-direction: column; gap: 10px">
-<h2 style="margin: 0 0 2px; font-family: 'Space Grotesk', sans-serif; font-size: 24px">Tööriistad</h2>
+<h2 style="margin: 0 0 2px; font-family: 'Space Grotesk', sans-serif; font-size: 24px">Tegevused</h2>
 <sc-for list="{{ tools }}" as="t" hint-placeholder-count="3">
 <button onClick="{{ t.pick }}" style="text-align: left; background: #FFFFFF; border: 1px solid #E2E6E1; border-radius: 12px; padding: 16px 18px; display: flex; flex-direction: column; gap: 4px">
 <span style="font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 600; color: #14201B">{{ t.title }}</span>
@@ -228,11 +228,14 @@ h1,h2{overflow-wrap:anywhere}
 </div>
 <sc-if value="{{ tx.quizDone }}" hint-placeholder-val="{{ false }}">
 <p style="margin: 12px 0 0; font-size: 15px; color: #22302A">{{ tx.quizResult }}</p>
-<div style="margin-top: 14px; padding: 14px 16px; border-radius: 10px; background: #FFFFFF; border: 1.5px solid #0E6B4F; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px">
-<span style="font-size: 15px; font-weight: 600">Järgmine praktiline samm: {{ tx.tryText }}</span>
-<button onClick="{{ tx.tryOpen }}" style="min-height: 44px; padding: 0 16px; border: 0; border-radius: 10px; background: {{ accent }}; color: #FFFFFF; font-size: 15px; font-weight: 600">{{ tx.tryLabel }}</button>
+
+</sc-if>
 </div>
 </sc-if>
+<sc-if value="{{ tx.hasQuiz }}" hint-placeholder-val="{{ true }}">
+<div style="margin-top: 16px; padding: 14px 16px; border-radius: 10px; background: #FFFFFF; border: 1.5px solid #0E6B4F; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px">
+<span style="font-size: 15px; font-weight: 600">Järgmine praktiline samm: {{ tx.tryText }}</span>
+<button onClick="{{ tx.tryOpen }}" style="min-height: 44px; padding: 0 16px; border: 0; border-radius: 10px; background: {{ accent }}; color: #FFFFFF; font-size: 15px; font-weight: 600">{{ tx.tryLabel }}</button>
 </div>
 </sc-if>
 
@@ -871,15 +874,107 @@ h1,h2{overflow-wrap:anywhere}
 </sc-if>
 
 <sc-if value="{{ isTools }}" hint-placeholder-val="{{ false }}">
-<h1 style="margin: 0 0 8px; font-family: 'Space Grotesk', sans-serif; font-size: 36px">Tööriistad</h1>
-<p style="margin: 0 0 24px; color: #4B5A53; max-width: 640px">Arvuta, võrdle ja proovi järele ilma päris rahata.</p>
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px">
-<sc-for list="{{ tools }}" as="t" hint-placeholder-count="3">
-<button onClick="{{ t.pick }}" style="text-align: left; background: #FFFFFF; border: 1px solid #E2E6E1; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 8px; min-height: 150px">
-<span style="font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 600; color: #14201B">{{ t.title }}</span>
-<span style="font-size: 15px; color: #4B5A53">{{ t.text }}</span>
+<h1 style="margin: 0 0 8px; font-family: 'Space Grotesk', sans-serif; font-size: 36px">Tegevused</h1>
+<p style="margin: 0 0 24px; color: #4B5A53; max-width: 680px">Kõik, mida saad Börsitargas ise teha, ühes kohas. Ava ükskõik milline otse, ilma õppetükki läbimata.</p>
+<sc-for list="{{ hub }}" as="g" hint-placeholder-count="4">
+<section style="margin-bottom: 28px">
+<h2 style="margin: 0 0 4px; font-family: 'Space Grotesk', sans-serif; font-size: 22px">{{ g.title }}</h2>
+<p style="margin: 0 0 12px; font-size: 15px; color: #4B5A53">{{ g.text }}</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 10px">
+<sc-for list="{{ g.items }}" as="it" hint-placeholder-count="4">
+<button onClick="{{ it.pick }}" style="{{ it.style }}">
+<span style="font-size: 16px; font-weight: 600; color: #14201B">{{ it.title }}</span>
+<span style="font-size: 14px; color: #4B5A53">{{ it.text }}</span>
+<span style="font-size: 13px; font-weight: 600; color: {{ it.tagColor }}">{{ it.tag }}</span>
 </button>
 </sc-for>
+</div>
+</section>
+</sc-for>
+</sc-if>
+
+<sc-if value="{{ isTask }}" hint-placeholder-val="{{ false }}">
+<div style="max-width: 820px; margin: 0 auto">
+<button onClick="{{ goTools }}" style="background: none; border: 0; padding: 0; min-height: 44px; color: {{ accent }}; font-size: 15px; font-weight: 500">← Kõik tegevused</button>
+<sc-if value="{{ tk.on }}" hint-placeholder-val="{{ true }}">
+<div style="margin-top: 28px; padding: 22px; border-radius: 14px; background: #EEF3FB; border: 1.5px solid #2F5DA8; display: flex; flex-direction: column; gap: 14px">
+<p style="margin: 0; font-size: 13px; font-weight: 700; color: #1F3F75; text-transform: uppercase; letter-spacing: 0.04em">Tee ise</p>
+<p style="margin: 0; font-size: 18px; font-weight: 700; color: #14201B">{{ tk.title }}</p>
+<p style="margin: 0; font-size: 15px; color: #22302A">{{ tk.intro }}</p>
+
+<sc-for list="{{ tk.sliders }}" as="sl" hint-placeholder-count="3">
+<div>
+<label for="{{ sl.id }}" style="display: flex; justify-content: space-between; font-size: 15px; font-weight: 600"><span>{{ sl.label }}</span><span>{{ sl.show }}</span></label>
+<input id="{{ sl.id }}" type="range" min="{{ sl.min }}" max="{{ sl.max }}" step="{{ sl.step }}" value="{{ sl.value }}" onChange="{{ sl.set }}" style="width: 100%; accent-color: #2F5DA8; min-height: 32px">
+</div>
+</sc-for>
+
+<sc-for list="{{ tk.choices }}" as="ch" hint-placeholder-count="1">
+<div>
+<p style="margin: 0 0 6px; font-size: 15px; font-weight: 600">{{ ch.label }}</p>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{ ch.opts }}" as="o" hint-placeholder-count="3"><button onClick="{{ o.pick }}" style="{{ o.style }}">{{ o.label }}</button></sc-for>
+</div>
+</div>
+</sc-for>
+
+<sc-for list="{{ tk.checks }}" as="c" hint-placeholder-count="0">
+<button onClick="{{ c.toggle }}" style="{{ c.style }}"><span style="{{ c.boxStyle }}">{{ c.mark }}</span><span>{{ c.label }}</span></button>
+</sc-for>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px">
+<sc-for list="{{ tk.results }}" as="r" hint-placeholder-count="3">
+<div style="{{ r.style }}">
+<p style="margin: 0; font-size: 13px; color: {{ r.sub }}">{{ r.k }}</p>
+<p style="margin: 4px 0 0; font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700">{{ r.v }}</p>
+</div>
+</sc-for>
+</div>
+<p style="margin: 0; font-size: 15px; color: #14201B; white-space: pre-line">{{ tk.verdict }}</p>
+
+<div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center">
+<sc-if value="{{ tk.hasSave }}" hint-placeholder-val="{{ false }}">
+<button onClick="{{ tk.save }}" style="min-height: 44px; padding: 0 16px; border: 0; border-radius: 10px; background: #2F5DA8; color: #FFFFFF; font-size: 15px; font-weight: 600">{{ tk.saveLabel }}</button>
+</sc-if>
+<sc-if value="{{ tk.hasIcs }}" hint-placeholder-val="{{ false }}">
+<button onClick="{{ tk.ics }}" style="min-height: 44px; padding: 0 16px; border: 1.5px solid #2F5DA8; border-radius: 10px; background: #FFFFFF; color: #1F3F75; font-size: 15px; font-weight: 600">Lisa meeldetuletused kalendrisse</button>
+</sc-if>
+<button onClick="{{ tk.done }}" style="{{ tk.doneStyle }}">{{ tk.doneLabel }}</button>
+</div>
+<sc-if value="{{ tk.hasMsg }}" hint-placeholder-val="{{ false }}">
+<p style="margin: 0; font-size: 14px; font-weight: 600; color: #0B4D39">{{ tk.msg }}</p>
+</sc-if>
+</div>
+</sc-if>
+<p style="margin: 16px 0 0; font-size: 15px; color: #4B5A53">Taust selle tegevuse juurde: <button onClick="{{ taskTopic }}" style="background: none; border: 0; padding: 0; color: #0B5C43; font-size: 15px; font-weight: 600; text-decoration: underline">{{ taskTopicTitle }}</button></p>
+</div>
+</sc-if>
+
+<sc-if value="{{ isCal }}" hint-placeholder-val="{{ false }}">
+<div style="max-width: 820px; margin: 0 auto">
+<button onClick="{{ goTools }}" style="background: none; border: 0; padding: 0; min-height: 44px; color: {{ accent }}; font-size: 15px; font-weight: 500">← Kõik tegevused</button>
+<h1 style="margin: 0 0 8px; font-family: 'Space Grotesk', sans-serif; font-size: 34px">Rahakalender</h1>
+<p style="margin: 0 0 18px; color: #4B5A53">Aasta olulised kuupäevad investorile, järjekorras alates tänasest. Lisa need ühe nupuvajutusega oma kalendrisse.</p>
+<button onClick="{{ cal.ics }}" style="min-height: 52px; padding: 0 22px; border: 0; border-radius: 12px; background: {{ accent }}; color: #FFFFFF; font-size: 16px; font-weight: 600; margin-bottom: 8px">Lisa kõik kuupäevad minu kalendrisse</button>
+<p style="margin: 0 0 20px; font-size: 14px; color: #4B5A53">{{ cal.howto }}</p>
+<sc-if value="{{ cal.hasMsg }}" hint-placeholder-val="{{ false }}"><p style="margin: 0 0 16px; font-size: 14px; font-weight: 600; color: #0B4D39">{{ cal.msg }}</p></sc-if>
+<ol style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px">
+<sc-for list="{{ cal.items }}" as="c" hint-placeholder-count="6">
+<li style="{{ c.style }}">
+<div style="width: 76px; flex: none; text-align: center">
+<p style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 26px; font-weight: 700; line-height: 1">{{ c.day }}</p>
+<p style="margin: 2px 0 0; font-size: 13px; color: #4B5A53; text-transform: uppercase">{{ c.mon }}</p>
+<p style="margin: 4px 0 0; font-size: 12px; font-weight: 600; color: {{ c.soonColor }}">{{ c.soon }}</p>
+</div>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 16px; font-weight: 600">{{ c.title }}</span>
+<span style="font-size: 14px; color: #4B5A53">{{ c.text }}</span>
+</div>
+<button onClick="{{ c.open }}" style="min-height: 44px; padding: 0 14px; border: 1px solid #0E6B4F; border-radius: 10px; background: #FFFFFF; color: #0B5C43; font-size: 14px; font-weight: 600; white-space: nowrap">{{ c.cta }}</button>
+</li>
+</sc-for>
+</ol>
+<p style="margin: 16px 0 0; font-size: 13px; color: #4B5A53">Tähtajad on kontrollitud Maksu- ja Tolliameti ning Pensionikeskuse lehtedelt 23.11.2026. Kui mõni kuupäev langeb puhkepäevale, võib tegelik tähtaeg nihkuda.</p>
 </div>
 </sc-if>
 
@@ -1800,8 +1895,8 @@ class Component extends DCLogic {
       { id: 'kesk', label: 'Kesktase', dot: '#C27A00' },
       { id: 'edasi', label: 'Edasijõudnu', dot: '#B4382F' }
     ];
-    var navDefs = [['topics', 'Õpi'], ['money', 'Rahaküsimused'], ['tools', 'Tööriistad'], ['invest', 'Turud'], ['qa', 'Kogukond']];
-    var activeMap = { plan: 'topics', next: 'topics', topic: 'topics', calc: 'tools', fees: 'tools', pf: 'tools', ai: 'qa', mq: 'money', guide: 'invest' };
+    var navDefs = [['topics', 'Õpi'], ['tools', 'Tegevused'], ['money', 'Rahaküsimused'], ['invest', 'Turud'], ['qa', 'Kogukond']];
+    var activeMap = { task: 'tools', cal: 'tools', plan: 'tools', next: 'topics', topic: 'topics', calc: 'tools', fees: 'tools', pf: 'tools', ai: 'qa', mq: 'money', guide: 'invest' };
     var active = activeMap[s.screen] || s.screen;
     var nav = navDefs.map(function (d) {
       var on = d[0] === active;
@@ -2625,7 +2720,7 @@ class Component extends DCLogic {
         T.results = dates.map(function (x, i) { return RES(i === 0 ? 'Järgmine ülevaatus' : (i + 1) + '. ülevaatus', x.toLocaleDateString('et-EE'), i === 0); });
         T.verdict = 'Ülevaatusel kontrolli kolme asja: kas püsiost toimus, kas jaotus on sihist üle 5 protsendipunkti eemal ja kas tasud on muutunud. Muul ajal ei pea portfelli vaatama.';
         T.hasSave = true; T.saveLabel = 'Lisa minu plaani';
-        T.save = function () { savePlan('review', 'Vaatan portfelli üle ' + frName + ', ' + dd + '. kuupäeval.', 'Lisatud sinu plaani reeglitesse.'); };
+        T.save = function () { var x = Object.assign({}, pa); x.review = 'Vaatan portfelli üle ' + frName + ', ' + dd + '. kuupäeval.'; x.reviewFreq = fr; x.reviewDay = dd; self.setState({ plan: x, tkMsg: 'Lisatud sinu plaani ja rahakalendrisse.' }); };
         T.hasIcs = true;
         T.ics = function () { downloadIcs('borsitark-ulevaatus', [{ d: ymd(dates[0]), t: 'Börsitark: portfelli ülevaatus', r: 'FREQ=MONTHLY;INTERVAL=' + fr, desc: 'Kontrolli püsiostu, jaotust ja tasusid.' }]); };
       } else if (tid === 't2crash') {
@@ -2712,6 +2807,72 @@ class Component extends DCLogic {
       T.doneStyle = 'min-height: 44px; padding: 0 16px; border-radius: 10px; font-size: 15px; font-weight: 600; ' + (isD ? 'background: #0E6B4F; color: #FFFFFF; border: 0' : 'background: #FFFFFF; color: #14201B; border: 1px solid #C9D1CB');
       tk = T;
     }
+    var HT = { tool: ['Tööriist', '#0B5C43'], task: ['Ülesanne', '#2F5DA8'], deep: ['Süvateema', '#7A3E9D'], plan: ['Minu', '#A35F00'] };
+    var hubItem = function (kind, title, text, pick, done) {
+      return { title: title, text: text, pick: pick, tag: done ? 'Tehtud ✓' : HT[kind][0], tagColor: done ? '#0B5C43' : HT[kind][1],
+        style: 'text-align: left; padding: 16px 18px; border-radius: 12px; display: flex; flex-direction: column; gap: 6px; min-height: 120px; ' + (done ? 'background: #F2F7F4; border: 1px solid #BFDCCF' : 'background: #FFFFFF; border: 1px solid #E2E6E1') };
+    };
+    var taskItem = function (id, title, text) { return hubItem('task', title, text, function () { self.go('task', { topicId: id }); }, !!(s.t2done || {})[id]); };
+    var hub = [
+      { title: 'Minu plaan ja kalender', text: 'Pane paika oma plaan ja olulised kuupäevad.', items: [
+        hubItem('plan', 'Minu investeerimisplaan', '8 küsimust ja plaan ühel lehel.', function () { self.go('plan'); }),
+        hubItem('plan', 'Rahakalender', 'Aasta olulised tähtajad, lisa need oma kalendrisse.', function () { self.go('cal'); }),
+        hubItem('plan', 'Kontrollnimekiri enne esimest ostu', '8 asja, mis tasub enne alustamist ära teha.', function () { self.go('next'); }),
+        taskItem('t2watch', 'Minu ülevaatuse rütm', 'Vali, kui tihti portfelli vaatad, ja lisa kalendrisse.') ] },
+      { title: 'Arvuta ja võrdle', text: 'Sisesta oma numbrid ja näe tulemust kohe.', items: [
+        hubItem('tool', 'Palju ma kogun?', 'Igakuise investeerimise kasv aastate jooksul.', function () { self.go('calc'); }),
+        hubItem('tool', 'Tasude võrdlus', 'LHV, Swedbank, SEB ja Lightyear sinu summadega.', function () { self.go('fees'); }),
+        hubItem('tool', 'Osta kord kuus või kvartalis?', 'Kui palju ostusagedus tasudes maksab.', function () { self.go('mq', { mqId: 'freq' }); }),
+        hubItem('tool', 'II samba makse 2, 4 või 6 %', 'Netopalga muutus ja kogutav summa.', function () { self.go('mq', { mqId: 'pillar' }); }),
+        hubItem('tool', 'Valuutakurss ja minu ETF', 'Miks fond eurodes teisiti liigub.', function () { self.go('mq', { mqId: 'fx' }); }),
+        hubItem('tool', 'Investeerimiskonto või tavakonto', 'Kui palju maksu fondi vahetamisel säästad.', function () { self.go('mq', { mqId: 'acc' }); }),
+        taskItem('t2year', 'III samba kalkulaator', 'Palju veel maksta ja palju tagasi saad.'),
+        taskItem('t2life', 'Laen või investeerimine', 'Arvuta oma laenu intressiga.') ] },
+      { title: 'Proovi järele', text: 'Harjuta ilma päris rahata.', items: [
+        hubItem('tool', 'Harjutusportfell', '1000 virtuaalset eurot ja 10 aastat sündmusi.', function () { self.go('pf'); }),
+        taskItem('t2order', 'Harjuta ostuorderit', 'Turu- ja limiithinnaga order, ka hinnahüpe.'),
+        taskItem('t2crash', 'Mängi läbi oma portfelli kriis', 'Mida 30 % langus sulle eurodes tähendab.') ] },
+      { title: 'Kontrolli oma investeeringuid', text: 'Võta lahti oma fond, aktsia või pakkumine ja kontrolli seda.', items: [
+        taskItem('t2kid', 'Fondi kulude võrdlus', 'Jooksvad kulud põhiteabedokumendist.'),
+        taskItem('t2div', 'Dividendiaktsia kontroll', 'Dividenditootlus, kogutootlus ja dividendilõks.'),
+        taskItem('t2bond', 'Võlakirjapakkumise kontroll', 'Kupong, lisarisk ja prospekti kontrollnimekiri.'),
+        taskItem('t2fx', 'Maandatud või maandamata fond', 'Võrdle oma numbritega.'),
+        taskItem('t2stock', 'Üksikaktsiate piirid', 'Kui palju kokku ja ühe aktsia kohta.') ] },
+      { title: 'Süvateemade kalkulaatorid', text: 'Põhjalikumad juhendid koos arvutustega.', items: [
+        hubItem('deep', 'Investeerimiskonto näidisaasta', 'Kaks kontot, dividendid ja deklareerimine.', function () { self.go('guide', { guideId: 'ik' }); }),
+        hubItem('deep', 'Tasakaalustamine', '80/20 portfellist sai 90/10: mida teha?', function () { self.go('guide', { guideId: 'rb' }); }),
+        hubItem('deep', 'Portfelli tegelik tootlus', 'Konto kasv ja tootlus ei ole sama asi.', function () { self.go('guide', { guideId: 'ret' }); }) ] }
+    ];
+
+    var today0 = new Date(); today0.setHours(0, 0, 0, 0);
+    var nextOcc = function (m, d) { var x = new Date(today0.getFullYear(), m - 1, d); if (x < today0) x = new Date(today0.getFullYear() + 1, m - 1, d); return x; };
+    var monN = ['jaan', 'veebr', 'märts', 'apr', 'mai', 'juuni', 'juuli', 'aug', 'sept', 'okt', 'nov', 'dets'];
+    var calDefs = [
+      [2, 15, 'Algab tulude deklareerimine', 'e-MTA-s avaneb eeltäidetud tuludeklaratsioon. Kontrolli investeerimiskonto andmeid ja lisa välismaise maakleri konto.', 'Juhend →', function () { self.go('guide', { guideId: 'ik' }); }],
+      [4, 30, 'Tuludeklaratsiooni tähtaeg', 'Viimane päev eelmise aasta tulude deklareerimiseks.', 'Juhend →', function () { self.go('guide', { guideId: 'ik' }); }],
+      [10, 1, 'Tulumaksu juurdemakse tähtaeg', 'Kui deklaratsiooni järgi tuleb maksu juurde maksta, tee seda selleks päevaks. Samaks päevaks tagastatakse ka enammakstud maks.', 'Juhend →', function () { self.go('guide', { guideId: 'ik' }); }],
+      [11, 30, 'II samba makse määra muutmise tähtaeg', 'Et uus määr kehtiks järgmise aasta algusest, esita avaldus selleks päevaks.', 'Arvuta →', function () { self.go('mq', { mqId: 'pillar' }); }],
+      [12, 15, 'III samba sissemakse', 'Tee sissemakse varakult, et see jõuaks selle aasta sisse. Soodustus kuni 15 % tulust, kuid mitte üle 6000 € aastas.', 'Arvuta →', function () { self.go('task', { topicId: 't2year' }); }],
+      [12, 20, 'Portfelli tasakaalustamine', 'Kontrolli, kas jaotus on sihist üle 5 protsendipunkti eemal.', 'Arvuta →', function () { self.go('guide', { guideId: 'rb' }); }]
+    ];
+    var calList = calDefs.map(function (c) { return { date: nextOcc(c[0], c[1]), title: c[2], text: c[3], cta: c[4], open: c[5], rr: 'FREQ=YEARLY' }; });
+    if (pa.reviewFreq) {
+      var rv = new Date(today0.getFullYear(), today0.getMonth(), pa.reviewDay || 1); if (rv < today0) rv = new Date(today0.getFullYear(), today0.getMonth() + 1, pa.reviewDay || 1);
+      calList.push({ date: rv, title: 'Minu portfelli ülevaatus', text: pa.review || 'Kontrolli püsiostu, jaotust ja tasusid.', cta: 'Ava →', open: function () { self.go('task', { topicId: 't2watch' }); }, rr: 'FREQ=MONTHLY;INTERVAL=' + pa.reviewFreq });
+    }
+    calList.sort(function (a, b) { return a.date - b.date; });
+    var cal = {
+      items: calList.map(function (c) {
+        var days = Math.round((c.date - today0) / 86400000);
+        return { day: c.date.getDate(), mon: monN[c.date.getMonth()], title: c.title, text: c.text, cta: c.cta, open: c.open,
+          soon: days === 0 ? 'täna' : (days < 60 ? days + ' päeva pärast' : ''), soonColor: days < 14 ? '#A35F00' : '#4B5A53',
+          style: 'display: flex; align-items: center; gap: 16px; padding: 14px 16px; border-radius: 12px; background: #FFFFFF; border: ' + (days < 14 ? '2px solid #E0A63A' : '1px solid #E2E6E1') };
+      }),
+      howto: pa.reviewFreq ? 'Sinu ülevaatuse päevad on lisatud sinu plaanist.' : 'Vihje: kui paned paika oma ülevaatuse rütmi, ilmuvad ka sinu ülevaatuse päevad siia.',
+      hasMsg: !!s.tkMsg && s.screen === 'cal', msg: s.tkMsg || '',
+      ics: function () { downloadIcs('borsitark-rahakalender', calList.map(function (c) { return { d: ymd(c.date), t: 'Börsitark: ' + c.title, r: c.rr, desc: c.text }; })); }
+    };
+    var taskTopicTitle = topics[s.topicId] ? topics[s.topicId].title : '';
     var assets = this.pfAssets();
     var pfTotal = this.pfTotal(s);
     var invested = pfTotal - s.pfCash;
@@ -2909,7 +3070,8 @@ class Component extends DCLogic {
       planSetAlloc: function (e) { var x = Object.assign({}, pa); x.alloc = Number(e.target.value); self.setState({ plan: x }); },
       planSetDay: function (e) { var x = Object.assign({}, pa); x.day = Number(e.target.value); self.setState({ plan: x }); },
       planPrint: function () { try { window.print(); } catch (e) {} },
-      tk: tk,
+      tk: tk, hub: hub, cal: cal, isTask: s.screen === 'task', isCal: s.screen === 'cal', taskTopicTitle: taskTopicTitle,
+      taskTopic: function () { self.go('topic', { topicId: s.topicId }); },
       isNext: s.screen === 'next', nx: nx, goNext2: function () { self.go('next'); }, allDone: allDone,
       tools: toolCards, isTools: s.screen === 'tools',
       goTools: function () { self.go('tools'); },
