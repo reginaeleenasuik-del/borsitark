@@ -52,8 +52,8 @@ h1,h2{overflow-wrap:anywhere}
 <p style="margin: 0; font-size: 19px; color: #4B5A53; max-width: 640px">Õpi rahulikus tempos ja küsi teistelt, kes on sama tee juba käinud.</p>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-top: 8px">
 <button onClick="{{ startPath }}" style="text-align: left; border: 0; border-radius: 16px; padding: 24px; background: {{ accent }}; color: #FFFFFF; display: flex; flex-direction: column; gap: 8px; min-height: 150px">
-<span style="font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700">Alustan nullist →</span>
-<span style="font-size: 16px; color: #DDEFE7">10 lühikest sammu, igaüks paar minutit. Alustad kõige lihtsamast.</span>
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700">{{ doorTitle }}</span>
+<span style="font-size: 16px; color: #DDEFE7">{{ doorText }}</span>
 <span style="font-size: 14px; color: #DDEFE7; font-weight: 600">{{ progressLabel }}</span>
 </button>
 <button onClick="{{ goInvest }}" style="text-align: left; border: 1.5px solid #14201B; border-radius: 16px; padding: 24px; background: #FFFFFF; color: #14201B; display: flex; flex-direction: column; gap: 8px; min-height: 150px">
@@ -146,6 +146,9 @@ h1,h2{overflow-wrap:anywhere}
 <sc-if value="{{ isTopics }}" hint-placeholder-val="{{ false }}">
 <h1 style="margin: 0 0 8px; font-family: 'Space Grotesk', sans-serif; font-size: 36px">Õpi 10 sammuga</h1>
 <p style="margin: 0 0 24px; color: #4B5A53; max-width: 640px">Alusta esimesest ja liigu järjest. Iga samm algab lihtsast selgitusest ja lõpeb ühe kontrollküsimusega. {{ progressLabel }}</p>
+<sc-if value="{{ allDone }}" hint-placeholder-val="{{ false }}">
+<button onClick="{{ goNext2 }}" style="width: 100%; max-width: 760px; text-align: left; margin-bottom: 16px; padding: 18px 20px; border: 0; border-radius: 14px; background: #0E6B4F; color: #FFFFFF; display: flex; flex-direction: column; gap: 4px"><span style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 700">Kõik 10 sammu läbitud. Mis edasi? →</span><span style="font-size: 15px; color: #DDEFE7">8 sammu esimese päris investeeringuni, iga sammu juures tööriist.</span></button>
+</sc-if>
 <ol style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; max-width: 760px">
 <sc-for list="{{ steps }}" as="s" hint-placeholder-count="10">
 <li>
@@ -656,6 +659,44 @@ h1,h2{overflow-wrap:anywhere}
 <p style="margin: 14px 0 0; padding: 12px 14px; border-radius: 10px; background: #FFF4E0; color: #5C3B00; font-size: 14px">{{ guide.note }}</p>
 </sc-if>
 </section>
+</div>
+</sc-if>
+
+<sc-if value="{{ isNext }}" hint-placeholder-val="{{ false }}">
+<div style="max-width: 820px; margin: 0 auto">
+<section style="background: #0E6B4F; color: #FFFFFF; border-radius: 20px; padding: 32px; display: flex; flex-direction: column; gap: 10px">
+<p style="margin: 0; font-size: 14px; font-weight: 700; color: #BFE3D2; text-transform: uppercase; letter-spacing: 0.04em">{{ nx.badge }}</p>
+<h1 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 34px; line-height: 1.15">{{ nx.title }}</h1>
+<p style="margin: 0; font-size: 17px; color: #E3F2EB">{{ nx.lead }}</p>
+<div style="height: 10px; border-radius: 999px; background: rgba(255,255,255,0.25); overflow: hidden; margin-top: 6px"><div style="{{ nx.barStyle }}"></div></div>
+<p style="margin: 0; font-size: 14px; color: #E3F2EB">{{ nx.progress }}</p>
+</section>
+
+<ol style="margin: 20px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px">
+<sc-for list="{{ nx.items }}" as="it" hint-placeholder-count="8">
+<li style="{{ it.style }}">
+<button onClick="{{ it.toggle }}" aria-label="{{ it.aria }}" style="{{ it.boxStyle }}">{{ it.mark }}</button>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px">
+<span style="{{ it.titleStyle }}">{{ it.title }}</span>
+<span style="font-size: 14px; color: #4B5A53">{{ it.text }}</span>
+</div>
+<button onClick="{{ it.open }}" style="min-height: 44px; padding: 0 14px; border: 1px solid #0E6B4F; border-radius: 10px; background: #FFFFFF; color: #0B5C43; font-size: 14px; font-weight: 600; white-space: nowrap">{{ it.cta }}</button>
+</li>
+</sc-for>
+</ol>
+
+<sc-if value="{{ nx.allDone }}" hint-placeholder-val="{{ false }}">
+<section style="margin-top: 20px; background: #FFFFFF; border: 2px solid #0E6B4F; border-radius: 16px; padding: 24px">
+<h2 style="margin: 0 0 8px; font-family: 'Space Grotesk', sans-serif; font-size: 22px">Oled valmis. Mis nüüd?</h2>
+<p style="margin: 0 0 14px; font-size: 16px; color: #22302A">Kõige olulisem on nüüd järjepidevus: lase püsiostul töötada ja ära reageeri igale kõikumisele. Siit leiad põhjuse tagasi tulla siis, kui tekib uus küsimus.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 10px">
+<button onClick="{{ goMoney }}" style="min-height: 44px; padding: 0 16px; border: 0; border-radius: 10px; background: {{ accent }}; color: #FFFFFF; font-size: 15px; font-weight: 600">Rahaküsimused</button>
+<button onClick="{{ goInvest }}" style="min-height: 44px; padding: 0 16px; border: 1px solid #C9D1CB; border-radius: 10px; background: #FFFFFF; color: #14201B; font-size: 15px">Süvateemad</button>
+<button onClick="{{ goQa }}" style="min-height: 44px; padding: 0 16px; border: 1px solid #C9D1CB; border-radius: 10px; background: #FFFFFF; color: #14201B; font-size: 15px">Kogukond</button>
+</div>
+</section>
+</sc-if>
+<p style="margin: 16px 0 0; font-size: 13px; color: #4B5A53">Märkused salvestuvad ainult sinu brauserisse. Börsitark õpetab ja selgitab, kuid ei anna investeerimissoovitusi.</p>
 </div>
 </sc-if>
 
@@ -1435,7 +1476,7 @@ class Component extends DCLogic {
       { id: 'edasi', label: 'Edasijõudnu', dot: '#B4382F' }
     ];
     var navDefs = [['topics', 'Õpi'], ['money', 'Rahaküsimused'], ['tools', 'Tööriistad'], ['invest', 'Turud'], ['qa', 'Kogukond']];
-    var activeMap = { topic: 'topics', calc: 'tools', fees: 'tools', pf: 'tools', ai: 'qa', mq: 'money', guide: 'invest' };
+    var activeMap = { next: 'topics', topic: 'topics', calc: 'tools', fees: 'tools', pf: 'tools', ai: 'qa', mq: 'money', guide: 'invest' };
     var active = activeMap[s.screen] || s.screen;
     var nav = navDefs.map(function (d) {
       var on = d[0] === active;
@@ -1613,6 +1654,35 @@ class Component extends DCLogic {
         pick: function () { self.go('topic', { topicId: id }); }
       };
     });
+    var allDone = doneCount === topicOrder.length;
+    var nd = s.nextDone || {};
+    var nxDefs = [
+      ['puhver', 'Mul on puhver ootamatuteks kuludeks', 'Kergesti kättesaadav raha mitme kuu kulude jaoks, et ei peaks investeeringuid halval hetkel müüma.', 'Loe →', function () { self.go('topic', { topicId: 'risk' }); }],
+      ['plaan', 'Tean, kui palju ja kui kaua investeerin', 'Arvuta, palju sinu igakuine summa aastatega kasvab.', 'Arvuta →', function () { self.go('calc'); }],
+      ['jaotus', 'Olen leidnud endale sobiva jaotuse', 'Proovi harjutusportfellis, kui suurt kõikumist sa välja kannatad.', 'Proovi →', function () { self.go('pf'); }],
+      ['platvorm', 'Olen valinud platvormi tasude järgi', 'Võrdle oma summa ja ostusageduse järgi, kus tasud on väikseimad.', 'Võrdle →', function () { self.go('fees'); }],
+      ['konto', 'Olen avanud investeerimiskonto enne esimest ostu', 'Maksusüsteem valitakse ostu hetkel. Tavakontole ostetud vara ei saa hiljem üle tõsta.', 'Loe →', function () { self.go('mq', { mqId: 'acc' }); }],
+      ['fond', 'Olen valinud laia ja madala tasuga fondi', 'Vaata, millele fondi valides tähelepanu pöörata.', 'Loe →', function () { self.go('topic', { topicId: 'etf', depth: 1 }); }],
+      ['pusiost', 'Olen seadistanud igakuise püsiostu', 'Automaatne ost palgapäeval aitab jätkata ilma iga kord otsustamata.', 'Loe →', function () { self.go('topic', { topicId: 'alustamine' }); }],
+      ['sammas', 'Olen kontrollinud oma II ja III sammast', 'Vaata üle oma pensionifondi tasud ja II samba makse määr.', 'Arvuta →', function () { self.go('mq', { mqId: 'pillar' }); }]
+    ];
+    var nxDone = nxDefs.filter(function (d) { return nd[d[0]]; }).length;
+    var nx = {
+      badge: allDone ? 'Kõik 10 sammu läbitud' : 'Õpitee: ' + doneCount + ' / ' + topicOrder.length + ' sammu',
+      title: nxDone === nxDefs.length ? 'Oled valmis esimeseks investeeringuks' : 'Mis edasi? 8 sammu esimese päris investeeringuni',
+      lead: 'Teooria on käes. Nüüd vii see oma ellu. Märgi punkt tehtuks, kui oled selle ära teinud. Iga punkti juures on tööriist, mis aitab.',
+      progress: 'Tehtud ' + nxDone + ' / ' + nxDefs.length,
+      barStyle: 'height: 100%; border-radius: 999px; background: #FFFFFF; width: ' + Math.round(nxDone / nxDefs.length * 100) + '%',
+      allDone: nxDone === nxDefs.length,
+      items: nxDefs.map(function (d) {
+        var on = !!nd[d[0]];
+        return { title: d[1], text: d[2], cta: d[3], open: d[4], mark: on ? '✓' : '', aria: (on ? 'Märgi tegemata: ' : 'Märgi tehtuks: ') + d[1],
+          toggle: function () { var x = Object.assign({}, nd); x[d[0]] = !on; self.setState({ nextDone: x }); },
+          style: 'display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 12px; ' + (on ? 'background: #E9F3EE; border: 1px solid #BFDCCF' : 'background: #FFFFFF; border: 1px solid #E2E6E1'),
+          boxStyle: 'width: 36px; height: 36px; flex: none; border-radius: 8px; font-size: 18px; font-weight: 700; ' + (on ? 'background: #0E6B4F; color: #FFFFFF; border: 0' : 'background: #FFFFFF; color: #0E6B4F; border: 2px solid #8A9A92'),
+          titleStyle: 'font-size: 16px; font-weight: 600; ' + (on ? 'color: #0B4D39' : 'color: #14201B') };
+      })
+    };
     var toolCards = [
       { title: 'Palju ma kogun?', text: 'Arvuta, mis saab igakuisest investeerimisest aastate jooksul.', pick: function () { self.go('calc'); } },
       { title: 'Tasude võrdlus', text: 'Vaata, palju LHV, Swedbank, SEB ja Lightyear sinu summade pealt küsivad.', pick: function () { self.go('fees'); } },
@@ -1635,10 +1705,10 @@ class Component extends DCLogic {
       mistakes: topic.mistakes || [], hasMistakes: !!(topic.mistakes && topic.mistakes.length),
       hasQuiz: !!qz, quizQ: qz ? qz.q : '', quizOpts: quizOpts, quizDone: quizResult !== '', quizResult: quizResult,
       sources: topic.sources || [], hasSources: !!(topic.sources && topic.sources.length),
-      hasPrev: !!prevId, hasNext: !!nextId,
-      prevLabel: prevId ? '← Eelmine samm' : '', nextLabel: nextId ? 'Järgmine: ' + topics[nextId].title + ' →' : '',
+      hasPrev: !!prevId, hasNext: true,
+      prevLabel: prevId ? '← Eelmine samm' : '', nextLabel: nextId ? 'Järgmine: ' + topics[nextId].title + ' →' : 'Õpitee lõpp. Mis edasi? →',
       goPrev: function () { if (prevId) self.go('topic', { topicId: prevId }); },
-      goNext: function () { if (nextId) self.go('topic', { topicId: nextId }); },
+      goNext: function () { if (nextId) self.go('topic', { topicId: nextId }); else self.go('next'); },
       tryText: tryMap[s.topicId] ? tryMap[s.topicId][0] : 'proovi harjutusportfelli',
       tryLabel: tryMap[s.topicId] ? tryMap[s.topicId][1] : 'Ava →',
       tryOpen: function () { var t = tryMap[s.topicId] || ['', '', 'pf']; self.go(t[2], t[3] ? { mqId: t[3] } : {}); },
@@ -2271,7 +2341,9 @@ class Component extends DCLogic {
       levelTabs: levelTabs, topicCards: topicCards,
       topic: topic, topicLevel: topicLevel, tx: topicExtra,
       steps: pathSteps, progressLabel: progressLabel, startLabel: startLabel,
-      startPath: function () { self.go('topic', { topicId: firstOpen }); },
+      startPath: function () { if (doneCount === topicOrder.length) self.go('next'); else self.go('topic', { topicId: firstOpen }); },
+      doorTitle: allDone ? 'Mis edasi? →' : 'Alustan nullist →', doorText: allDone ? 'Õpitee on läbitud. 8 sammu esimese päris investeeringuni.' : '10 lühikest sammu, igaüks paar minutit. Alustad kõige lihtsamast.',
+      isNext: s.screen === 'next', nx: nx, goNext2: function () { self.go('next'); }, allDone: allDone,
       tools: toolCards, isTools: s.screen === 'tools',
       goTools: function () { self.go('tools'); },
       isInvest: s.screen === 'invest', goInvest: function () { self.go('invest'); },
@@ -2300,7 +2372,7 @@ class Component extends DCLogic {
 
 (function () {
   var KEY = 'borsitark-v1';
-  var KEEP = ["pf2Alloc", "pf2Ev", "pf2Shown", "userQs", "replies", "votes", "best", "quiz", "myName", "fqAmt", "fqPlat", "plGross", "plYears", "plRate"];
+  var KEEP = ["pf2Alloc", "pf2Ev", "pf2Shown", "userQs", "replies", "votes", "best", "quiz", "myName", "fqAmt", "fqPlat", "plGross", "plYears", "plRate", "nextDone"];
   window.addEventListener('DOMContentLoaded', function () {
     var TV = {
       ticker: { src: 'embed-widget-ticker-tape.js', cfg: { symbols: [
