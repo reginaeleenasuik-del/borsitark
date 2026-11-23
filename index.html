@@ -596,98 +596,100 @@ h1,h2{overflow-wrap:anywhere}
 
 <sc-if value="{{ isPf }}" hint-placeholder-val="{{ false }}">
 <button onClick="{{ goTools }}" style="background: none; border: 0; padding: 0; min-height: 44px; color: {{ accent }}; font-size: 15px; font-weight: 500">← Tööriistad</button>
-<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 12px; margin-bottom: 8px">
-<h1 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 36px">Harjutusportfell</h1>
-<button onClick="{{ pfReset }}" style="min-height: 44px; padding: 0 16px; border: 1px solid #C9D1CB; border-radius: 10px; background: #FFFFFF; color: #2B3A33; font-size: 14px">Alusta otsast</button>
-</div>
-<p style="margin: 0 0 16px; color: #4B5A53; max-width: 720px">Investeeri 1000 virtuaalset eurot ja keri aega kuu kaupa edasi. Nii näed riskita, kuidas eri investeeringud käituvad.</p>
-<div style="margin: 0 0 24px; padding: 12px 16px; border-radius: 12px; background: #FFF4E0; color: #5C3B00; font-size: 14px; max-width: 820px">Prototüübis on hinnad simuleeritud. Valmis versioonis kasutatakse päris ETF-ide päeva lõpu hindu.</div>
+<h1 style="margin: 0 0 8px; font-family: 'Space Grotesk', sans-serif; font-size: 36px">Harjutusportfell</h1>
+<p style="margin: 0 0 20px; color: #4B5A53; max-width: 720px">Investeeri 1000 virtuaalset eurot ja vaata, mis juhtub 10 aasta jooksul. Iga aasta juures on kirjas, mis maailmas toimus ja miks sinu raha kasvas või kahanes.</p>
 
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 20px">
-<div style="background: #14201B; color: #FFFFFF; border-radius: 14px; padding: 20px">
-<p style="margin: 0; font-size: 14px; color: #C9D8D0">Portfelli väärtus</p>
-<p style="margin: 4px 0 0; font-family: 'Space Grotesk', sans-serif; font-size: 32px; font-weight: 700">{{ pf.totalLabel }}</p>
+<section style="background: #FFFFFF; border: 1px solid #E2E6E1; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 16px">
+<div>
+<p style="margin: 0 0 4px; font-size: 13px; font-weight: 600; color: #0B4D39; text-transform: uppercase; letter-spacing: 0.04em">1. samm</p>
+<label for="alloc" style="display: block; font-size: 18px; font-weight: 600; margin-bottom: 8px">Kuidas jagad 1000 eurot?</label>
+<input id="alloc" type="range" min="0" max="100" step="10" value="{{ pf2.alloc }}" onChange="{{ pf2SetAlloc }}" style="width: 100%; accent-color: #0E6B4F; min-height: 32px">
+<div style="display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 15px">
+<span><strong>Aktsiad {{ pf2.alloc }} %</strong> ({{ pf2.stockEur }}) kasvavad pikas plaanis rohkem, aga kõiguvad palju.</span>
+<span><strong>Võlakirjad {{ pf2.bondPct }} %</strong> ({{ pf2.bondEur }}) on rahulikumad, aga kasvavad aeglasemalt.</span>
 </div>
-<div style="background: #FFFFFF; border: 1px solid #E2E6E1; border-radius: 14px; padding: 20px">
+</div>
+<div>
+<p style="margin: 0 0 8px; font-size: 13px; font-weight: 600; color: #0B4D39; text-transform: uppercase; letter-spacing: 0.04em">2. samm</p>
+<div style="display: flex; flex-wrap: wrap; gap: 10px">
+<sc-if value="{{ pf2.canNext }}" hint-placeholder-val="{{ true }}">
+<button onClick="{{ pf2Next }}" style="min-height: 52px; padding: 0 24px; border: 0; border-radius: 12px; background: {{ accent }}; color: #FFFFFF; font-size: 17px; font-weight: 600">{{ pf2.nextLabel }}</button>
+<button onClick="{{ pf2All }}" style="min-height: 52px; padding: 0 20px; border: 1.5px solid #0E6B4F; border-radius: 12px; background: #FFFFFF; color: #0B5C43; font-size: 16px; font-weight: 600">Näita kõik 10 aastat</button>
+</sc-if>
+<button onClick="{{ pf2New }}" style="min-height: 52px; padding: 0 20px; border: 1px solid #C9D1CB; border-radius: 12px; background: #FFFFFF; color: #14201B; font-size: 16px">Uus mäng, uued 10 aastat</button>
+</div>
+</div>
+</section>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 16px">
+<div style="background: #14201B; color: #FFFFFF; border-radius: 14px; padding: 18px">
+<p style="margin: 0; font-size: 14px; color: #C9D8D0">{{ pf2.valueTitle }}</p>
+<p style="margin: 4px 0 0; font-family: 'Space Grotesk', sans-serif; font-size: 30px; font-weight: 700">{{ pf2.valueLabel }}</p>
+</div>
+<div style="background: #FFFFFF; border: 1px solid #E2E6E1; border-radius: 14px; padding: 18px">
 <p style="margin: 0; font-size: 14px; color: #4B5A53">Muutus algusest</p>
-<p style="{{ pf.changeStyle }}">{{ pf.changeLabel }}</p>
+<p style="{{ pf2.changeStyle }}">{{ pf2.changeLabel }}</p>
 </div>
-<div style="background: #FFFFFF; border: 1px solid #E2E6E1; border-radius: 14px; padding: 20px">
-<p style="margin: 0; font-size: 14px; color: #4B5A53">Vaba raha</p>
-<p style="margin: 4px 0 0; font-family: 'Space Grotesk', sans-serif; font-size: 26px; font-weight: 600">{{ pf.cashLabel }}</p>
-</div>
-<div style="background: #FFFFFF; border: 1px solid #E2E6E1; border-radius: 14px; padding: 20px">
-<p style="margin: 0; font-size: 14px; color: #4B5A53">Möödunud aeg</p>
-<p style="margin: 4px 0 0; font-family: 'Space Grotesk', sans-serif; font-size: 26px; font-weight: 600">{{ pf.monthLabel }}</p>
+<div style="background: #FFFFFF; border: 1px solid #E2E6E1; border-radius: 14px; padding: 18px">
+<p style="margin: 0; font-size: 14px; color: #4B5A53">Suurim langus vahepeal</p>
+<p style="margin: 4px 0 0; font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 600; color: #A3302A">{{ pf2.ddLabel }}</p>
 </div>
 </div>
 
-<div style="display: flex; flex-wrap: wrap; gap: 24px">
-<section style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
-<div style="background: #FFFFFF; border: 1px solid #E2E6E1; border-radius: 16px; padding: 20px 22px">
-<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 14px">
-<h2 style="margin: 0; font-size: 18px">Portfelli väärtus kuude kaupa</h2>
-<div style="display: flex; gap: 8px">
-<button onClick="{{ pfNext }}" style="min-height: 44px; padding: 0 18px; border: 0; border-radius: 10px; background: {{ accent }}; color: #FFFFFF; font-size: 15px; font-weight: 600">Järgmine kuu →</button>
-<button onClick="{{ pfYear }}" style="min-height: 44px; padding: 0 16px; border: 1px solid #0E6B4F; border-radius: 10px; background: #FFFFFF; color: #0B5C43; font-size: 15px; font-weight: 600">+1 aasta</button>
-</div>
-</div>
-<div role="img" aria-label="{{ pf.chartLabel }}" style="height: 140px; display: flex; align-items: flex-end; gap: 3px; border-bottom: 1px solid #C9D1CB; padding-bottom: 2px">
-<sc-for list="{{ pf.bars }}" as="b" hint-placeholder-count="1">
-<div style="{{ b.style }}"></div>
+<section style="margin-top: 16px; background: #FFFFFF; border: 1px solid #E2E6E1; border-radius: 16px; padding: 20px 22px">
+<h2 style="margin: 0 0 4px; font-size: 18px">Sinu 1000 euro teekond</h2>
+<p style="margin: 0 0 10px; font-size: 14px; color: #4B5A53">Katkendjoon on algne 1000 €. Joonest kõrgemal oled kasumis, madalamal kahjumis. Roheline punkt tähendab, et aasta oli plussis, punane, et miinuses.</p>
+<svg viewBox="0 0 640 260" role="img" aria-label="{{ pf2.chartLabel }}" style="width: 100%; height: auto; display: block">
+<line x1="56" x2="624" y1="{{ pf2.baseY }}" y2="{{ pf2.baseY }}" stroke="#8A9A92" stroke-width="1.5" stroke-dasharray="6 5"></line>
+<sc-for list="{{ pf2.yTicks }}" as="t" hint-placeholder-count="3">
+<text x="48" y="{{ t.y }}" text-anchor="end" font-size="12" fill="#4B5A53" dominant-baseline="middle">{{ t.label }}</text>
 </sc-for>
-</div>
-<p style="margin: 8px 0 0; font-size: 13px; color: #4B5A53">Iga tulp on üks kuu. Roheline tulp tähendab, et portfell on üle algse 1000 euro, punane, et alla selle.</p>
-</div>
+<sc-for list="{{ pf2.xTicks }}" as="t" hint-placeholder-count="11">
+<text x="{{ t.x }}" y="252" text-anchor="middle" font-size="12" fill="#4B5A53">{{ t.label }}</text>
+</sc-for>
+<polyline points="{{ pf2.points }}" fill="none" stroke="#14201B" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"></polyline>
+<sc-for list="{{ pf2.dots }}" as="d" hint-placeholder-count="5">
+<circle cx="{{ d.x }}" cy="{{ d.y }}" r="6" fill="{{ d.fill }}" stroke="#FFFFFF" stroke-width="2"></circle>
+</sc-for>
+</svg>
+</section>
 
-<div style="background: #FFFFFF; border: 1px solid #E2E6E1; border-radius: 16px; overflow: hidden">
-<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; padding: 18px 22px; border-bottom: 1px solid #E2E6E1">
-<h2 style="margin: 0; font-size: 18px">Vali, millesse investeerida</h2>
-<div role="group" aria-label="Ostusumma" style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center">
-<span style="font-size: 14px; color: #4B5A53">Ostan korraga:</span>
-<sc-for list="{{ pf.amtOpts }}" as="o" hint-placeholder-count="3">
-<button onClick="{{ o.pick }}" style="{{ o.style }}">{{ o.label }}</button>
+<sc-if value="{{ pf2.hasYears }}" hint-placeholder-val="{{ false }}">
+<section style="margin-top: 16px">
+<h2 style="margin: 0 0 12px; font-family: 'Space Grotesk', sans-serif; font-size: 22px">Mis igal aastal juhtus?</h2>
+<ol style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px">
+<sc-for list="{{ pf2.years }}" as="y" hint-placeholder-count="3">
+<li style="{{ y.style }}">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px">
+<span style="font-size: 16px; font-weight: 700">{{ y.n }}. aasta: {{ y.title }}</span>
+<span style="{{ y.pctStyle }}">{{ y.pctLabel }} → {{ y.valueLabel }}</span>
+</div>
+<p style="margin: 6px 0 4px; font-size: 15px; color: #22302A">{{ y.why }}</p>
+<p style="margin: 0; font-size: 13px; color: #4B5A53">Aktsiad {{ y.sLabel }} · võlakirjad {{ y.bLabel }}</p>
+</li>
 </sc-for>
-</div>
-</div>
-<sc-for list="{{ pf.rows }}" as="r" hint-placeholder-count="5">
-<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding: 16px 22px; border-bottom: 1px solid #EEF1ED">
-<div style="flex: 1 1 220px; min-width: 0">
-<p style="margin: 0; font-weight: 600; font-size: 16px">{{ r.name }}</p>
-<p style="margin: 2px 0 0; font-size: 13px; color: #4B5A53">Risk: {{ r.risk }} · hind {{ r.priceLabel }} · <span style="{{ r.moveStyle }}">{{ r.moveLabel }}</span></p>
-</div>
-<div style="flex: 0 1 150px; font-size: 14px">
-<p style="margin: 0; color: #4B5A53">Sinu osa</p>
-<p style="margin: 0; font-weight: 600">{{ r.valueLabel }}</p>
-</div>
-<div style="display: flex; gap: 8px">
-<button onClick="{{ r.buy }}" style="min-height: 44px; padding: 0 16px; border: 0; border-radius: 10px; background: {{ accent }}; color: #FFFFFF; font-size: 14px; font-weight: 600">Osta</button>
-<button onClick="{{ r.sell }}" style="{{ r.sellStyle }}">Müü kõik</button>
-</div>
+</ol>
+</section>
+</sc-if>
+
+<sc-if value="{{ pf2.done }}" hint-placeholder-val="{{ false }}">
+<section style="margin-top: 16px; background: #E9F3EE; border-radius: 16px; padding: 22px">
+<h2 style="margin: 0 0 8px; font-size: 18px; color: #0B4D39">Mida see õpetab?</h2>
+<p style="margin: 0 0 14px; font-size: 16px; color: #1D3A2F">{{ pf2.lesson }}</p>
+<p style="margin: 0 0 8px; font-size: 15px; font-weight: 600; color: #1D3A2F">Samad 10 aastat teistsuguse jaotusega:</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px">
+<sc-for list="{{ pf2.compare }}" as="c" hint-placeholder-count="3">
+<div style="background: #FFFFFF; border-radius: 12px; padding: 14px 16px">
+<p style="margin: 0; font-size: 14px; font-weight: 600">{{ c.label }}</p>
+<p style="margin: 4px 0 0; font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700">{{ c.value }}</p>
+<p style="margin: 2px 0 0; font-size: 13px; color: #4B5A53">suurim langus {{ c.dd }}</p>
 </div>
 </sc-for>
 </div>
 </section>
-<aside style="flex: 1 1 280px; display: flex; flex-direction: column; gap: 16px">
-<div style="background: #E9F3EE; border-radius: 16px; padding: 22px">
-<p style="margin: 0 0 6px; font-size: 13px; font-weight: 600; color: #0B4D39; text-transform: uppercase; letter-spacing: 0.04em">Mida see õpetab</p>
-<p style="margin: 0; font-size: 16px; color: #1D3A2F">{{ pf.lesson }}</p>
-<sc-if value="{{ pf.hasLessonLink }}" hint-placeholder-val="{{ false }}">
-<button onClick="{{ pf.lessonOpen }}" style="margin-top: 12px; min-height: 40px; padding: 0 14px; border: 1px solid #0E6B4F; border-radius: 8px; background: #FFFFFF; color: #0B5C43; font-size: 14px; font-weight: 600">{{ pf.lessonLinkLabel }}</button>
 </sc-if>
-</div>
-<div style="background: #FFFFFF; border: 1px solid #E2E6E1; border-radius: 16px; padding: 22px">
-<h3 style="margin: 0 0 10px; font-size: 16px">Viimased tegevused</h3>
-<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 14px; color: #3A4943">
-<sc-for list="{{ pf.log }}" as="l" hint-placeholder-count="3">
-<li>{{ l }}</li>
-</sc-for>
-</ul>
-</div>
-</aside>
-</div>
+<p style="margin: 16px 0 0; font-size: 13px; color: #4B5A53">Aastate sündmused ja numbrid on näitlikud ja ümardatud. Need näitavad, kuidas turud eri olukordades tavaliselt käituvad, aga ei ennusta tulevikku. Jaotus taastatakse iga aasta alguses.</p>
 </sc-if>
-
 <sc-if value="{{ isAi }}" hint-placeholder-val="{{ false }}">
 <h1 style="margin: 0 0 8px; font-family: 'Space Grotesk', sans-serif; font-size: 36px">Küsi abiliselt</h1>
 <p style="margin: 0 0 24px; color: #4B5A53; max-width: 680px">Abiline vastab ainult Börsitarga kontrollitud sisu põhjal. Ta selgitab, aga ei ütle, mida osta. Päris inimeste kogemusi leiad <button onClick="{{ goQa }}" style="background: none; border: 0; padding: 0; color: #0B5C43; font-size: inherit; font-weight: 600; text-decoration: underline">kogukonna küsimustest</button>.</p>
@@ -888,6 +890,7 @@ class Component extends DCLogic {
     super(props);
     this.state = { screen: 'home', level: 'algaja', topicId: 'etf', homeQ: '', aiQ: '', asked: 'Mis on ETF?', glossQ: '', monthly: 100, years: 20, rate: 6, openQ: 'q0', feeMonthly: 100, feeTrades: 1, feeAsset: 'etf', fb: 'none', userQs: [], votes: {}, replies: {}, drafts: {}, best: {} };
     Object.assign(this.state, this.pfStart());
+    Object.assign(this.state, { pf2Alloc: 60, pf2Ev: this.pf2Make(), pf2Shown: 0 });
   }
   pfAssets() {
     return [
@@ -925,6 +928,52 @@ class Component extends DCLogic {
     var month = st.pfMonth + months;
     var log = [(months === 1 ? 'Möödus 1 kuu.' : 'Möödus ' + months + ' kuud.') + ' Portfell: ' + Math.round(hist[hist.length - 1]) + ' €'].concat(st.pfLog).slice(0, 6);
     this.setState({ pfPrices: prices, pfHist: hist, pfMonth: month, pfMoves: moves, pfLog: log });
+  }
+  pf2Pool() {
+    return [
+      { w: 3, s: 14, b: 2, title: 'Majandus kasvab', why: 'Ettevõtted müüvad rohkem ja teenivad suuremat kasumit. Investorid on optimistlikud ja aktsiate hinnad tõusevad.' },
+      { w: 3, s: 7, b: 3, title: 'Rahulik aasta', why: 'Majandus kasvab tasapisi ja suuri üllatusi pole. Aktsiad tõusevad mõõdukalt, võlakirjad maksavad oma intressi.' },
+      { w: 2, s: 22, b: 4, title: 'Taastumine pärast langust', why: 'Pärast rasket perioodi naaseb usk tulevikku. Investorid ostavad aktsiaid odavalt ja hinnad tõusevad kiiresti.' },
+      { w: 1, s: 20, b: 1, title: 'Tehnoloogiabuum', why: 'Uued tehnoloogiad tõotavad suurt kasumit ja investorid on vaimustuses. Aktsiad tõusevad tugevalt, võlakirjad jäävad varju.' },
+      { w: 2, s: 12, b: 7, title: 'Intressid langevad', why: 'Keskpank langetab intresse, et majandust elavdada. Laenamine odavneb, mis toetab ettevõtteid, ja olemasolevate võlakirjade hind tõuseb.' },
+      { w: 2, s: 1, b: 3, title: 'Kõikuv aasta', why: 'Aasta jooksul oli palju üles-alla liikumist uudiste ja ebakindluse tõttu, aga lõpuks jõudsid aktsiad peaaegu samasse kohta.' },
+      { w: 2, s: -20, b: 5, title: 'Majanduslangus', why: 'Inimesed ja ettevõtted kulutavad vähem, kasumid kahanevad ja osa ettevõtteid koondab töötajaid. Aktsiad langevad. Võlakirju peetakse turvalisemaks, nii et need pigem tõusevad.' },
+      { w: 1, s: -12, b: -10, title: 'Intressid tõusevad kiiresti', why: 'Hinnatõusu ohjeldamiseks tõstab keskpank järsult intresse. Laenamine kallineb, mis pidurdab ettevõtteid, ja olemasolevate võlakirjade hind langeb. Seekord langesid mõlemad.' },
+      { w: 1, s: -9, b: 2, title: 'Ootamatu šokk', why: 'Näiteks pandeemia või sõda tekitab järsku ebakindlust. Investorid müüvad hirmust, hinnad kukuvad kiiresti ja taastuvad osaliselt sama aasta jooksul.' },
+      { w: 1, s: -4, b: -3, title: 'Inflatsioon kiireneb', why: 'Hinnad poodides tõusevad kiiresti. Ettevõtete kulud kasvavad ja investorid on ettevaatlikud. Ka võlakirjad kaotavad väärtust, sest raha ostujõud väheneb.' }
+    ];
+  }
+  pf2Make() {
+    var pool = this.pf2Pool(), total = 0;
+    pool.forEach(function (e) { total += e.w; });
+    var pick = function () {
+      var r = Math.random() * total;
+      for (var i = 0; i < pool.length; i++) { r -= pool[i].w; if (r <= 0) return i; }
+      return 0;
+    };
+    var out = [];
+    for (var y = 0; y < 10; y++) {
+      var k = pick();
+      out.push({ k: k, s: Math.round(pool[k].s + (Math.random() * 6 - 3)), b: Math.round(pool[k].b + (Math.random() * 2 - 1)) });
+    }
+    if (!out.some(function (e) { return e.s <= -9; })) {
+      var at = 2 + Math.floor(Math.random() * 6);
+      out[at] = { k: 6, s: -20 + Math.round(Math.random() * 6 - 3), b: 5 };
+    }
+    return out;
+  }
+  pf2Path(ev, alloc, n) {
+    var w = alloc / 100, v = 1000, vals = [1000], peak = 1000, dd = 0, rets = [];
+    for (var i = 0; i < n; i++) {
+      var r = w * ev[i].s + (1 - w) * ev[i].b;
+      rets.push(r);
+      v = v * (1 + r / 100);
+      vals.push(v);
+      if (v > peak) peak = v;
+      var d = v / peak - 1;
+      if (d < dd) dd = d;
+    }
+    return { vals: vals, dd: dd, rets: rets };
   }
   topicData() {
     var EMTA_IK = { label: 'MTA: väärtpaberid ja investeerimiskonto', url: 'https://emta.ee/eraklient/maksud-ja-tasumine/maksustatavad-tulud/vaartpaberid-ja-investeerimiskonto' };
@@ -1497,6 +1546,56 @@ class Component extends DCLogic {
       { label: 'MTA: väärtpaberid ja investeerimiskonto', url: 'https://emta.ee/eraklient/maksud-ja-tasumine/maksustatavad-tulud/vaartpaberid-ja-investeerimiskonto', text: 'Ametlikud maksureeglid investorile.' },
       { label: 'Pensionikeskus', url: 'https://www.pensionikeskus.ee/', text: 'II ja III samba fondid, tasud ja avaldused.' }
     ];
+    var pool2 = this.pf2Pool();
+    var alloc = s.pf2Alloc === undefined ? 60 : s.pf2Alloc;
+    var ev = s.pf2Ev && s.pf2Ev.length === 10 ? s.pf2Ev : this.pf2Make();
+    var shown = s.pf2Shown || 0;
+    var path = this.pf2Path(ev, alloc, shown);
+    var cur = path.vals[path.vals.length - 1];
+    var fmtE = function (x) { return Math.round(x).toLocaleString('et-EE') + ' €'; };
+    var fmtPct = function (x) { return (x > 0 ? '+' : (x < 0 ? '−' : '')) + Math.abs(Math.round(x * 10) / 10).toLocaleString('et-EE') + ' %'; };
+    var full = this.pf2Path(ev, alloc, 10);
+    var lo = Math.min.apply(null, full.vals.concat([1000])) * 0.92;
+    var hi = Math.max.apply(null, full.vals.concat([1000])) * 1.05;
+    var X = function (i) { return 56 + i * 56.8; };
+    var Y = function (v) { return 20 + (hi - v) / (hi - lo) * 210; };
+    var pts = path.vals.map(function (v, i) { return X(i).toFixed(1) + ',' + Y(v).toFixed(1); }).join(' ');
+    var dots = path.vals.slice(1).map(function (v, i) { return { x: X(i + 1).toFixed(1), y: Y(v).toFixed(1), fill: path.rets[i] >= 0 ? '#1F8A5B' : '#B4382F' }; });
+    var yTicks = [lo / 0.92 * 0.97, 1000, hi / 1.05].filter(function (v, i, a) { return i === 1 || Math.abs(v - 1000) > (hi - lo) * 0.12; }).map(function (v) { return { y: Y(v).toFixed(1), label: Math.round(v) + ' €' }; });
+    var xTicks = []; for (var xi = 0; xi <= 10; xi++) xTicks.push({ x: X(xi).toFixed(1), label: xi === 0 ? 'Algus' : String(xi) });
+    var yearsShown = [];
+    for (var yi = 0; yi < shown; yi++) {
+      var e = ev[yi], P = pool2[e.k], r = path.rets[yi], latest = yi === shown - 1;
+      yearsShown.push({
+        n: yi + 1, title: P.title, why: P.why,
+        sLabel: fmtPct(e.s), bLabel: fmtPct(e.b),
+        pctLabel: 'sinu portfell ' + fmtPct(r), valueLabel: fmtE(path.vals[yi + 1]),
+        pctStyle: 'font-size: 15px; font-weight: 700; color: ' + (r >= 0 ? '#0B5C43' : '#A3302A'),
+        style: 'padding: 14px 18px; border-radius: 12px; background: #FFFFFF; border: ' + (latest ? '2px solid #14201B' : '1px solid #E2E6E1') + '; border-left: 6px solid ' + (r >= 0 ? '#1F8A5B' : '#B4382F')
+      });
+    }
+    yearsShown.reverse();
+    var change = cur / 1000 - 1;
+    var lesson = alloc >= 80
+      ? 'Suure aktsiaosaga portfell kasvab pikas plaanis tavaliselt rohkem, aga langused on ka sügavamad. Küsi endalt, kas jääksid rahulikuks, kui raha vahepeal nii palju kahaneks.'
+      : (alloc <= 30
+        ? 'Suure võlakirjaosaga portfell kõigub vähem, aga kasvab ka aeglasemalt. See sobib rahale, mida vajad lähiaastatel.'
+        : 'Segaportfell püüab leida tasakaalu: aktsiad annavad kasvu, võlakirjad pehmendavad langusi. Vaata, kui palju sinu suurim langus erines 100 % aktsiatest.');
+    var compare = [0, 50, 100].map(function (a) {
+      var pth = self.pf2Path(ev, a, 10);
+      return { label: a === 0 ? '100 % võlakirjad' : (a === 100 ? '100 % aktsiad' : '50 % / 50 %'), value: fmtE(pth.vals[10]), dd: pth.dd < 0 ? fmtPct(pth.dd * 100) : 'puudus' };
+    });
+    var pf2 = {
+      alloc: alloc, bondPct: 100 - alloc, stockEur: fmtE(alloc * 10), bondEur: fmtE((100 - alloc) * 10),
+      canNext: shown < 10, nextLabel: shown === 0 ? 'Alusta: vaata 1. aastat →' : 'Järgmine aasta (' + (shown + 1) + '.) →',
+      valueTitle: shown === 0 ? 'Algus' : shown + '. aasta lõpus',
+      valueLabel: fmtE(cur), changeLabel: shown === 0 ? '0 %' : fmtPct(change * 100),
+      changeStyle: 'margin: 4px 0 0; font-family: \'Space Grotesk\', sans-serif; font-size: 24px; font-weight: 600; color: ' + (change >= 0 ? '#0B5C43' : '#A3302A'),
+      ddLabel: path.dd < 0 ? fmtPct(path.dd * 100) : 'veel pole',
+      baseY: Y(1000).toFixed(1), points: pts, dots: dots, yTicks: yTicks, xTicks: xTicks,
+      chartLabel: 'Portfelli väärtus ' + shown + ' aasta jooksul, praegu ' + fmtE(cur),
+      years: yearsShown, hasYears: shown > 0, done: shown === 10, lesson: lesson, compare: compare
+    };
     var assets = this.pfAssets();
     var pfTotal = this.pfTotal(s);
     var invested = pfTotal - s.pfCash;
@@ -1591,6 +1690,11 @@ class Component extends DCLogic {
       isGlossary: s.screen === 'glossary', isQa: s.screen === 'qa', isCalc: s.screen === 'calc', isAi: s.screen === 'ai', isFees: s.screen === 'fees', isPf: s.screen === 'pf',
       goPf: function () { self.go('pf'); },
       pf: pf,
+      pf2: pf2,
+      pf2SetAlloc: function (e) { self.setState({ pf2Alloc: Number(e.target.value), pf2Ev: ev }); },
+      pf2Next: function () { self.setState({ pf2Shown: Math.min(10, shown + 1), pf2Ev: ev }); },
+      pf2All: function () { self.setState({ pf2Shown: 10, pf2Ev: ev }); },
+      pf2New: function () { self.setState({ pf2Ev: self.pf2Make(), pf2Shown: 0 }); },
       pfNext: function () { self.pfStep(s, 1); },
       pfYear: function () { self.pfStep(s, 12); },
       pfReset: function () { self.setState(self.pfStart()); },
@@ -1687,7 +1791,7 @@ class Component extends DCLogic {
 
 (function () {
   var KEY = 'borsitark-v1';
-  var KEEP = ["pfCash", "pfUnits", "pfPrices", "pfMoves", "pfMonth", "pfHist", "pfAmt", "pfLog", "userQs", "replies", "votes", "best", "quiz", "myName"];
+  var KEEP = ["pf2Alloc", "pf2Ev", "pf2Shown", "userQs", "replies", "votes", "best", "quiz", "myName"];
   window.addEventListener('DOMContentLoaded', function () {
     var TV = {
       ticker: { src: 'embed-widget-ticker-tape.js', cfg: { symbols: [
